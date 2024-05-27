@@ -13,11 +13,11 @@ import { RouterLink } from 'vue-router';
         <p class="text">Архив</p>
       </RouterLink>
 
-      <RouterLink class="routs" to="/statisticsOnGirls">      
+      <RouterLink class="routs" to="/girls">      
         <p class="text">Девушки</p>
       </RouterLink>
 
-      <RouterLink class="routs" to="/statisticsOnOperators">      
+      <RouterLink class="routs" to="/operators">      
         <p class="text">Операторы</p>
       </RouterLink>     
     </nav>

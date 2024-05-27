@@ -5,11 +5,9 @@ import {
 
 import ArchivePage from '@/components/pages/ArchivePage.vue';
 import AuthorizationPage from '@/components/pages/AuthorizationPage.vue';
+import GirlsPage from '@/components/pages/GirlsPage.vue';
 import MainPage from '@/components/pages/MainPage.vue';
-import StatisticsOnGirlsPage
-  from '@/components/pages/StatisticsOnGirlsPage.vue';
-import StatisticsOnOperatorsPage
-  from '@/components/pages/StatisticsOnOperatorsPage.vue';
+import OperatorsPage from '@/components/pages/OperatorsPage.vue';
 import { userAuth } from '@/stores/userAuth';
 
 const routes = [
@@ -31,15 +29,15 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
-    path: '/statisticsOnGirls',
-    name: 'statisticsOnGirls',
-    component: StatisticsOnGirlsPage,
+    path: '/girls',
+    name: 'girls',
+    component: GirlsPage,
     meta: { requiresAuth: true }
   },
   {
-    path: '/statisticsOnOperators',
-    name: 'statisticsOnOperators',
-    component: StatisticsOnOperatorsPage,
+    path: '/operators',
+    name: 'operators',
+    component: OperatorsPage,
     meta: { requiresAuth: true }
   }
 ];
