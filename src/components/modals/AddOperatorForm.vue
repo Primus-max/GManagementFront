@@ -1,31 +1,10 @@
-<template>
-    <el-form :model="form">
-      <el-form-item label="Имя пользователя" :label-width="formLabelWidth">
-        <el-input v-model="form.username" autocomplete="off" />
-      </el-form-item>
-      <el-form-item label="Пароль" :label-width="formLabelWidth">
-        <el-input v-model="form.password" type="password" autocomplete="off" />
-      </el-form-item>
-      <el-form-item label="Группа" :label-width="formLabelWidth">
-        <el-input v-model="form.group_id" autocomplete="off" />
-      </el-form-item>
-      <el-form-item label="Баланс" :label-width="formLabelWidth">
-        <el-input v-model="form.balance" type="number" autocomplete="off" />
-      </el-form-item>
-      <div class="drawer__footer">
-        <el-button @click="cancelForm">Отмена</el-button>
-        <el-button type="primary" :loading="loading" @click="submitForm">
-          {{ loading ? 'Отправка ...' : 'Добавить' }}
-        </el-button>
-      </div>
-    </el-form>
-  </template>
-  
-  <script setup>
+<script setup>
 import {
   defineEmits,
   ref,
 } from 'vue';
+
+const emits = defineEmits('close'); 
 
 const form = ref({
     username: '',
@@ -56,10 +35,30 @@ const form = ref({
     }, 1500);
   };
   
-  // Определяем событие для закрытия модального окна
-  const emits = defineEmits('close');
-  
 </script>
+
+<template>
+    <el-form :model="form">
+      <el-form-item label="Имя" :label-width="formLabelWidth">
+        <el-input v-model="form.username" autocomplete="off" />
+      </el-form-item>
+      <el-form-item label="Пароль" :label-width="formLabelWidth">
+        <el-input v-model="form.password" type="password" autocomplete="off" />
+      </el-form-item>
+      <el-form-item label="Группа" :label-width="formLabelWidth">
+        <el-input v-model="form.group_id" autocomplete="off" />
+      </el-form-item>
+      <el-form-item label="Баланс" :label-width="formLabelWidth">
+        <el-input v-model="form.balance" type="number" autocomplete="off" />
+      </el-form-item>
+      <div class="drawer__footer">
+        <el-button @click="cancelForm">Отмена</el-button>
+        <el-button type="primary" :loading="loading" @click="submitForm">
+          {{ loading ? 'Отправка ...' : 'Добавить' }}
+        </el-button>
+      </div>
+    </el-form>
+  </template>
   
   <style scoped>
   .drawer__footer {

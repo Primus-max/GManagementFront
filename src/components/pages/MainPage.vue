@@ -2,7 +2,7 @@
 </script>
 
 <template>
-<div>asdfgsdfgsdfg</div>
+<div>Активные заявки</div>
 </template>
 
 <style lang="css" scoped>

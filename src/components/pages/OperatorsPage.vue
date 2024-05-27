@@ -1,28 +1,4 @@
-<template>
-    <div>
-      <el-button type="primary" @click="dialogVisible = true">
-        <i class="el-icon-plus"></i> Добавить оператора
-      </el-button>
-  
-      <el-drawer
-        v-model="dialogVisible"
-        title="Добавить оператора"
-        :before-close="handleClose"
-        direction="ltr"
-      >
-        <AddOperatorForm @close="dialogVisible = false" />
-      </el-drawer>
-  
-      <el-table :data="operators" style="width: 100%">
-        <el-table-column prop="id" label="ID" width="50"></el-table-column>
-        <el-table-column prop="username" label="Имя" width="150"></el-table-column>
-        <el-table-column prop="group_id" label="Группа" width="100"></el-table-column>
-        <el-table-column prop="balance" label="Баланс" width="100"></el-table-column>
-      </el-table>
-    </div>
-  </template>
-  
-  <script setup>
+<script setup>
 import { ref } from 'vue';
 
 import { ElDrawer } from 'element-plus';
@@ -44,8 +20,48 @@ const dialogVisible = ref(false);
   };
   
 </script>
+
+<template>
+    <div class="table-wrapper">
+      <el-button type="primary" @click="dialogVisible = true" >        
+        <i class="el-icon-plus"></i> Добавить оператора
+      </el-button>
+  
+      <el-drawer
+        v-model="dialogVisible"
+        title="Добавить оператора"
+        :before-close="handleClose"
+        direction="ltr"
+      >
+        <AddOperatorForm @close="dialogVisible = false" />
+      </el-drawer>
+  
+      <el-table :data="operators" style="width: 100%" class="opertors-table">
+        <el-table-column prop="id" label="ID" width="50"></el-table-column>
+        <el-table-column prop="username" label="Имя" width="150"></el-table-column>
+        <el-table-column prop="group_id" label="Группа" width="100"></el-table-column>
+        <el-table-column prop="balance" label="Баланс" width="100"></el-table-column>
+      </el-table>
+    </div>
+  </template>
+  
+
   
   <style scoped>
+
+.table-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+  .opertors-table {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    margin-top: 20px;
+  }
+
   .el-table, .el-button {
     margin-top: 20px;
   }
