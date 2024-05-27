@@ -1,5 +1,5 @@
 <script setup>
-
+import { RouterLink } from 'vue-router';
 </script>
 
 <template>
@@ -19,6 +19,10 @@
 
       <RouterLink class="routs" to="/statisticsOnOperators">      
         <p class="text">Операторы</p>
+      </RouterLink>
+
+      <RouterLink class="routs" to="/authorization">      
+        <p class="text">Атворизация</p>
       </RouterLink>
     </nav>
   </div>

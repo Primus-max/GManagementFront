@@ -9,7 +9,7 @@ import Navigation from '@/components/Navigation.vue';
         <Navigation />
       </el-aside>
       <el-main class="main">
-       <slot></slot>
+       <router-view></router-view>
       </el-main>
     </el-container>
   </div>
@@ -29,6 +29,7 @@ import Navigation from '@/components/Navigation.vue';
 }
 
 .main {
+  width: 100%;
   flex-grow: 1;
   padding: 20px;
 }
