@@ -50,7 +50,7 @@ const dialogVisible = ref(false);
   <style scoped>
 
 .table-wrapper {
-    display: flex;
+  display: flex;
     flex-direction: column;
     align-items: flex-end;
 }
