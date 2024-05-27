@@ -24,8 +24,8 @@ import Navigation from '@/components/Navigation.vue';
 }
 
 .aside {
-  width: 120px;
-  padding: 10px;
+  width: 160px;
+  padding: 20px;
 }
 
 .main {
