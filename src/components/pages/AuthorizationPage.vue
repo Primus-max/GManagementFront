@@ -1,16 +1,20 @@
 <script setup>
 import { ref } from 'vue';
 
+import router from '@/router/index.js';
+import { userAuth } from '@/stores/userAuth';
+
+const authStore = userAuth();
 const loginForm = ref({
     username: '',
     password: '',
 });
 
 const handleLogin = () => {
-    // Здесь можно добавить логику для обработки логина
-    console.log('Login form submitted:', loginForm.value);
+    authStore.authenticate();
+    router.push({ name: 'main' });
+  
 };
-
 </script>
 
 <template>

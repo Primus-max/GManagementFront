@@ -1,17 +1,30 @@
 <script setup>
+import { computed } from 'vue';
+
 import Navigation from '@/components/Navigation.vue';
+import AuthorizationPage from '@/components/pages/AuthorizationPage.vue';
+import router from '@/router/index.js';
+import { userAuth } from '@/stores/userAuth.js';
+
+const authStore = userAuth();
+const isAuthenticated = computed(() => authStore.isAuthenticated);
+
+if (!isAuthenticated.value) {
+    router.push({ name: 'authorization' });
+}
 </script>
 
 <template>
-  <div class="common-layout">
-    <el-container>
+  <div>
+    <el-container v-if="isAuthenticated">
       <el-aside class="aside">
         <Navigation />
       </el-aside>
       <el-main class="main">
-       <router-view></router-view>
+        <router-view /> <!-- Вставляем компоненты маршрутов -->
       </el-main>
     </el-container>
+    <AuthorizationPage v-else /> <!-- Только страница авторизации, если не авторизован -->
   </div>
 </template>
 
