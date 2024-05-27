@@ -1,13 +1,15 @@
 
 <script setup>
-
+import HelloWorld from '../pages/HelloWorld.vue';
 </script>
 
 <template>
     <div class="common-layout">
       <el-container>
         <el-header>Header</el-header>
-        <el-main>Main</el-main>
+        <el-main>Main
+          <HelloWorld></HelloWorld>
+        </el-main>
       </el-container>
     </div>
   </template>
