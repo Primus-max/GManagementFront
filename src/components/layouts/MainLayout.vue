@@ -1,6 +1,5 @@
 <script setup>
 import Navigation from '@/components/Navigation.vue';
-import HelloWorld from '@/components/pages/HelloWorld.vue';
 </script>
 
 <template>
@@ -9,7 +8,9 @@ import HelloWorld from '@/components/pages/HelloWorld.vue';
       <el-aside class="aside">
         <Navigation />
       </el-aside>
-      <el-main class="main">Main</el-main>
+      <el-main class="main">
+       <slot></slot>
+      </el-main>
     </el-container>
   </div>
 </template>
@@ -25,5 +26,10 @@ import HelloWorld from '@/components/pages/HelloWorld.vue';
 .aside {
   width: 120px;
   padding: 10px;
+}
+
+.main {
+  flex-grow: 1;
+  padding: 20px;
 }
 </style>
