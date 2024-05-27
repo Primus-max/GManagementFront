@@ -1,25 +1,29 @@
-
 <script setup>
-import HelloWorld from '../pages/HelloWorld.vue';
+import Navigation from '@/components/Navigation.vue';
+import HelloWorld from '@/components/pages/HelloWorld.vue';
 </script>
 
 <template>
-    <div class="common-layout">
-      <el-container>
-        <el-header>Header</el-header>
-        <el-main>Main
-          <HelloWorld></HelloWorld>
-        </el-main>
-      </el-container>
-    </div>
-  </template>
+  <div class="common-layout">
+    <el-container>
+      <el-aside class="aside">
+        <Navigation />
+      </el-aside>
+      <el-main class="main">Main</el-main>
+    </el-container>
+  </div>
+</template>
 
 <style lang="css" scoped>
 @import '@/assets/styles/scaffolding.css';
 
 .common-layout {
   height: 100vh;
-  display: flex;  
+  display: flex;
 }
 
+.aside {
+  width: 120px;
+  padding: 10px;
+}
 </style>
