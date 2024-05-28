@@ -56,7 +56,7 @@ const deleteOrder = (order) => {
             <h1 class="page-title">Архив</h1>
             <el-table :data="orders" class="table" size="large">
                 <el-table-column prop="id" label="ID" width="50"></el-table-column>
-                <el-table-column prop="girl" label="Девушка"></el-table-column>
+                <el-table-column prop="girl" label="Девушка" max-width="60"></el-table-column>
                 <el-table-column prop="client_name" label="Клиент"></el-table-column>
                 <el-table-column prop="amount" label="Сумма заказа"></el-table-column>
                 <el-table-column prop="split_percentage" label="Split %"></el-table-column>
@@ -64,11 +64,11 @@ const deleteOrder = (order) => {
                 <el-table-column label="Действия">
                     <template v-slot="scope">
 
-                        <el-checkbox v-model="scope.row.is_extended" disabled class="custom-checkbox"></el-checkbox>
-                        <el-checkbox v-model="scope.row.is_cancelled" disabled class="custom-checkbox"></el-checkbox>
+                        <!-- <el-checkbox v-model="scope.row.is_extended" disabled class="custom-checkbox"></el-checkbox>
+                        <el-checkbox v-model="scope.row.is_cancelled" disabled class="custom-checkbox"></el-checkbox> -->
 
-                        <el-button type="text" class="control-button" :icon=Edit
-                            @click="editOrder(scope.row)"></el-button>
+                        <!-- <el-button type="text" class="control-button" :icon=Edit
+                            @click="editOrder(scope.row)"></el-button> -->
                         <el-button type="text" class="control-button" :icon=Delete
                             @click="deleteOrder(scope.row)"></el-button>
                     </template>

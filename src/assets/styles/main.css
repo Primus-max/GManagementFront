@@ -5,6 +5,7 @@
     border-bottom: var(--el-table-border);    
     background-color: #313131;
   }
+  
 
   /* Кнопки удаления и редактирования */
   .control-button {
