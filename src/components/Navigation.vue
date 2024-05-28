@@ -39,6 +39,7 @@ import { RouterLink } from 'vue-router';
   justify-content: center;
   height: 100%;
   width: 100%;
+  margin-right:10px;
   padding: 0;
   position: relative;
 }

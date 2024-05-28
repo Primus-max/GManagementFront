@@ -15,7 +15,7 @@ if (!isAuthenticated.value) {
 </script>
 
 <template>
-  <div>
+  <div class=" common-layout">
     <el-container v-if="isAuthenticated">
       <el-aside class="aside">
         <Navigation />
@@ -34,11 +34,13 @@ if (!isAuthenticated.value) {
 .common-layout {
   height: 100vh;
   display: flex;
+  padding:20px 0px 0px 20px;
 }
 
 .aside {
-  width: 160px;
+  width: 190px;
   padding: 20px;
+  
 }
 
 .main {

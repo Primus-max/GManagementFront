@@ -1,10 +1,18 @@
 <template>
     <div class="operator-page">
+        <div class="operator-page__wrapper">
       <!-- Header -->
       <header class="header">
+
+        <el-button type="primary" @click="dialogVisible = true">
+        <i class="el-icon-plus"></i> Создать заказ
+      </el-button>
+
         <div class="shift-time">
           Время до конца смены: {{ shiftTimeLeft }}
         </div>
+  
+
         <div class="balance" @click="openBalanceModal">
           Баланс: {{ balance }} ₽
         </div>    
@@ -20,7 +28,7 @@
           <el-table-column prop="amount" label="Сумма заказа"></el-table-column>
           <el-table-column prop="split_with" label="Разделено с"></el-table-column>
           <el-table-column prop="order_time" label="Время заказа"></el-table-column>
-          <el-table-column prop="is_extended" label="Продление" width="100">
+          <el-table-column prop="is_extended" label="Прод-ие" width="100">
             <template #default="{ row }">
               <el-checkbox v-model="row.is_extended" disabled></el-checkbox>
             </template>
@@ -34,6 +42,13 @@
         </el-table>
       </div>
     </div>
+    </div>
+
+    
+    <el-drawer v-model="dialogVisible" title="Добавить заказ" :before-close="handleClose" direction="ltr">
+        <AddOrderForm @close="dialogVisible = false" />
+      </el-drawer>
+
   </template>
   
   <script setup>
@@ -45,9 +60,12 @@ import {
   ElTableColumn,
 } from 'element-plus';
 
+import AddOrderForm from '@/components/modals/AddOrderForm.vue';
+
 // Пример данных
   const balance = ref(5000); // Баланс оператора
-  const shiftTimeLeft = ref("02:30:00"); // Время до конца смены
+  const shiftTimeLeft = ref("02:30:00"); // Время до конца смены  
+const dialogVisible = ref(false);
   
   // Пример данных заказов
   const orders = ref([
@@ -79,11 +97,18 @@ import {
     // Логика открытия модального окна с информацией о балансе
     console.log('Открыть модальное окно с балансом');
   };
+
+  const handleClose = () => {
+    dialogVisible.value = false;
+  };
+  
   
 </script>
   
   <style lang="css" scoped>
-  .operator-page {
+  .operator-page__wrapper {
+    max-width: 80%;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -116,5 +141,9 @@ import {
   .orders-table {
     width: 100%;
   }
+
+  /* .el-button {
+    margin-top: 20px;
+  } */
   </style>
   

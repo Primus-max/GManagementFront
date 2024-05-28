@@ -35,6 +35,7 @@ const handleLogin = () => {
 
 <style lang="css" scoped>
 .login-container {
+    margin: 0 auto;
     display: flex;
     justify-content: center;
     align-items: center;
