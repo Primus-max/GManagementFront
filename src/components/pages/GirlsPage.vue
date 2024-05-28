@@ -13,10 +13,10 @@
         <AddGirlForm @close="dialogVisible = false" />
       </el-drawer>
   
-      <el-table :data="girls" style="width: 100%" class="girls-table">
-        <el-table-column prop="id" label="ID" width="50"></el-table-column>
-        <el-table-column prop="name" label="Имя" width="150"></el-table-column>
-        <el-table-column prop="telegram" label="Телеграмм аккаунт" width="200"></el-table-column>
+      <el-table :data="girls" class="girls-table" size="large" highlight-current-row="true">
+        <el-table-column prop="id" label="ID" width="100px"></el-table-column>
+        <el-table-column prop="name" label="Имя"></el-table-column>
+        <el-table-column prop="telegram" label="Телеграмм аккаунт"></el-table-column>
       </el-table>
     </div>
   </template>
@@ -42,20 +42,21 @@ const dialogVisible = ref(false);
   
   <style scoped>
   .table-wrapper {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
   }
   
   .girls-table {
-    display: flex;
-    justify-content: center;
-    align-items: start;
-    margin-top: 20px;
+    width: 100%;
+    margin-top: 20px;  
   }
   
-  .el-table, .el-button {
+
+  .el-button {
     margin-top: 20px;
   }
+
   </style>
   
