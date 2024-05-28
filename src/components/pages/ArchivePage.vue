@@ -1,13 +1,86 @@
-<template>
-  
-</template>
+<script setup>
+import { ref } from 'vue';
 
-<script>
-export default {
+import {
+  Delete,
+  Edit,
+} from '@element-plus/icons-vue';
 
-}
+const orders = ref([
+    { id: 1, girl: 'Девушка1', client_name: 'Клиент1', amount: 100, split_percentage: 50, comment: 'Комментарий1', is_extended: false, is_cancelled: false },
+    { id: 2, girl: 'Девушка2', client_name: 'Клиент2', amount: 200, split_percentage: 60, comment: 'Комментарий2', is_extended: true, is_cancelled: true }
+    // Здесь добавьте начальные данные заказов
+]);
+
+const editOrder = (order) => {
+    // Логика редактирования заказа
+    console.log('Редактировать заказ', order);
+};
+
+const deleteOrder = (order) => {
+    // Логика удаления заказа
+    console.log('Удалить заказ', order);
+};
+
 </script>
 
-<style>
+<template>
+    <div class="archive-page">
+        <div class="archive-page__wrapper">
+            <Header>
+                <h1 class="page-title">Архив</h1>
+            </Header>
+            <el-table :data="orders" class="orders-table" size="large">
+                <el-table-column prop="id" label="ID" width="50"></el-table-column>
+                <el-table-column prop="girl" label="Девушка"></el-table-column>
+                <el-table-column prop="client_name" label="Клиент"></el-table-column>
+                <el-table-column prop="amount" label="Сумма заказа"></el-table-column>
+                <el-table-column prop="split_percentage" label="Split %"></el-table-column>
+                <el-table-column prop="comment" label="Комментарий"></el-table-column>
+                <el-table-column label="Действия">
+                    <template v-slot="scope">
+                        
+                        <el-checkbox v-model="scope.row.is_extended" disabled class="custom-checkbox"></el-checkbox>
+                        <el-checkbox v-model="scope.row.is_cancelled" disabled class="custom-checkbox"></el-checkbox>
 
+                        <el-button type="text" :icon=Edit @click="editOrder(scope.row)"></el-button>
+                        <el-button type="text" :icon=Delete @click="deleteOrder(scope.row)"></el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </div>
+    </div>
+</template>
+
+<style scoped>
+.page-title {
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+}
+
+.archive-page__wrapper {
+    max-width: 80%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.orders-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.orders-table {
+    display: flex;
+    margin-top: 20px;
+}
+
+.custom-checkbox {
+    font-size: 0;
+    /* Скрыть текст чекбокса */
+}
 </style>
