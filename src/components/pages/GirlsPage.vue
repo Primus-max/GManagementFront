@@ -31,7 +31,7 @@ const deleteGirl = (girl) => {
 
 <template>
   <div class="girls-page">
-    <div class="girls-page__wrapper">
+    <div class="page-wrapper">
       <div class="table-wrapper">
         <el-button type="primary" @click="dialogVisible = true">
           <i class="el-icon-plus"></i> Добавить девушку
@@ -41,7 +41,7 @@ const deleteGirl = (girl) => {
           <AddGirlForm @close="dialogVisible = false" />
         </el-drawer>
 
-        <el-table :data="girls" class="girls-table" size="large" highlight-current-row="true">
+        <el-table :data="girls" class="table" size="large" highlight-current-row="true">
           <el-table-column prop="id" label="ID" width="100px"></el-table-column>
           <el-table-column prop="name" label="Имя"></el-table-column>
           <el-table-column prop="telegram" label="Телеграмм аккаунт"></el-table-column>
@@ -61,14 +61,6 @@ const deleteGirl = (girl) => {
 <style scoped>
 @import '@/assets/styles/main.css';
 
-.girls-page__wrapper {
-    max-width: 80%;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
 .table-wrapper {
   width: 100%;
   display: flex;
@@ -76,13 +68,6 @@ const deleteGirl = (girl) => {
   align-items: flex-end;
 }
 
-.girls-table {
-  width: 100%;
-  margin-top: 20px;
-}
 
-/* .el-button {
-  margin-top: 20px;
-} */
 
 </style>

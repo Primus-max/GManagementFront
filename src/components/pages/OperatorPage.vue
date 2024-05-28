@@ -55,7 +55,7 @@ const handleClose = () => {
 
 <template>
     <div class="operator-page">
-        <div class="operator-page__wrapper">
+        <div class="page-wrapper">
             <!-- Header -->
             <header class="header">
 
@@ -76,7 +76,7 @@ const handleClose = () => {
             <!-- Orders List -->
             <div class="orders-list">
                 <h2>Текущая смена</h2>
-                <el-table :data="orders" class="orders-table" size="large">
+                <el-table :data="orders" class="table" size="large">
                     <el-table-column prop="id" label="ID" width="50"></el-table-column>
                     <el-table-column prop="girl" label="Девушка"></el-table-column>
                     <el-table-column prop="client_name" label="Имя клиента"></el-table-column>
@@ -108,13 +108,7 @@ const handleClose = () => {
 
 
 <style lang="css" scoped>
-.operator-page__wrapper {
-    max-width: 80%;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+@import '@/assets/styles/main.css';
 
 .header {
     width: 100%;
@@ -140,8 +134,5 @@ const handleClose = () => {
     margin-top: 20px;
 }
 
-.orders-table {
-    width: 100%;
-}
 
 </style>

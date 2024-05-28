@@ -1,0 +1,9 @@
+:root {
+    --dark-mode-bg-color: #242424;
+    --dark-mode-text-color: rgba(255, 255, 255, 0.87);
+    --main-color: #007bff;
+    --secondary-color: #6c757d;
+  
+    --light-mode-bg-color: #ffffff;
+    --light-mode-text-color: #213547;
+  }

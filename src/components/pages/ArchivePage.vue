@@ -26,11 +26,11 @@ const deleteOrder = (order) => {
 
 <template>
     <div class="archive-page">
-        <div class="archive-page__wrapper">
+        <div class="page-wrapper">
             <Header>
                 <h1 class="page-title">Архив</h1>
             </Header>
-            <el-table :data="orders" class="orders-table" size="large">
+            <el-table :data="orders" class="table" size="large">
                 <el-table-column prop="id" label="ID" width="50"></el-table-column>
                 <el-table-column prop="girl" label="Девушка"></el-table-column>
                 <el-table-column prop="client_name" label="Клиент"></el-table-column>
@@ -54,34 +54,5 @@ const deleteOrder = (order) => {
 
 <style scoped>
 @import '@/assets/styles/main.css';
-.page-title {
-    margin: 0;
-    padding: 0;
-    font-size: 24px;
-}
 
-.archive-page__wrapper {
-    max-width: 80%;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.orders-wrapper {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-}
-
-.orders-table {
-    display: flex;
-    margin-top: 20px;
-}
-
-.custom-checkbox {
-    font-size: 0;
-    /* Скрыть текст чекбокса */
-}
 </style>
