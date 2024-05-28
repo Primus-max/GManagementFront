@@ -57,7 +57,7 @@ const handleClose = () => {
     <div class="operator-page">
         <div class="page-wrapper">
             <!-- Header -->
-            <header class="header">
+            <header class="page-header">
 
                 <el-button type="primary" @click="dialogVisible = true">
                     <i class="el-icon-plus"></i> Создать заказ
@@ -75,7 +75,7 @@ const handleClose = () => {
 
             <!-- Orders List -->
             <div class="orders-list">
-                <h2>Текущая смена</h2>
+                <h2 class="page-title">Текущая смена</h2>
                 <el-table :data="orders" class="table" size="large">
                     <el-table-column prop="id" label="ID" width="50"></el-table-column>
                     <el-table-column prop="girl" label="Девушка"></el-table-column>
@@ -109,15 +109,6 @@ const handleClose = () => {
 
 <style lang="css" scoped>
 @import '@/assets/styles/main.css';
-
-.header {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;
-    background-color: #555555;
-    border-bottom: 1px solid #e0e0e0;
-}
 
 .balance {
     cursor: pointer;

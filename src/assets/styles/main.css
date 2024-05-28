@@ -2,10 +2,9 @@
 
 /* Переоределив стили таблицы */
 .el-table td.el-table__cell, .el-table th.el-table__cell.is-leaf {
-    border-bottom: var(--el-table-border);
+    border-bottom: var(--el-table-border);    
     background-color: #313131;
   }
-  
 
   /* Кнопки удаления и редактирования */
   .control-button {
@@ -35,8 +34,19 @@
 
 
 /* Заголовки */
+
+.page-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #555555;
+  border-bottom: 1px solid #e0e0e0;
+}
+
 .page-title{
-    margin: 0;
+    margin: 10px 0 0 0;
     padding: 0;
     font-size: 24px;
 }
+
