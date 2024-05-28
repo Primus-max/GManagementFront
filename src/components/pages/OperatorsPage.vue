@@ -60,6 +60,7 @@ const deleteOperator = (operator) => {
 </template>
 
 <style scoped>
+@import '@/assets/styles/main.css';
 .operators-page__wrapper {
     max-width: 80%;
     padding: 20px;
@@ -80,17 +81,9 @@ const deleteOperator = (operator) => {
   margin-top: 20px;
 }
 
-.el-table,
-.el-button {
+.el-table {
   margin-top: 20px;
 }
 
-.control-button {
-  font-size: 24px;
-  padding: 0;
-}
 
-.control-button:focus {
-  outline: none;
-}
 </style>

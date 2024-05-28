@@ -144,7 +144,4 @@ const handleClose = () => {
     width: 100%;
 }
 
-/* .el-button {
-    margin-top: 20px;
-  } */
 </style>

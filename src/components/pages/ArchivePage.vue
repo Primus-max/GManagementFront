@@ -43,8 +43,8 @@ const deleteOrder = (order) => {
                         <el-checkbox v-model="scope.row.is_extended" disabled class="custom-checkbox"></el-checkbox>
                         <el-checkbox v-model="scope.row.is_cancelled" disabled class="custom-checkbox"></el-checkbox>
 
-                        <el-button type="text" :icon=Edit @click="editOrder(scope.row)"></el-button>
-                        <el-button type="text" :icon=Delete @click="deleteOrder(scope.row)"></el-button>
+                        <el-button type="text" class="control-button" :icon=Edit @click="editOrder(scope.row)"></el-button>
+                        <el-button type="text" class="control-button"  :icon=Delete @click="deleteOrder(scope.row)"></el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -53,6 +53,7 @@ const deleteOrder = (order) => {
 </template>
 
 <style scoped>
+@import '@/assets/styles/main.css';
 .page-title {
     margin: 0;
     padding: 0;

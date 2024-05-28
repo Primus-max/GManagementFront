@@ -59,6 +59,8 @@ const deleteGirl = (girl) => {
 </template>
 
 <style scoped>
+@import '@/assets/styles/main.css';
+
 .girls-page__wrapper {
     max-width: 80%;
     padding: 20px;
@@ -79,16 +81,8 @@ const deleteGirl = (girl) => {
   margin-top: 20px;
 }
 
-.el-button {
+/* .el-button {
   margin-top: 20px;
-}
+} */
 
-.control-button {
-  font-size: 24px;
-  padding: 0;
-}
-
-.control-button:focus {
-  outline: none;
-}
 </style>
