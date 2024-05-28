@@ -7,6 +7,7 @@ import ArchivePage from '@/components/pages/ArchivePage.vue';
 import AuthorizationPage from '@/components/pages/AuthorizationPage.vue';
 import GirlsPage from '@/components/pages/GirlsPage.vue';
 import MainPage from '@/components/pages/MainPage.vue';
+import OperatorPage from '@/components/pages/OperatorPage.vue';
 import OperatorsPage from '@/components/pages/OperatorsPage.vue';
 import { userAuth } from '@/stores/userAuth';
 
@@ -17,6 +18,12 @@ const routes = [
     component: MainPage,
     meta: { requiresAuth: true }
   },
+{
+  path: '/operator',
+  name: 'operator',
+  component: OperatorPage,
+  meta: { requiresAuth: true }
+},
   {
     path: '/authorization',
     name: 'authorization',

@@ -19,7 +19,14 @@ import { RouterLink } from 'vue-router';
 
       <RouterLink class="routs" to="/operators">      
         <p class="text">Операторы</p>
-      </RouterLink>     
+      </RouterLink>
+
+      <RouterLink class="routs" to="/operator">      
+        <p class="text">Оператор</p>
+      </RouterLink>
+
+      
+      <!-- /:id     -->
     </nav>
   </div>
 </template>

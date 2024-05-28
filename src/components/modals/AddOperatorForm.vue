@@ -26,6 +26,12 @@ const form = ref({
     emits('close');
   };
   
+  const groups = ref([
+  { value: 'Group1', label: 'Group 1' },
+  { value: 'Group2', label: 'Group 2' }
+  // Добавьте здесь другие группы
+]);
+
   const submitForm = () => {
     // Обработка отправки формы (вы можете добавить логику отправки на сервер)
     loading.value = true;
@@ -42,15 +48,26 @@ const form = ref({
       <el-form-item label="Имя" :label-width="formLabelWidth">
         <el-input v-model="form.username" autocomplete="off" />
       </el-form-item>
+
       <el-form-item label="Пароль" :label-width="formLabelWidth">
         <el-input v-model="form.password" type="password" autocomplete="off" />
       </el-form-item>
+
       <el-form-item label="Группа" :label-width="formLabelWidth">
-        <el-input v-model="form.group_id" autocomplete="off" />
-      </el-form-item>
+      <el-select v-model="form.group_id" placeholder="Выберите группу">
+        <el-option
+          v-for="group in groups"
+          :key="group.value"
+          :label="group.label"
+          :value="group.value"
+        />
+      </el-select>
+    </el-form-item>
+
       <el-form-item label="Баланс" :label-width="formLabelWidth">
         <el-input v-model="form.balance" type="number" autocomplete="off" />
       </el-form-item>
+      
       <div class="drawer__footer">
         <el-button @click="cancelForm">Отмена</el-button>
         <el-button type="primary" :loading="loading" @click="submitForm">
