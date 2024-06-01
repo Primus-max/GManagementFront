@@ -1,60 +1,106 @@
 <script setup>
+import { ref } from 'vue';
+
 import { RouterLink } from 'vue-router';
+
+const activeIndex = ref('1');
+// const activePage = ref('Главная');
 </script>
 
 <template>
-  <div>
-    <nav class="nav">
-      <RouterLink class="routs" to="/">        
-        <p class="text">Главная</p>
-      </RouterLink>
-
-      <RouterLink class="routs" to="/archive">      
-        <p class="text">Архив</p>
-      </RouterLink>
-
-      <RouterLink class="routs" to="/girls">      
-        <p class="text">Девушки</p>
-      </RouterLink>
-
-      <RouterLink class="routs" to="/operators">      
-        <p class="text">Операторы</p>
-      </RouterLink>
-
-      <RouterLink class="routs" to="/operator">      
-        <p class="text">Оператор</p>
-      </RouterLink>
-
-      
-      <!-- /:id     -->
-    </nav>
+  <div class="menu-wrapper">
+    <!-- <p class="active-page">{{ activePage }}</p> -->
+  
+  <div class="nav-wrapper">
+    <el-menu
+      :default-active="activeIndex"
+      class="el-menu"
+      mode="horizontal"
+      @select="handleSelect"
+    >
+      <el-menu-item index="1">
+        <RouterLink to="/">
+          <p class="route-text">Главная</p>
+        </RouterLink>
+      </el-menu-item>
+      <el-menu-item index="3">
+        <RouterLink to="/archive">
+          <p class="route-text">Архив</p>
+        </RouterLink>
+      </el-menu-item>
+      <el-menu-item index="4">
+        <RouterLink to="/operators">
+          <p class="route-text">Операторы</p>
+        </RouterLink>
+      </el-menu-item>
+      <el-menu-item index="5">
+        <RouterLink to="/girls">
+          <p class="route-text">Девушки</p>
+        </RouterLink>
+      </el-menu-item>
+      <el-menu-item index="6">
+        <RouterLink to="/girls">
+          <p class="route-text">Клиенты</p>
+        </RouterLink>
+      </el-menu-item>
+    </el-menu>
   </div>
+</div>
 </template>
 
+
 <style lang="css" scoped>
-.nav {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: center;
-  height: 100%;
+@import '@/assets/styles/main.css';
+
+.menu-wrapper{
   width: 100%;
-  margin-right:10px;
-  padding: 0;
-  position: relative;
+  display: flex;
+  flex-direction: row;  
+  justify-content: right;
 }
 
-.routs {
+.nav-wrapper {
+  height: 100%;
+  width: 90%;  
+  display: flex;
+  flex-direction: row;  
+  justify-content: center;  
+}
+
+ .el-menu {
+  display: flex;
+  flex-direction: row;
+
+  justify-content: right;
+  height: 60px;
+  width: 60%;
+  
+  padding: 0;
+  
+}
+
+/* .active-page{
+  margin: 0;
+  font-size: 20px;
+  padding: 0;
+} */
+
+.route-text{
+  margin: 0;
+  padding: 0 20px 0 20px; 
+  font-size: 16px;  
+}
+/* .routs {
   position: relative;
   display: flex;
   width: 100%;
   padding: 10px;
-  transition: background 0.3s, color 0.3s; /* Добавление плавного перехода для фона и цвета текста */
-}
+  transition: background 0.3s, color 0.3s; 
+} */
 
-.routs:hover {
-  background-color: rgba(0, 0, 0, 0.1); /* Легкий полупрозрачный фон при наведении */
-  color: #000; /* Изменение цвета текста при наведении */
+/* .routs:hover {
+  background-color: rgba(0, 0, 0, 0.1); 
+  color: #000; 
 }
 
 .routs::after {
@@ -69,11 +115,10 @@ import { RouterLink } from 'vue-router';
 }
 
 .routs:hover::after {
-  background: #000; /* Цвет закрашиваемой полосы при наведении */
-}
+  background: #000; 
+}  */
 
 .text {
-  margin: 0;
-  padding-right: 20px; /* Отступ для текста от правого края */
+  
 }
 </style>

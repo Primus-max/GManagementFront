@@ -15,11 +15,11 @@ if (!isAuthenticated.value) {
 </script>
 
 <template>
-  <div class=" common-layout">
+  <div class="common-layout">
     <el-container v-if="isAuthenticated">
-      <el-aside class="aside">
+      <el-header class="header">
         <Navigation />
-      </el-aside>
+      </el-header>
       <el-main class="main">
         <router-view /> <!-- Вставляем компоненты маршрутов -->
       </el-main>
@@ -34,12 +34,17 @@ if (!isAuthenticated.value) {
 .common-layout {
   height: 100vh;
   display: flex;
-  padding:20px 0px 0px 20px;
+  padding:0px 0px 0px 20px;
 }
 
-.aside {
-  width: 190px;
-  padding: 20px;
+.header {
+  display:  flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: right;
+  height: 60px;
+  width: 100%;
+  padding: 0;
   
 }
 
