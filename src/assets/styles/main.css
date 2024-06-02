@@ -1,11 +1,11 @@
 @import '@/assets/styles/scaffolding.css';
 
 /* Переоределив стили таблицы */
-.el-table td.el-table__cell, .el-table th.el-table__cell.is-leaf {
+/* .el-table td.el-table__cell, .el-table th.el-table__cell.is-leaf {
     border-bottom: var(--el-table-border);    
     background-color: #313131;
   }
-  
+   */
 
   /* Кнопки удаления и редактирования */
   .control-button {
@@ -20,11 +20,11 @@
 
   /* Страницы */
 .page-wrapper{
-    max-width: 80%;
+    width: 80%;
     padding: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+        
 }
 
 /* Таблицы */

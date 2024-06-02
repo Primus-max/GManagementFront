@@ -27,7 +27,7 @@ const handleLogin = () => {
                 <el-input v-model="loginForm.password" type="password" placeholder="Пароль"></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="handleLogin">Войти</el-button>
+                <el-button type="primary" class="enter-btn" @click="handleLogin">Войти</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -39,8 +39,7 @@ const handleLogin = () => {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background-color: #242424;
+    height: 100vh;    
 }
 
 .login-form {
@@ -48,6 +47,11 @@ const handleLogin = () => {
     padding: 30px;
     border-radius: 8px;
     background-color: #fff;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+.enter-btn {
+    margin-top: 20px;
+    margin-left: 225px;
 }
 </style>

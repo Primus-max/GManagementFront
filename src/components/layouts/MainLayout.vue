@@ -34,7 +34,7 @@ if (!isAuthenticated.value) {
 .common-layout {
   height: 100vh;
   display: flex;
-  padding:0px 0px 0px 20px;
+  padding: 0 20px;
 }
 
 .header {
@@ -44,13 +44,7 @@ if (!isAuthenticated.value) {
   justify-content: right;
   height: 60px;
   width: 100%;
-  padding: 0;
-  
+  padding: 0;  
 }
 
-.main {
-  width: 100%;
-  flex-grow: 1;
-  padding: 20px;
-}
 </style>
