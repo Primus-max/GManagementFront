@@ -50,6 +50,7 @@ const deleteOperator = (operator) => {
         </el-tab-pane>
         <el-tab-pane label="Статистика" name="statistics">
           <div class="statistics-wrapper">
+            <div class="plugin-size"></div>
             <!-- Здесь будет отображена статистика операторов -->
             <OperatorsStatistics :statistics="statistics" />
           </div>
@@ -72,5 +73,9 @@ const deleteOperator = (operator) => {
 
 .statistics-wrapper {
   margin-top: 30px;
+}
+
+.plugin-size{
+  height: 50px;
 }
 </style>
