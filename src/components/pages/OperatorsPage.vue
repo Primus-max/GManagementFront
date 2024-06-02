@@ -4,14 +4,20 @@ import { ref } from 'vue';
 import { ElDrawer } from 'element-plus';
 
 import AddOperatorForm from '@/components/modals/AddOperatorForm.vue';
+import OperatorsStatistics from '@/components/tables/OperatorsStatistics.vue';
 import OperatorsTable from '@/components/tables/OperatorsTable.vue';
 
-
+const activeTab = ref('operators');
 const dialogVisible = ref(false);
 
 const operators = ref([
   { id: 1, username: 'Operator1', group_id: 'Group1', balance: 100 },
   { id: 2, username: 'Operator2', group_id: 'Group2', balance: 200 }
+]);
+
+const statistics = ref([
+  { id: 1, username: 'Operator1', totalOrders: 100, totalAmount: 1000 },
+  { id: 2, username: 'Operator2', totalOrders: 150, totalAmount: 1500 }
 ]);
 
 const handleClose = () => {
@@ -29,20 +35,28 @@ const deleteOperator = (operator) => {
 
 <template>
   <div class="page operators-page">
-    <div class="page-wrapper">      
-      <div class="table-wrapper">
-        <el-button type="primary" @click="dialogVisible = true">
-          <i class="el-icon-plus"></i> Добавить оператора
-        </el-button>
-
-        <el-drawer v-model="dialogVisible" title="Добавить оператора" :before-close="handleClose" direction="ltr">
-          <AddOperatorForm @close="dialogVisible = false" />
-        </el-drawer>
-        <OperatorsTable :operators="operators" />     
-      </div>
+    <div class="page-wrapper">
+      <el-tabs v-model="activeTab" tab-position="left" type="border-card">
+        <el-tab-pane label="Операторы" name="operators">
+          <div class="table-wrapper">
+            <el-button type="primary" @click="dialogVisible = true">
+              <i class="el-icon-plus"></i> Добавить оператора
+            </el-button>
+            <el-drawer v-model="dialogVisible" title="Добавить оператора" :before-close="handleClose" direction="ltr">
+              <AddOperatorForm @close="dialogVisible = false" />
+            </el-drawer>
+            <OperatorsTable :operators="operators" @editOperator="editOperator" @deleteOperator="deleteOperator" />
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="Статистика" name="statistics">
+          <div class="statistics-wrapper">
+            <!-- Здесь будет отображена статистика операторов -->
+            <OperatorsStatistics :statistics="statistics" />
+          </div>
+        </el-tab-pane>
+      </el-tabs>
     </div>
   </div>
-
 </template>
 
 <style scoped>
@@ -56,6 +70,7 @@ const deleteOperator = (operator) => {
   align-items: flex-end;
 }
 
-
-
+.statistics-wrapper {
+  margin-top: 30px;
+}
 </style>
