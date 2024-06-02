@@ -7,7 +7,7 @@ import ArchivePage from '@/components/pages/ArchivePage.vue';
 import AuthorizationPage from '@/components/pages/AuthorizationPage.vue';
 import GirlsPage from '@/components/pages/GirlsPage.vue';
 import MainPage from '@/components/pages/MainPage.vue';
-import OperatorPage from '@/components/pages/OperatorPage.vue';
+import OperatorCabinetPage from '@/components/pages/OperatorCabinetPage.vue';
 import OperatorsPage from '@/components/pages/OperatorsPage.vue';
 import { userAuth } from '@/stores/userAuth';
 
@@ -21,7 +21,7 @@ const routes = [
 {
   path: '/operator',
   name: 'operator',
-  component: OperatorPage,
+  component: OperatorCabinetPage,
   meta: { requiresAuth: true }
 },
   {

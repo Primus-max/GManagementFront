@@ -62,13 +62,7 @@ const deleteOrder = (order) => {
                 <el-table-column prop="split_percentage" label="Split %"></el-table-column>
                 <el-table-column prop="comment" label="Комментарий"></el-table-column>
                 <el-table-column label="Действия">
-                    <template v-slot="scope">
-
-                        <!-- <el-checkbox v-model="scope.row.is_extended" disabled class="custom-checkbox"></el-checkbox>
-                        <el-checkbox v-model="scope.row.is_cancelled" disabled class="custom-checkbox"></el-checkbox> -->
-
-                        <!-- <el-button type="text" class="control-button" :icon=Edit
-                            @click="editOrder(scope.row)"></el-button> -->
+                    <template v-slot="scope">                 
                         <el-button type="text" class="control-button" :icon=Delete
                             @click="deleteOrder(scope.row)"></el-button>
                     </template>

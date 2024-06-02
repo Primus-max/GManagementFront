@@ -12,6 +12,7 @@ import {
   ElTableColumn,
 } from 'element-plus';
 
+import OrderTable from '@/components/tables/OrderTable.vue';
 import messageService from '@/services/infoMessageService.js';
 import {
   Check,
@@ -21,11 +22,31 @@ import {
   Money,
 } from '@element-plus/icons-vue';
 
-const orders = ref([
-    { id: 1, girl: 'Девушка1', client_name: 'Клиент1', amount: 100, operator: 'Оператор1', split_percentage: 50, comment: 'Комментарий1', is_extended: false, is_cancelled: false },
-    { id: 2, girl: 'Девушка2', client_name: 'Клиент2', amount: 200, operator: 'Оператор2', split_percentage: 60, comment: 'Комментарий2', is_extended: true, is_cancelled: true }
-]);
+// const orders = ref([
+//     { id: 1, girl: 'Девушка1', client_name: 'Клиент1', amount: 100, operator: 'Оператор1', split_percentage: 50, comment: 'Комментарий1', is_extended: false, is_cancelled: false },
+//     { id: 2, girl: 'Девушка2', client_name: 'Клиент2', amount: 200, operator: 'Оператор2', split_percentage: 60, comment: 'Комментарий2', is_extended: true, is_cancelled: true }
+// ]);
 
+
+const groups = ref([]);
+
+groups.value = [
+        {
+            name: 'Группа 1.0',
+            orders: [
+                { id: 1, girl: 'Anna', client_name: 'John Doe', amount: 100, operator: 'Operator 1', split_percentage: 50, comment: 'No comment' },
+                // другие заказы группы 1.0
+            ]
+        },
+        {
+            name: 'Группа 2.0',
+            orders: [
+                { id: 2, girl: 'Bella', client_name: 'Jane Doe', amount: 200, operator: 'Operator 2', split_percentage: 60, comment: 'No comment' },
+                // другие заказы группы 2.0
+            ]
+        }
+        // другие группы
+    ];
 const editOrder = (order) => {
     messageService.info(`Редактировать заказ: ${order.id}`);
 };
@@ -49,65 +70,15 @@ const payOrder = (order) => {
 </script>
 
 <template>
-    <div class="main-page">
-        <div class="page-wrapper">
-            <Header>
-                <h1 class="page-title">Группа : 1.0</h1>
-            </Header>
-            <el-table :data="orders" class="table" size="large" fit>
-                <el-table-column prop="id" label="ID" width="50"></el-table-column>
-                <el-table-column prop="girl" label="Девушка"></el-table-column>
-                <el-table-column prop="client_name" label="Клиент"></el-table-column>
-                <el-table-column prop="amount" label="Сумма заказа" width="100"></el-table-column>
-                <el-table-column prop="operator" label="Оператор"></el-table-column>
-                <el-table-column prop="split_percentage" label="Split %" width="80"></el-table-column>
-                <el-table-column prop="comment" label="Комментарий"></el-table-column>
-                <el-table-column label="Действия">
-                    <template v-slot="scope">
-                        <div class="control-buttons-wrapper">
-                            <el-tooltip placement="left" content="Отмена">
-                                <el-button class="control-button" type="text" @click="cancelOrder(scope.row)">
-                                    <el-icon>
-                                        <Close />
-                                    </el-icon>
-                                </el-button>
-                            </el-tooltip>
-                            <el-tooltip placement="left" content="Продление">
-                                <el-button class="control-button" type="text" @click="extendOrder(scope.row)">
-                                    <el-icon>
-                                        <Check />
-                                    </el-icon>
-                                </el-button>
-                            </el-tooltip>
-                            <el-tooltip placement="left" content="Редактировать">
-                                <el-button class="control-button" type="text" @click="editOrder(scope.row)">
-                                    <el-icon>
-                                        <Edit />
-                                    </el-icon>
-                                </el-button>
-                            </el-tooltip>
-                            <el-tooltip placement="left" content="Удалить">
-                                <el-button class="control-button" type="text" @click="deleteOrder(scope.row)">
-                                    <el-icon>
-                                        <Delete />
-                                    </el-icon>
-                                </el-button>
-                            </el-tooltip>
-                            <el-tooltip placement="left" content="Выплата">
-                                <el-button class="control-button" type="text" @click="payOrder(scope.row)">
-                                    <el-icon>
-                                        <Money />
-                                    </el-icon>
-                                </el-button>
-                            </el-tooltip>
-                        </div>
-                    </template>
-                </el-table-column>
-            </el-table>
+    <div class="page main-page">
+        <div class="page-wrapper">           
+            <div class="groups" v-for="group in groups" :key="group.name">
+                <h2 class="page-title">{{ group.name }}</h2>
+                <OrderTable :orders="group.orders" />
+            </div>
         </div>
     </div>
 </template>
-
 <style scoped>
 @import '@/assets/styles/main.css';
 
@@ -117,15 +88,10 @@ const payOrder = (order) => {
     font-size: 24px;
 }
 
-.main-page {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
 
 
-.table {
+
+.groups {
     margin-top: 30px;
 }
 

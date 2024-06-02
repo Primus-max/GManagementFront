@@ -4,10 +4,8 @@ import { ref } from 'vue';
 import { ElDrawer } from 'element-plus';
 
 import AddOperatorForm from '@/components/modals/AddOperatorForm.vue';
-import {
-  Delete,
-  Edit,
-} from '@element-plus/icons-vue';
+import OperatorsTable from '@/components/tables/OperatorsTable.vue';
+
 
 const dialogVisible = ref(false);
 
@@ -30,8 +28,8 @@ const deleteOperator = (operator) => {
 </script>
 
 <template>
-  <div class="operators-page">
-    <div class="page-wrapper">
+  <div class="page operators-page">
+    <div class="page-wrapper">      
       <div class="table-wrapper">
         <el-button type="primary" @click="dialogVisible = true">
           <i class="el-icon-plus"></i> Добавить оператора
@@ -40,19 +38,7 @@ const deleteOperator = (operator) => {
         <el-drawer v-model="dialogVisible" title="Добавить оператора" :before-close="handleClose" direction="ltr">
           <AddOperatorForm @close="dialogVisible = false" />
         </el-drawer>
-
-        <el-table :data="operators" class="table" size="large">
-          <el-table-column prop="id" label="ID" width="50"></el-table-column>
-          <el-table-column prop="username" label="Имя"></el-table-column>
-          <el-table-column prop="group_id" label="Группа"></el-table-column>
-          <el-table-column prop="balance" label="Баланс"></el-table-column>
-          <el-table-column label="Действия" width="120">
-            <template #default="{ row }">
-              <el-button type="text" class="control-button" :icon="Edit" @click="editOperator(row)"></el-button>
-              <el-button type="text" class="control-button" :icon="Delete" @click="deleteOperator(row)"></el-button>
-            </template>
-          </el-table-column>
-        </el-table>
+        <OperatorsTable :operators="operators" />     
       </div>
     </div>
   </div>
@@ -64,10 +50,12 @@ const deleteOperator = (operator) => {
 
 .table-wrapper {
   width: 100%;
+  margin-top: 30px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
 }
+
 
 
 </style>
