@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 
+import SearchArchive from '@/components/services/SearchArchive.vue';
 import {
   Delete,
   Edit,
@@ -26,56 +27,35 @@ const deleteOrder = (order) => {
 
 <template>
     <div class="archive-page">
-        <div class="page-wrapper">
-            <Header class="page-header">
-                <div class="page-header__wrapper">
-
-                    <p>Выбрать по:</p>
-
-                    <div class="date-picker">
-                        <p class="label-select">дате</p><el-date-picker />
-                    </div>
-
-                    <div class="date-picker">
-                        <p class="label-select">оператору</p>
-                        <el-select v-model="operator" placeholder="Выберите оператора" />
-                    </div>
-
-                    <div class="date-picker">
-                        <p class="label-select">девушке</p>
-                        <el-select v-model="operator" placeholder="Выберите оператора" />
-                    </div>
-
-                    <div class="date-picker">
-                        <p class="label-select">сумме</p>
-                        <el-input v-model="amount" type="number" autocomplete="off" />
-                    </div>
-
-                </div>
-            </Header>
-            <h1 class="page-title">Архив</h1>
-            <el-table :data="orders" class="table" size="large">
-                <el-table-column prop="id" label="ID" width="50"></el-table-column>
-                <el-table-column prop="girl" label="Девушка" max-width="60"></el-table-column>
-                <el-table-column prop="client_name" label="Клиент"></el-table-column>
-                <el-table-column prop="amount" label="Сумма заказа"></el-table-column>
-                <el-table-column prop="split_percentage" label="Split %"></el-table-column>
-                <el-table-column prop="comment" label="Комментарий"></el-table-column>
-                <el-table-column label="Действия">
-                    <template v-slot="scope">                 
-                        <el-button type="text" class="control-button" :icon=Delete
-                            @click="deleteOrder(scope.row)"></el-button>
-                    </template>
-                </el-table-column>
-            </el-table>
-        </div>
+      <div class="page-wrapper">
+        <header class="page-header">
+          <div class="page-header-wrapper">
+            <SearchArchive type="operators" :names="['Operator1', 'Operator2']" />
+          </div>
+        </header>
+  
+        <h1 class="page-title">Архив</h1>
+        <el-table :data="orders" class="table" size="large">
+          <el-table-column prop="id" label="ID" width="50"></el-table-column>
+          <el-table-column prop="girl" label="Девушка" max-width="60"></el-table-column>
+          <el-table-column prop="client_name" label="Клиент"></el-table-column>
+          <el-table-column prop="amount" label="Сумма заказа"></el-table-column>
+          <el-table-column prop="split_percentage" label="Split %"></el-table-column>
+          <el-table-column prop="comment" label="Комментарий"></el-table-column>
+          <el-table-column label="Действия">
+            <template v-slot="scope">
+              <el-button type="text" class="control-button" icon="Delete" @click="deleteOrder(scope.row)"></el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
     </div>
-</template>
-
+  </template>
+  
 <style scoped>
 @import '@/assets/styles/main.css';
 
-.page-header__wrapper {
+.page-header-wrapper {
     width: 100%;
     height: 40px;
     padding: 0;
