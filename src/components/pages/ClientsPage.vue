@@ -26,6 +26,8 @@
 import { ref } from 'vue';
 
 import SearchStatistics from '@/components/services/SearchStatistics.vue';
+import ClientsStatistics from '@/components/tables/ClientsStatistics.vue';
+import ClientsTable from '@/components/tables/ClientsTable.vue';
 import { useClientsStatisticsStore } from '@/stores/clientsStatisticsStore';
 
 const clientsStore = useClientsStatisticsStore();

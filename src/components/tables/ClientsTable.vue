@@ -1,12 +1,14 @@
 <template>
-    <div class="clients-table">
-      <el-table :data="clients" class="table" size="small">
+    
+      <el-table :data="clients" class="table" size="large">
         <el-table-column prop="id" label="ID" width="50"></el-table-column>
-        <el-table-column prop="name" label="Имя"></el-table-column>
-        <el-table-column prop="email" label="Email"></el-table-column>
+        <el-table-column prop="client_name" label="Имя"></el-table-column>
+        <el-table-column prop="tg" label="TG"></el-table-column>
+        <el-table-column prop="phone" label="Телефон"></el-table-column>
+
         <!-- Другие столбцы, если необходимо -->
       </el-table>
-    </div>
+    
   </template>
   
   <script setup>
@@ -21,7 +23,7 @@ const props = defineProps({
   
 </script>
   
-  <style scoped>
-  /* Add your styles here */
+  <style  scoped>
+@import '@/assets/styles/main.css';
   </style>
   
