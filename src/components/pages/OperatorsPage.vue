@@ -37,7 +37,8 @@ const deleteOperator = (operator) => {
 <template>
   <div class="page operators-page">
     <div class="page-wrapper">
-      <el-tabs v-model="activeTab" tab-position="left" type="border-card">
+      <el-card>
+      <el-tabs v-model="activeTab" tab-position="left" >
         <el-tab-pane label="Статистика" name="statistics">
           <div class="statistics-wrapper">
             <SearchStatistics type="operators" :names="operators.map(operator => operator.username)" />
@@ -56,6 +57,7 @@ const deleteOperator = (operator) => {
           </div>
         </el-tab-pane>       
       </el-tabs>
+    </el-card>
     </div>
   </div>
 </template>

@@ -37,7 +37,8 @@ const deleteGirl = (girl) => {
 <template>
   <div class="page girls-page">
     <div class="page-wrapper">
-      <el-tabs v-model="activeTab" tab-position="left" type="border-card">
+      <el-card>
+      <el-tabs v-model="activeTab" tab-position="left" >
         <el-tab-pane label="Статистика" name="statistics">
           <div class="statistics-wrapper">
             <SearchStatistics type="girls" :names="girls.map(girl => girl.username)" />
@@ -56,6 +57,7 @@ const deleteGirl = (girl) => {
           </div>
         </el-tab-pane>        
       </el-tabs>
+    </el-card>
     </div>
   </div>
 </template>

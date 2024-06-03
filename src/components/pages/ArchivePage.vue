@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 
 import SearchArchive from '@/components/services/SearchArchive.vue';
+import ArchiveTable from '@/components/tables/ArchiveTable.vue';
 import {
   Delete,
   Edit,
@@ -26,32 +27,22 @@ const deleteOrder = (order) => {
 </script>
 
 <template>
-    <div class="archive-page">
-      <div class="page-wrapper">
-        <header class="page-header">
-          <div class="page-header-wrapper">
-            <SearchArchive type="operators" :names="['Operator1', 'Operator2']" />
-          </div>
-        </header>
-  
-        <h1 class="page-title">Архив</h1>
-        <el-table :data="orders" class="table" size="large">
-          <el-table-column prop="id" label="ID" width="50"></el-table-column>
-          <el-table-column prop="girl" label="Девушка" max-width="60"></el-table-column>
-          <el-table-column prop="client_name" label="Клиент"></el-table-column>
-          <el-table-column prop="amount" label="Сумма заказа"></el-table-column>
-          <el-table-column prop="split_percentage" label="Split %"></el-table-column>
-          <el-table-column prop="comment" label="Комментарий"></el-table-column>
-          <el-table-column label="Действия">
-            <template v-slot="scope">
-              <el-button type="text" class="control-button" icon="Delete" @click="deleteOrder(scope.row)"></el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-      </div>
+    <div class="page archive-page">
+        <div class="page-wrapper">
+            <el-card>
+                <header class="page-header">
+                    <div class="page-header-wrapper">
+                        <SearchArchive type="operators" :names="['Operator1', 'Operator2']" />
+                    </div>
+                </header>
+
+                <h1 class="page-title">Архив</h1>
+                <ArchiveTable :orders="orders" />
+            </el-card>
+        </div>
     </div>
-  </template>
-  
+</template>
+
 <style scoped>
 @import '@/assets/styles/main.css';
 
