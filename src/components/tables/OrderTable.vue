@@ -33,8 +33,8 @@ const payOrder = (order) => {
 
 <template>
     <div class="order-table">
-        <el-table :data="orders" class="table" size="large" fit>
-            <el-table-column prop="id" label="ID" width="50"></el-table-column>
+        <el-table :data="orders" class="table" size="large" fit height="60vh">
+            <el-table-column prop="id" label="ID" width="50" ></el-table-column>
             <el-table-column prop="girl" label="Девушка"></el-table-column>
             <el-table-column prop="client_name" label="Клиент"></el-table-column>
             <el-table-column prop="amount" label="Сумма заказа" width="100"></el-table-column>
@@ -89,8 +89,8 @@ const payOrder = (order) => {
 <style scoped>
 @import '@/assets/styles/main.css';
 .table {
-    margin-top: 30px;
+  max-height: 60vh; /* Установите нужную высоту */
+  overflow: auto; /* Включение прокрутки */
 }
-
 
 </style>

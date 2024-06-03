@@ -15,8 +15,8 @@ const dialogVisible = ref(false);
 
 
 const clients = ref([
-  { id: 1, client_name: 'Олег', tg: 'ert', phone: 79003453434 },
-  { id: 2, client_name: 'Валера', tg: 'ert', balance: 200 }
+  { id: 1, clientName: 'Олег', tg: 'ert', phone: 79003453434, bonus: 8 },
+  { id: 2, clientName: 'Валера', tg: 'ert', balance: 200, bonus: 1000 }
 ]);
 
 const statistics = ref([

@@ -43,6 +43,11 @@ const activeIndex = ref('1');
           <p class="route-text">Клиенты</p>
         </RouterLink>
       </el-menu-item>
+      <el-menu-item index="7">
+        <RouterLink to="/operator">
+          <p class="route-text">Кабинет</p>
+        </RouterLink>
+      </el-menu-item>
     </el-menu>
   </div>
 </div>
