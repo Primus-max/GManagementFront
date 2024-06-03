@@ -1,8 +1,13 @@
 <script setup>
-import { ref } from 'vue';
+import {
+  reactive,
+  ref,
+} from 'vue';
 
 import {
   ElCheckbox,
+  ElMessage,
+  ElMessageBox,
   ElTable,
   ElTableColumn,
 } from 'element-plus';
@@ -12,8 +17,11 @@ import OrderTable from '@/components/tables/OrderTable.vue';
 
 // Пример данных
 const balance = ref(5000); // Баланс оператора
-
 const dialogVisible = ref(false);
+
+const dialogTableVisible = ref(false)
+const dialogFormVisible = ref(false)
+const formLabelWidth = '140px'
 
 // Пример данных заказов
 const orders = ref([
@@ -243,15 +251,55 @@ const orders = ref([
 const shiftStartTime = ref("08:00"); // Начало смены
 const shiftEndTime = ref("16:00"); // Конец смены
 const shiftTimeLeft = ref("02:30:00"); // Время до конца смены
-const openBalanceModal = () => {
-    // Логика открытия модального окна с информацией о балансе
-    console.log('Открыть модальное окно с балансом');
-};
+// const openBalanceModal = () => {
+//     ElMessageBox.alert('This is a message', 'Информация о балансе', {
+//     // if you want to disable its autofocus
+//     // autofocus: false,
+//     confirmButtonText: 'OK',
+//     // callback: (action) => {
+//     //   ElMessage({
+//     //     type: 'info',
+//     //     message: `action: ${action}`,
+//     //   })
+//     // },
+//   })
+// };
+const form = reactive({
+  name: '',
+  region: '',
+  date1: '',
+  date2: '',
+  delivery: false,
+  type: [],
+  resource: '',
+  desc: '',
+})
 
+const gridData = [
+  {
+    date: '2016-05-02',
+    order: 234,
+    client: 'Валера',
+  },
+  {
+    date: '2016-05-04',
+    order: 248,
+    client: 'John Smith',
+  },
+  {
+    date: '2016-05-01',
+    order: 122,
+    client: 'Андрей Борсивич',
+  },
+  {
+    date: '2016-05-03',
+    order: 301,
+    client: 'John Smith',
+  },
+]
 const handleClose = () => {
     dialogVisible.value = false;
 };
-
 
 </script>
 
@@ -294,9 +342,9 @@ const handleClose = () => {
                     </el-popover>
                     <div>осталось: {{ shiftTimeLeft }}</div>
                 </div>
-                    <div class="balance" @click="openBalanceModal">
+                    <el-button class="balance-button" plain @click="dialogTableVisible = true">
                         Баланс: {{ balance }} ₽
-                    </div>
+                    </el-button>
                 </header>
 
                 <!-- Orders List -->
@@ -310,6 +358,14 @@ const handleClose = () => {
     <el-drawer v-model="dialogVisible" title="Добавить заказ" :before-close="handleClose" direction="ltr">
         <AddOrderForm @close="dialogVisible = false" />
     </el-drawer>
+
+    <el-dialog v-model="dialogTableVisible" title="Информация о формировании баланса" width="800">
+    <el-table :data="gridData">
+      <el-table-column property="date" label="Дата" width="150" />
+      <el-table-column property="order" label="Заказ" width="200" />
+      <el-table-column property="client" label="Клиент" />
+    </el-table>
+  </el-dialog>
 
 </template>
 
@@ -360,8 +416,8 @@ const handleClose = () => {
     justify-content: space-between;
 }
 
-.popover-button {
-    background-color: rgb(235, 235, 235);
+.popover-button, .balance-button {
+    background-color: rgb(235, 235, 235);    
 }
 
 /* .shift-time {
