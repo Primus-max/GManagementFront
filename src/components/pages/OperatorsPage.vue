@@ -8,7 +8,7 @@ import SearchStatistics from '@/components/services/SearchStatistics.vue';
 import OperatorsStatistics from '@/components/tables/OperatorsStatistics.vue';
 import OperatorsTable from '@/components/tables/OperatorsTable.vue';
 
-const activeTab = ref('operators');
+const activeTab = ref('statistics');
 const dialogVisible = ref(false);
 
 const operators = ref([
@@ -38,6 +38,12 @@ const deleteOperator = (operator) => {
   <div class="page operators-page">
     <div class="page-wrapper">
       <el-tabs v-model="activeTab" tab-position="left" type="border-card">
+        <el-tab-pane label="Статистика" name="statistics">
+          <div class="statistics-wrapper">
+            <SearchStatistics type="operators" :names="operators.map(operator => operator.username)" />
+            <OperatorsStatistics :statistics="statistics" />
+          </div>
+        </el-tab-pane>
         <el-tab-pane label="Операторы" name="operators">
           <div class="table-wrapper">
             <el-button type="primary" @click="dialogVisible = true">
@@ -48,13 +54,7 @@ const deleteOperator = (operator) => {
             </el-drawer>
             <OperatorsTable :operators="operators" @editOperator="editOperator" @deleteOperator="deleteOperator" />
           </div>
-        </el-tab-pane>
-        <el-tab-pane label="Статистика" name="statistics">
-          <div class="statistics-wrapper">
-            <SearchStatistics type="operators" :names="operators.map(operator => operator.username)" />
-            <OperatorsStatistics :statistics="statistics" />
-          </div>
-        </el-tab-pane>
+        </el-tab-pane>       
       </el-tabs>
     </div>
   </div>
@@ -74,4 +74,6 @@ const deleteOperator = (operator) => {
 .statistics-wrapper {
   margin-top: 30px;
 }
+
+
 </style>
