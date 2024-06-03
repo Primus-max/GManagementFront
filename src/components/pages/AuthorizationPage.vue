@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 
 import router from '@/router/index.js';
-import { userAuth } from '@/stores/userAuth';
+import { userAuth } from '@/stores/userAuthStore';
 
 const authStore = userAuth();
 const loginForm = ref({

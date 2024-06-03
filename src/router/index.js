@@ -9,7 +9,7 @@ import GirlsPage from '@/components/pages/GirlsPage.vue';
 import MainPage from '@/components/pages/MainPage.vue';
 import OperatorCabinetPage from '@/components/pages/OperatorCabinetPage.vue';
 import OperatorsPage from '@/components/pages/OperatorsPage.vue';
-import { userAuth } from '@/stores/userAuth';
+import { userAuth } from '@/stores/userAuthStore';
 
 const routes = [
   {

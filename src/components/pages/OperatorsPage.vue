@@ -4,6 +4,7 @@ import { ref } from 'vue';
 import { ElDrawer } from 'element-plus';
 
 import AddOperatorForm from '@/components/modals/AddOperatorForm.vue';
+import SearchStatistics from '@/components/services/SearchStatistics.vue';
 import OperatorsStatistics from '@/components/tables/OperatorsStatistics.vue';
 import OperatorsTable from '@/components/tables/OperatorsTable.vue';
 
@@ -50,7 +51,7 @@ const deleteOperator = (operator) => {
         </el-tab-pane>
         <el-tab-pane label="Статистика" name="statistics">
           <div class="statistics-wrapper">
-            <div class="plugin-size"></div>            
+            <SearchStatistics />
             <OperatorsStatistics :statistics="statistics" />
           </div>
         </el-tab-pane>
@@ -74,7 +75,5 @@ const deleteOperator = (operator) => {
   margin-top: 30px;
 }
 
-.plugin-size{
-  height: 50px;
-}
+
 </style>

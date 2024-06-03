@@ -4,7 +4,7 @@ import { computed } from 'vue';
 import Navigation from '@/components/Navigation.vue';
 import AuthorizationPage from '@/components/pages/AuthorizationPage.vue';
 import router from '@/router/index.js';
-import { userAuth } from '@/stores/userAuth.js';
+import { userAuth } from '@/stores/userAuthStore.js';
 
 const authStore = userAuth();
 const isAuthenticated = computed(() => authStore.isAuthenticated);
