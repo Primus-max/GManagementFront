@@ -51,7 +51,7 @@ const deleteGirl = (girl) => {
         </el-tab-pane>
         <el-tab-pane label="Статистика" name="statistics">
           <div class="statistics-wrapper">
-            <SearchStatistics />
+            <SearchStatistics type="girls" :names="girls.map(girl => girl.username)" />
             <GirlsStatistics :statistics="statistics" />
           </div>
         </el-tab-pane>

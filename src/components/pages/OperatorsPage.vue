@@ -51,7 +51,7 @@ const deleteOperator = (operator) => {
         </el-tab-pane>
         <el-tab-pane label="Статистика" name="statistics">
           <div class="statistics-wrapper">
-            <SearchStatistics />
+            <SearchStatistics type="operators" :names="operators.map(operator => operator.username)" />
             <OperatorsStatistics :statistics="statistics" />
           </div>
         </el-tab-pane>
@@ -74,6 +74,4 @@ const deleteOperator = (operator) => {
 .statistics-wrapper {
   margin-top: 30px;
 }
-
-
 </style>

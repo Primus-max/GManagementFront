@@ -1,23 +1,44 @@
 <script setup>
-import { ref } from 'vue';
+import {
+  ref,
+  watch,
+} from 'vue';
 
+import { useGirlsStatisticsStore } from '@/stores/girlsStatisticsStore';
 import { useSearchStatisticsStore } from '@/stores/operatorsStatisticsStore';
 
-const searchStore = useSearchStatisticsStore();
+// Пропсы для передачи типа (operators или girls) и списка имен
+const props = defineProps({
+  type: {
+    type: String,
+    required: true,
+    validator: (value) => ['operators', 'girls'].includes(value)
+  },
+  names: {
+    type: Array,
+    required: true
+  }
+});
+
+const searchStore = props.type === 'operators' ? useSearchStatisticsStore() : useGirlsStatisticsStore();
 const date = ref(searchStore.date);
-const operator = ref(searchStore.operator);
+const selectedName = ref(searchStore.operator || searchStore.girl);
 
 const updateDate = (newDate) => {
   searchStore.setDate(newDate);
 };
 
-const updateOperator = (newOperator) => {
-  searchStore.setOperator(newOperator);
+const updateSelectedName = (newName) => {
+  searchStore.setOperator(newName); // Здесь автоматически определяется, оператор это или девушка
 };
 
 const fetchStatistics = () => {
   searchStore.fetchStatistics();
 };
+
+// Синхронизация локальных переменных с состоянием хранилища
+watch(date, (newDate) => searchStore.setDate(newDate));
+watch(selectedName, (newName) => searchStore.setOperator(newName) || searchStore.setGirl(newName));
 
 </script>
 
@@ -27,23 +48,19 @@ const fetchStatistics = () => {
       <p>Выбрать по:</p>
       <div class="picker date-picker">
         <p class="label-select">дате</p>
-        <el-date-picker v-model="localDateRange" type="daterange" range-separator="||" start-placeholder="от"
-          end-placeholder="до" @change="updateDateRange" />
+        <el-date-picker v-model="date" type="daterange" range-separator="||" start-placeholder="от"
+          end-placeholder="до" @change="updateDate" />
       </div>
-      <div class="picker operator-picker">
-        <p class="label-select">оператору</p>
-        <el-select v-model="localOperator" @change="updateOperator" placeholder="Выберите оператора">
-          <el-option label="Valera" value="Valera" />
-          <el-option label="Petya" value="Petya" />
-          <el-option label="Nina" value="Nina" />
+      <div class="picker name-picker">
+        <p class="label-select">{{ props.type === 'operators' ? 'оператору' : 'девушке' }}</p>
+        <el-select v-model="selectedName" @change="updateSelectedName" :placeholder="`Выберите ${props.type === 'operators' ? 'оператора' : 'девушку'}`" >
+          <el-option v-for="name in props.names" :key="name" :label="name" :value="name"  />
         </el-select>
       </div>
       <el-button type="primary" @click="fetchStatistics">Поиск</el-button>
     </div>
   </div>
 </template>
-
-
 
 <style scoped>
 .search-statistics-wrapper {
@@ -69,7 +86,7 @@ const fetchStatistics = () => {
   justify-content: space-between;
 }
 
-.operator-picker {
+.name-picker {
   width: 300px;
 }
 
