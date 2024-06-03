@@ -9,10 +9,12 @@ import {
 } from '@element-plus/icons-vue';
 
 const orders = ref([
-    { id: 1, girl: 'Девушка1', client_name: 'Клиент1', amount: 100, split_percentage: 50, comment: 'Комментарий1', is_extended: false, is_cancelled: false },
-    { id: 2, girl: 'Девушка2', client_name: 'Клиент2', amount: 200, split_percentage: 60, comment: 'Комментарий2', is_extended: true, is_cancelled: true }
+    { id: 1, operator: 'оператор1', client_name: 'Клиент1', status: 'Оплачен', split_percentage: 50, comment: 'Комментарий1', is_extended: false, is_cancelled: false },
+    { id: 2, operator: 'оператор2', client_name: 'Клиент2', status: 'Не оплачен', split_percentage: 60, comment: 'Комментарий2', is_extended: true, is_cancelled: true }
     // Здесь добавьте начальные данные заказов
 ]);
+
+const activeTab = ref('operators');
 
 const editOrder = (order) => {
     // Логика редактирования заказа
@@ -28,24 +30,26 @@ const deleteOrder = (order) => {
 
 <template>
     <div class="page archive-page">
-        <div class="page-wrapper">
-            <el-card>
-                <header class="page-header">
-                    <div class="page-header-wrapper">
-                        <SearchArchive type="operators" :names="['Operator1', 'Operator2']" />
-                    </div>
-                </header>
-
-                <h1 class="page-title">Архив</h1>
-                <ArchiveTable :orders="orders" />
-            </el-card>
-        </div>
+      <div class="page-wrapper">
+        <el-card>
+          <el-tabs v-model="activeTab" tab-position="left" >
+            <el-tab-pane label="Операторы" name="operators">
+                <div class="archive-header-wrapper">
+              <SearchArchive type="operators" :names="['Operator1', 'Operator2']" />
+            </div>
+              <ArchiveTable :orders="orders" />
+            </el-tab-pane>
+            <el-tab-pane label="Девушки" name="girls" disabled>
+              <SearchArchive type="girls" :names="['Girl1', 'Girl2']" />
+              <ArchiveTable :orders="orders" />
+            </el-tab-pane>
+          </el-tabs>
+        </el-card>
+      </div>
     </div>
-</template>
-
+  </template>
 <style scoped>
 @import '@/assets/styles/main.css';
-
 .page-header-wrapper {
     width: 100%;
     height: 40px;
@@ -54,6 +58,10 @@ const deleteOrder = (order) => {
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+.archive-header-wrapper{
+    margin-top: 30px;
 }
 
 .date-picker {

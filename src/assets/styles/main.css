@@ -40,8 +40,7 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: 20px;
-  background-color: #555555;
+  padding: 20px; 
   border-bottom: 1px solid #e0e0e0;
 }
 

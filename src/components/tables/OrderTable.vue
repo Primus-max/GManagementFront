@@ -42,7 +42,7 @@ const payOrder = (order) => {
             <el-table-column prop="split_percentage" label="Split %" width="80"></el-table-column>
             <el-table-column prop="comment" label="Комментарий"></el-table-column>
             <el-table-column label="Действия">
-                <template v-slot="scope">
+                <!-- <template v-slot="scope">
                     <div class="control-buttons-wrapper">
                         <el-tooltip placement="left" content="Отмена">
                             <el-button class="control-button" type="text" @click="cancelOrder(scope.row)">
@@ -80,7 +80,7 @@ const payOrder = (order) => {
                             </el-button>
                         </el-tooltip>
                     </div>
-                </template>
+                </template> -->
             </el-table-column>
         </el-table>
     </div>
