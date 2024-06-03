@@ -4,16 +4,21 @@ import { ref } from 'vue';
 import { ElDrawer } from 'element-plus';
 
 import AddGirlForm from '@/components/modals/AddGirlForm.vue';
-import {
-  Delete,
-  Edit,
-} from '@element-plus/icons-vue';
+import SearchStatistics from '@/components/services/SearchStatistics.vue';
+import GirlsStatistics from '@/components/tables/GirlsStatistics.vue';
+import GirlsTable from '@/components/tables/GirlsTable.vue';
 
+const activeTab = ref('girls');
 const dialogVisible = ref(false);
 
 const girls = ref([
-  { id: 1, name: 'Girl1', telegram: '@girl1' },
-  { id: 2, name: 'Girl2', telegram: '@girl2' }
+  { id: 1, username: 'Girl1', group_id: 'Group1', balance: 100 },
+  { id: 2, username: 'Girl2', group_id: 'Group2', balance: 200 }
+]);
+
+const statistics = ref([
+  { id: 1, username: 'Girl1', totalOrders: 120, totalAmount: 1200 },
+  { id: 2, username: 'Girl2', totalOrders: 180, totalAmount: 1800 }
 ]);
 
 const handleClose = () => {
@@ -30,32 +35,29 @@ const deleteGirl = (girl) => {
 </script>
 
 <template>
-  <div class="girls-page">
+  <div class="page girls-page">
     <div class="page-wrapper">
-      <div class="table-wrapper">
-        <el-button type="primary" @click="dialogVisible = true">
-          <i class="el-icon-plus"></i> Добавить девушку
-        </el-button>
-
-        <el-drawer v-model="dialogVisible" title="Добавить девушку" :before-close="handleClose" direction="ltr">
-          <AddGirlForm @close="dialogVisible = false" />
-        </el-drawer>
-
-        <el-table :data="girls" class="table" size="large" highlight-current-row="true">
-          <el-table-column prop="id" label="ID" width="100px"></el-table-column>
-          <el-table-column prop="name" label="Имя"></el-table-column>
-          <el-table-column prop="telegram" label="Телеграмм аккаунт"></el-table-column>
-          <el-table-column label="Действия" width="120">
-            <template #default="{ row }">
-              <el-button type="text" class="control-button" :icon="Edit" @click="editGirl(row)"></el-button>
-              <el-button type="text" class="control-button" :icon="Delete" @click="deleteGirl(row)"></el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-      </div>
+      <el-tabs v-model="activeTab" tab-position="left" type="border-card">
+        <el-tab-pane label="Девушки" name="girls">
+          <div class="table-wrapper">
+            <el-button type="primary" @click="dialogVisible = true">
+              <i class="el-icon-plus"></i> Добавить девушку
+            </el-button>
+            <el-drawer v-model="dialogVisible" title="Добавить девушку" :before-close="handleClose" direction="ltr">
+              <AddGirlForm @close="dialogVisible = false" />
+            </el-drawer>
+            <GirlsTable :girls="girls" @editGirl="editGirl" @deleteGirl="deleteGirl" />
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="Статистика" name="statistics">
+          <div class="statistics-wrapper">
+            <SearchStatistics />
+            <GirlsStatistics :statistics="statistics" />
+          </div>
+        </el-tab-pane>
+      </el-tabs>
     </div>
   </div>
-
 </template>
 
 <style scoped>
@@ -63,11 +65,13 @@ const deleteGirl = (girl) => {
 
 .table-wrapper {
   width: 100%;
+  margin-top: 30px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
 }
 
-
-
+.statistics-wrapper {
+  margin-top: 30px;
+}
 </style>
