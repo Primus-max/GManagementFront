@@ -4,15 +4,10 @@ import {
   watch,
 } from 'vue';
 
-import { useGirlsStatisticsStore } from '@/stores/girlsStatisticsStore';
-import { useSearchStatisticsStore } from '@/stores/operatorsStatisticsStore';
-
-// Пропсы для передачи типа (operators или girls) и списка имен
 const props = defineProps({
-  type: {
+  searchType: {
     type: String,
-    required: true,
-    validator: (value) => ['operators', 'girls'].includes(value)
+    required: true
   },
   names: {
     type: Array,
@@ -20,26 +15,20 @@ const props = defineProps({
   }
 });
 
-const searchStore = props.type === 'operators' ? useSearchStatisticsStore() : useGirlsStatisticsStore();
-const date = ref(searchStore.date);
-const selectedName = ref(searchStore.operator || searchStore.girl);
+const date = ref('');
+const selectedName = ref('');
 
 const updateDate = (newDate) => {
-  searchStore.setDate(newDate);
+  date.value = newDate;
 };
 
 const updateSelectedName = (newName) => {
-  searchStore.setOperator(newName); // Здесь автоматически определяется, оператор это или девушка
+  selectedName.value = newName;
 };
 
 const fetchStatistics = () => {
-  searchStore.fetchStatistics();
+  // Здесь можно вызвать метод для получения статистики в зависимости от типа поиска и выбранного имени
 };
-
-// Синхронизация локальных переменных с состоянием хранилища
-watch(date, (newDate) => searchStore.setDate(newDate));
-watch(selectedName, (newName) => searchStore.setOperator(newName) || searchStore.setGirl(newName));
-
 </script>
 
 <template>
@@ -52,9 +41,9 @@ watch(selectedName, (newName) => searchStore.setOperator(newName) || searchStore
           end-placeholder="до" @change="updateDate" />
       </div>
       <div class="picker name-picker">
-        <p class="label-select">{{ props.type === 'operators' ? 'оператору' : 'девушке' }}</p>
-        <el-select v-model="selectedName" @change="updateSelectedName" :placeholder="`Выберите ${props.type === 'operators' ? 'оператора' : 'девушку'}`" >
-          <el-option v-for="name in props.names" :key="name" :label="name" :value="name"  />
+        <p class="label-select">{{ searchType === 'operators' ? 'оператору' : searchType === 'girls' ? 'девушке' : 'клиенту' }}</p>
+        <el-select v-model="selectedName" @change="updateSelectedName" :placeholder="`Выберите ${searchType === 'operators' ? 'оператора' : searchType === 'girls' ? 'девушку' : 'клиента'}`" >
+          <el-option v-for="name in names" :key="name" :label="name" :value="name"  />
         </el-select>
       </div>
       <el-button type="primary" @click="fetchStatistics">Поиск</el-button>

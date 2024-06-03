@@ -5,6 +5,7 @@ import {
 
 import ArchivePage from '@/components/pages/ArchivePage.vue';
 import AuthorizationPage from '@/components/pages/AuthorizationPage.vue';
+import ClientsPage from '@/components/pages/ClientsPage.vue';
 import GirlsPage from '@/components/pages/GirlsPage.vue';
 import MainPage from '@/components/pages/MainPage.vue';
 import OperatorCabinetPage from '@/components/pages/OperatorCabinetPage.vue';
@@ -45,6 +46,12 @@ const routes = [
     path: '/operators',
     name: 'operators',
     component: OperatorsPage,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/clients',
+    name: 'clients',
+    component: ClientsPage,
     meta: { requiresAuth: true }
   }
 ];

@@ -39,7 +39,7 @@ const activeIndex = ref('1');
         </RouterLink>
       </el-menu-item>
       <el-menu-item index="6">
-        <RouterLink to="/girls">
+        <RouterLink to="/clients">
           <p class="route-text">Клиенты</p>
         </RouterLink>
       </el-menu-item>

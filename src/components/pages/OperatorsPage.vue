@@ -40,10 +40,10 @@ const deleteOperator = (operator) => {
       <el-card>
       <el-tabs v-model="activeTab" tab-position="left" >
         <el-tab-pane label="Статистика" name="statistics">
-          <div class="statistics-wrapper">
-            <SearchStatistics type="operators" :names="operators.map(operator => operator.username)" />
-            <OperatorsStatistics :statistics="statistics" />
-          </div>
+          <div class="search-header-wrapper">
+            <SearchStatistics searchType="operators" :names="operators.map(operator => operator.username)" />
+            </div>
+            <OperatorsStatistics  :statistics="statistics" />          
         </el-tab-pane>
         <el-tab-pane label="Операторы" name="operators">
           <div class="table-wrapper">
@@ -64,18 +64,6 @@ const deleteOperator = (operator) => {
 
 <style scoped>
 @import '@/assets/styles/main.css';
-
-.table-wrapper {
-  width: 100%;
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-
-.statistics-wrapper {
-  margin-top: 30px;
-}
 
 
 </style>

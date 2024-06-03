@@ -40,10 +40,11 @@ const deleteGirl = (girl) => {
       <el-card>
       <el-tabs v-model="activeTab" tab-position="left" >
         <el-tab-pane label="Статистика" name="statistics">
-          <div class="statistics-wrapper">
-            <SearchStatistics type="girls" :names="girls.map(girl => girl.username)" />
+          <div class="search-header-wrapper">
+            <SearchStatistics searchType="girls" :names="girls.map(girl => girl.username)" />
+            </div>
             <GirlsStatistics :statistics="statistics" />
-          </div>
+          
         </el-tab-pane>
         <el-tab-pane label="Девушки" name="girls">
           <div class="table-wrapper">
@@ -64,16 +65,4 @@ const deleteGirl = (girl) => {
 
 <style scoped>
 @import '@/assets/styles/main.css';
-
-.table-wrapper {
-  width: 100%;
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-
-.statistics-wrapper {
-  margin-top: 30px;
-}
 </style>

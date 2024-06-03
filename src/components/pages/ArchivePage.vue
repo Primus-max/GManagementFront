@@ -34,7 +34,7 @@ const deleteOrder = (order) => {
         <el-card>
           <el-tabs v-model="activeTab" tab-position="left" >
             <el-tab-pane label="Операторы" name="operators">
-                <div class="archive-header-wrapper">
+                <div class="search-header-wrapper">
               <SearchArchive type="operators" :names="['Operator1', 'Operator2']" />
             </div>
               <ArchiveTable :orders="orders" />
@@ -58,10 +58,6 @@ const deleteOrder = (order) => {
     display: flex;
     flex-direction: row;
     align-items: center;
-}
-
-.archive-header-wrapper{
-    margin-top: 30px;
 }
 
 .date-picker {
