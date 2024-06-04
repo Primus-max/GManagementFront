@@ -10,65 +10,78 @@ import GirlsPage from '@/components/pages/GirlsPage.vue';
 import MainPage from '@/components/pages/MainPage.vue';
 import OperatorCabinetPage from '@/components/pages/OperatorCabinetPage.vue';
 import OperatorsPage from '@/components/pages/OperatorsPage.vue';
-import { userAuth } from '@/stores/userAuthStore';
+import { userAuth } from '@/stores/userAuthStore.js';
 
 const routes = [
   {
-    path: '/',
-    name: 'main',
+    path: "/",
+    name: "main",
     component: MainPage,
-    meta: { requiresAuth: true }
-  },
-{
-  path: '/operator',
-  name: 'operator',
-  component: OperatorCabinetPage,
-  meta: { requiresAuth: true }
-},
-  {
-    path: '/authorization',
-    name: 'authorization',
-    component: AuthorizationPage
+    meta: { requiresAuth: true },
   },
   {
-    path: '/archive',
-    name: 'archive',
+    path: "/operator",
+    name: "operator",
+    component: OperatorCabinetPage,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/authorization",
+    name: "authorization",
+    component: AuthorizationPage,
+  },
+  {
+    path: "/archive",
+    name: "archive",
     component: ArchivePage,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true },
   },
   {
-    path: '/girls',
-    name: 'girls',
+    path: "/girls",
+    name: "girls",
     component: GirlsPage,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true },
   },
   {
-    path: '/operators',
-    name: 'operators',
+    path: "/operators",
+    name: "operators",
     component: OperatorsPage,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true },
   },
   {
-    path: '/clients',
-    name: 'clients',
+    path: "/clients",
+    name: "clients",
     component: ClientsPage,
-    meta: { requiresAuth: true }
-  }
+    meta: { requiresAuth: true },
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes
+  routes,
 });
 
+
+
 // Глобальный guard для проверки авторизации
-router.beforeEach((to, from, next) => {  
+router.beforeEach((to, from, next) => {
   
-const authStore = userAuth();
-  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-    next({ name: 'authorization' });
+  const token = localStorage.getItem("token");
+  const authStore = userAuth();
+  authStore.isAuthenticated = !!token;
+
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!authStore.isAuthenticated) {
+      next({ name: "authorization" });
+    } else {
+      next();
+    }
   } else {
-    next();
+    if (to.name === "authorization" && authStore.isAuthenticated) {
+      router.push({ name: "main" });
+    } else {
+      next();
+    }
   }
 });
 

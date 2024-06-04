@@ -3,15 +3,11 @@ import { computed } from 'vue';
 
 import Navigation from '@/components/Navigation.vue';
 import AuthorizationPage from '@/components/pages/AuthorizationPage.vue';
-import router from '@/router/index.js';
 import { userAuth } from '@/stores/userAuthStore.js';
 
 const authStore = userAuth();
 const isAuthenticated = computed(() => authStore.isAuthenticated);
-
-if (!isAuthenticated.value) {
-    router.push({ name: 'authorization' });
-}
+console.log(isAuthenticated);
 </script>
 
 <template>
@@ -21,10 +17,10 @@ if (!isAuthenticated.value) {
         <Navigation />
       </el-header>
       <el-main class="main">
-        <router-view /> <!-- Вставляем компоненты маршрутов -->
+        <router-view /> 
       </el-main>
     </el-container>
-    <AuthorizationPage v-else /> <!-- Только страница авторизации, если не авторизован -->
+    <AuthorizationPage v-if="!isAuthenticated" /> 
   </div>
 </template>
 
@@ -38,7 +34,7 @@ if (!isAuthenticated.value) {
 }
 
 .header {
-  display:  flex;
+  display: flex;
   flex-direction: row;
   align-items: flex-end;
   justify-content: right;
@@ -46,5 +42,4 @@ if (!isAuthenticated.value) {
   width: 100%;
   padding: 0;  
 }
-
 </style>

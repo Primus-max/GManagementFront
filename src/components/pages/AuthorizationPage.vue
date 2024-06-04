@@ -18,7 +18,6 @@ const handleLogin = async () => {
 
     await authStore.authenticate(LoginModel);
     router.push({ name: 'main' });
-
 };
 </script>
 
