@@ -62,8 +62,9 @@ const router = createRouter({
 });
 
 // Глобальный guard для проверки авторизации
-router.beforeEach((to, from, next) => {
-  const authStore = userAuth();
+router.beforeEach((to, from, next) => {  
+  
+const authStore = userAuth();
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     next({ name: 'authorization' });
   } else {

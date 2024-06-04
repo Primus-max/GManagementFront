@@ -14,7 +14,7 @@ export const setupInterceptors = (apiClient) => {
   apiClient.interceptors.response.use(response => {
     return response;
   }, error => {
-    if (error.response.status === 401) {
+    if (error) {
       // Логика для обработки 401 ошибки (например, редирект на страницу логина)
       // Также можно удалить токен из localStorage
       localStorage.removeItem('token');

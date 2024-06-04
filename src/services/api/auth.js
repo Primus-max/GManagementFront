@@ -1,14 +1,13 @@
-import apiClient from '@/services/apiClient';
+import apiClient from '@/services/api/apiClient';
 
-const login = async(credentials) => {
+export const login = async(credentials) => {
     try {
     const response = await apiClient.post('/auth/token', credentials);
-    const token = response.data.token;
+    const token = response.data;
     localStorage.setItem('token', token);    
     return response.data;   
     } catch (error) {
-        throw new Error('Login failed');
+        throw new Error('Login failed', error);
     }
 }
 
-export default { login };

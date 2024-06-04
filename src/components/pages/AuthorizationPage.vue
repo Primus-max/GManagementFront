@@ -6,14 +6,19 @@ import { userAuth } from '@/stores/userAuthStore';
 
 const authStore = userAuth();
 const loginForm = ref({
-    username: '',
+    login: '',
     password: '',
 });
 
-const handleLogin = () => {
-    authStore.authenticate();
+const handleLogin = async () => {
+    const LoginModel = {
+        Login: loginForm.value.login,
+        Password: loginForm.value.password,
+    }
+
+    await authStore.authenticate(LoginModel);
     router.push({ name: 'main' });
-  
+
 };
 </script>
 
@@ -21,7 +26,7 @@ const handleLogin = () => {
     <div class="login-container">
         <el-form :model="loginForm" class="login-form">
             <el-form-item prop="username">
-                <el-input v-model="loginForm.username" placeholder="Логин"></el-input>
+                <el-input v-model="loginForm.login" placeholder="Логин"></el-input>
             </el-form-item>
             <el-form-item prop="password">
                 <el-input v-model="loginForm.password" type="password" placeholder="Пароль"></el-input>
@@ -39,7 +44,7 @@ const handleLogin = () => {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;    
+    height: 100vh;
 }
 
 .login-form {
