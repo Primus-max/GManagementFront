@@ -25,8 +25,9 @@ const deleteOperator = (operator) => {
     <div class="table-wrapper">
         <el-table :data="operators" class="table" size="large">
             <el-table-column prop="id" label="ID" width="50"></el-table-column>
-            <el-table-column prop="username" label="Имя"></el-table-column>
-            <el-table-column prop="group_id" label="Группа"></el-table-column>
+            <el-table-column prop="name" label="Имя"></el-table-column>
+            <el-table-column prop="login" label="Логин"></el-table-column>
+            <el-table-column prop="groupId" label="Группа"></el-table-column>
             <el-table-column prop="balance" label="Баланс"></el-table-column>
             <el-table-column label="Действия" width="120">
                 <template #default="{ row }">

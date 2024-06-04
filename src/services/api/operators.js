@@ -1,6 +1,6 @@
 import apiClient from '@/services/api/apiClient';
 
-const getOperators = async() => {
+export const getOperators = async() => {
     try {
     const response = await apiClient.get('/operators');
     return response.data;
@@ -9,4 +9,4 @@ const getOperators = async() => {
     }
 }
 
-export default { getOperators };
+//export default { getOperators };

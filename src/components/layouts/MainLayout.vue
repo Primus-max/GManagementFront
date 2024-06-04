@@ -7,7 +7,6 @@ import { userAuth } from '@/stores/userAuthStore.js';
 
 const authStore = userAuth();
 const isAuthenticated = computed(() => authStore.isAuthenticated);
-console.log(isAuthenticated);
 </script>
 
 <template>
