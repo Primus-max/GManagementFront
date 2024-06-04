@@ -4,57 +4,70 @@ import {
   ref,
 } from 'vue';
 
-const emits = defineEmits('close'); 
+import { useOperatorsStore } from '@/stores/operatorsStore';
+
+const emits = defineEmits(['close']);
+const operatorsStore = useOperatorsStore();
 
 const form = ref({
-    username: '',
+  name: '',
+  login: '',
+  password: '',
+  groupId: '',
+  balance: 0,
+});
+
+const formLabelWidth = '100px';
+const loading = ref(false);
+
+const cancelForm = () => {
+  form.value = {
+    name: '',
+    login:'',
     password: '',
-    group_id: '',
-    balance: 0
-  });
-  
-  const formLabelWidth = '100px';
-  
-  const loading = ref(false);
-  
-  const cancelForm = () => {
-    // Сброс формы и закрытие модального окна
-    form.value.username = '';
-    form.value.password = '';
-    form.value.group_id = '';
-    form.value.balance = 0;
-    emits('close');
+    groupId: '',
+    balance: 0,
   };
-  
-  const groups = ref([
+  emits('close');
+};
+
+const groups = ref([
   { value: 'Group1', label: 'Group 1' },
-  { value: 'Group2', label: 'Group 2' }
+  { value: 'Group2', label: 'Group 2' },
   // Добавьте здесь другие группы
 ]);
 
-  const submitForm = () => {
-    // Обработка отправки формы (вы можете добавить логику отправки на сервер)
-    loading.value = true;
-    setTimeout(() => {
-      loading.value = false;
-      cancelForm();
-    }, 1500);
-  };
-  
+const submitForm = async () => {
+  loading.value = true;
+  try {
+    const newOperator = { ...form.value };
+    // Добавляем оператора в хранилище
+    await operatorsStore.addOperator(newOperator);
+    cancelForm();
+  } catch (error) {
+    console.error('Failed to add operator', error);
+  } finally {
+    loading.value = false;
+  }
+};
 </script>
 
 <template>
-    <el-form :model="form">
-      <el-form-item label="Имя" :label-width="formLabelWidth">
-        <el-input v-model="form.username" autocomplete="off" />
-      </el-form-item>
+  <el-form :model="form">
+    <el-form-item label="Имя" :label-width="formLabelWidth">
+      <el-input v-model="form.name" autocomplete="off" />
+    </el-form-item>
 
-      <el-form-item label="Пароль" :label-width="formLabelWidth">
-        <el-input v-model="form.password" type="password" autocomplete="off" />
-      </el-form-item>
+    <el-form-item label="Логин" :label-width="formLabelWidth">
+      <el-input v-model="form.login" autocomplete="off" />
+    </el-form-item>
 
-      <el-form-item label="Группа" :label-width="formLabelWidth">
-      <el-select v-model="form.group_id" placeholder="Выберите группу">
+    <el-form-item label="Пароль" :label-width="formLabelWidth">
+      <el-input v-model="form.password" type="password" autocomplete="off" />
+    </el-form-item>
+
+    <el-form-item label="Группа" :label-width="formLabelWidth">
+      <el-select v-model="form.groupId" placeholder="Выберите группу">
         <el-option
           v-for="group in groups"
           :key="group.value"
@@ -64,24 +77,23 @@ const form = ref({
       </el-select>
     </el-form-item>
 
-      <el-form-item label="Баланс" :label-width="formLabelWidth">
-        <el-input v-model="form.balance" type="number" autocomplete="off" />
-      </el-form-item>
-      
-      <div class="drawer__footer">
-        <el-button @click="cancelForm">Отмена</el-button>
-        <el-button type="primary" :loading="loading" @click="submitForm">
-          {{ loading ? 'Отправка ...' : 'Добавить' }}
-        </el-button>
-      </div>
-    </el-form>
-  </template>
-  
-  <style scoped>
-  .drawer__footer {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 20px;
-  }
-  </style>
-  
+    <el-form-item label="Баланс" :label-width="formLabelWidth">
+      <el-input v-model="form.balance" type="number" autocomplete="off" />
+    </el-form-item>
+
+    <div class="drawer__footer">
+      <el-button @click="cancelForm">Отмена</el-button>
+      <el-button type="primary" :loading="loading" @click="submitForm">
+        {{ loading ? 'Отправка ...' : 'Добавить' }}
+      </el-button>
+    </div>
+  </el-form>
+</template>
+
+<style scoped>
+.drawer__footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+</style>
