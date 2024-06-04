@@ -1,10 +1,5 @@
 <script setup>
 import {
-  defineEmits,
-  defineProps,
-} from 'vue';
-
-import {
   Delete,
   Edit,
 } from '@element-plus/icons-vue';

@@ -265,38 +265,71 @@ const shiftTimeLeft = ref("02:30:00"); // Время до конца смены
 //   })
 // };
 const form = reactive({
-  name: '',
-  region: '',
-  date1: '',
-  date2: '',
-  delivery: false,
-  type: [],
-  resource: '',
-  desc: '',
+    name: '',
+    region: '',
+    date1: '',
+    date2: '',
+    delivery: false,
+    type: [],
+    resource: '',
+    desc: '',
 })
 
 const gridData = [
+    {
+        date: '2016-05-02',
+        order: 234,
+        client: 'Валера',
+    },
+    {
+        date: '2016-05-04',
+        order: 248,
+        client: 'John Smith',
+    },
+    {
+        date: '2016-05-01',
+        order: 122,
+        client: 'Андрей Борсивич',
+    },
+    {
+        date: '2016-05-03',
+        order: 301,
+        client: 'John Smith',
+    },
+]
+
+
+const girls = ref([
+    { id: 1, name: 'Анна' },
+    { id: 2, name: 'Мария' },
+    { id: 3, name: 'Екатерина' },
+    // Другие девушки...
+]);
+
+
+const options = [
   {
-    date: '2016-05-02',
-    order: 234,
-    client: 'Валера',
+    value: 'Option1',
+    label: 'Label1',
   },
   {
-    date: '2016-05-04',
-    order: 248,
-    client: 'John Smith',
+    value: 'Option2',
+    label: 'Label2',
   },
   {
-    date: '2016-05-01',
-    order: 122,
-    client: 'Андрей Борсивич',
+    value: 'Option3',
+    label: 'Label3',
   },
   {
-    date: '2016-05-03',
-    order: 301,
-    client: 'John Smith',
+    value: 'Option4',
+    label: 'Label4',
+  },
+  {
+    value: 'Option5',
+    label: 'Label5',
   },
 ]
+
 const handleClose = () => {
     dialogVisible.value = false;
 };
@@ -325,23 +358,28 @@ const handleClose = () => {
                         <i class="el-icon-plus"></i> Создать заказ
                     </el-button>
 
+                    <div class="girls-select">
+                        <el-select v-model="selectedGirls" placeholder="Выберите девушек" style="width: 240px" clearable multiple>
+    <template #label="{ name }">
+        <span>{{ name }}</span>
+    </template>
+    <el-option v-for="girl in girls" :key="girl.id" :label="girl.name" :value="girl.id" />
+</el-select>
 
-                    <el-button type="primary" >
-                        Девушки в смену
-                    </el-button>
+                    </div>
 
                     <div class="shift-time-wrapper">
-                    <el-popover placement="top-start" title="Информация о смене" width="200" trigger="hover">
-                        <template #reference>
-                            <el-button class="popover-button">Смена</el-button>
-                        </template>
-                        <div class="shift-info">
-                            <div>Начало: {{ shiftStartTime }}</div>
-                            <div>Конец: {{ shiftEndTime }}</div>
-                        </div>
-                    </el-popover>
-                    <div>осталось: {{ shiftTimeLeft }}</div>
-                </div>
+                        <el-popover placement="top-start" title="Информация о смене" width="200" trigger="hover">
+                            <template #reference>
+                                <el-button class="popover-button">Смена</el-button>
+                            </template>
+                            <div class="shift-info">
+                                <div>Начало: {{ shiftStartTime }}</div>
+                                <div>Конец: {{ shiftEndTime }}</div>
+                            </div>
+                        </el-popover>
+                        <div>осталось: {{ shiftTimeLeft }}</div>
+                    </div>
                     <el-button class="balance-button" plain @click="dialogTableVisible = true">
                         Баланс: {{ balance }} ₽
                     </el-button>
@@ -360,12 +398,12 @@ const handleClose = () => {
     </el-drawer>
 
     <el-dialog v-model="dialogTableVisible" title="Информация о формировании баланса" width="800">
-    <el-table :data="gridData">
-      <el-table-column property="date" label="Дата" width="150" />
-      <el-table-column property="order" label="Заказ" width="200" />
-      <el-table-column property="client" label="Клиент" />
-    </el-table>
-  </el-dialog>
+        <el-table :data="gridData">
+            <el-table-column property="date" label="Дата" width="150" />
+            <el-table-column property="order" label="Заказ" width="200" />
+            <el-table-column property="client" label="Клиент" />
+        </el-table>
+    </el-dialog>
 
 </template>
 
@@ -400,6 +438,7 @@ const handleClose = () => {
 
 .page-header {
     width: auto;
+    padding-top: 0;
 }
 
 .balance {
@@ -416,8 +455,13 @@ const handleClose = () => {
     justify-content: space-between;
 }
 
-.popover-button, .balance-button {
-    background-color: rgb(235, 235, 235);    
+.popover-button,
+.balance-button {
+    background-color: rgb(235, 235, 235);
+}
+
+.girls-select {
+    width: 18%;
 }
 
 /* .shift-time {

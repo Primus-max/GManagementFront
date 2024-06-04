@@ -1,3 +1,12 @@
+<script setup>
+const props = defineProps({
+    clients: {
+      type: Array,
+      required: true
+    }
+  });
+</script>
+
 <template>
     
       <el-table :data="clients" class="table" size="large">
@@ -12,17 +21,7 @@
     
   </template>
   
-  <script setup>
-import { defineProps } from 'vue';
 
-const props = defineProps({
-    clients: {
-      type: Array,
-      required: true
-    }
-  });
-  
-</script>
   
   <style  scoped>
 @import '@/assets/styles/main.css';

@@ -1,6 +1,4 @@
 <script setup>
-import { defineProps } from 'vue';
-
 const props = defineProps({
     orders: {
         type: Array,
@@ -27,7 +25,6 @@ const deleteOrder = (order) => {
 const payOrder = (order) => {
     // логика выплаты заказа
 };
-
 </script>
 
 

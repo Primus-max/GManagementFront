@@ -1,13 +1,10 @@
 <script setup>
-import { defineProps } from 'vue';
-
 const props = defineProps({
     statistics: {
         type: Array,
         required: true
     }
 });
-
 </script>
 
 <template>

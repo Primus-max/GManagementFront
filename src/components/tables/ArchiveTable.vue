@@ -1,3 +1,32 @@
+<script setup>
+const props = defineProps({
+    orders: {
+      type: Array,
+      required: true
+    }
+  });
+  
+  const cancelOrder = (order) => {
+    // логика отмены заказа
+};
+
+const extendOrder = (order) => {
+    // логика продления заказа
+};
+
+const editOrder = (order) => {
+    // логика редактирования заказа
+};
+
+const deleteOrder = (order) => {
+    // логика удаления заказа
+};
+
+const payOrder = (order) => {
+    // логика выплаты заказа
+};
+</script>
+
 <template>
     <el-table :data="orders" class="table" size="large">
       <el-table-column prop="id" label="ID" width="50"></el-table-column>
@@ -52,36 +81,7 @@
     </el-table>
   </template>
   
-  <script setup>
-import { ref } from 'vue';
 
-const props = defineProps({
-    orders: {
-      type: Array,
-      required: true
-    }
-  });
-  
-  const cancelOrder = (order) => {
-    // логика отмены заказа
-};
-
-const extendOrder = (order) => {
-    // логика продления заказа
-};
-
-const editOrder = (order) => {
-    // логика редактирования заказа
-};
-
-const deleteOrder = (order) => {
-    // логика удаления заказа
-};
-
-const payOrder = (order) => {
-    // логика выплаты заказа
-};
-</script>
   
   <style scoped>
 @import '@/assets/styles/main.css';
