@@ -84,46 +84,10 @@ const activeIndex = ref('1');
   
 }
 
-/* .active-page{
-  margin: 0;
-  font-size: 20px;
-  padding: 0;
-} */
-
 .route-text{
   margin: 0;
   padding: 0 20px 0 20px; 
   font-size: 16px;  
 }
-/* .routs {
-  position: relative;
-  display: flex;
-  width: 100%;
-  padding: 10px;
-  transition: background 0.3s, color 0.3s; 
-} */
 
-/* .routs:hover {
-  background-color: rgba(0, 0, 0, 0.1); 
-  color: #000; 
-}
-
-.routs::after {
-  content: '';
-  position: absolute;
-  right: 0;
-  top: 0;
-  height: 100%;
-  width: 5px;
-  background: transparent;
-  transition: background 0.3s;
-}
-
-.routs:hover::after {
-  background: #000; 
-}  */
-
-.text {
-  
-}
 </style>
