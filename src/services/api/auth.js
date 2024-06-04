@@ -1,18 +1,4 @@
-import axios from 'axios';
-
-import { setupInterceptors } from './interceptors';
-
-const apiClient = axios.create({
-    baseURL: 'http://localhost:5102/api',
-    headers: {
-        'Content-type': 'application/json'
-    },
-    withCredentials: true,
-    timeout: 3000,
-    timeoutErrorMessage: 'Request timed out',
-});
-
-setupInterceptors(apiClient);
+import apiClient from '@/services/apiClient';
 
 const login = async(credentials) => {
     try {
