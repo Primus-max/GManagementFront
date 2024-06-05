@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia';
 
 import {
-  addOperator,
+  addOperatorAtBase,
   getOperators,
+  updateOperatorAtBase,
 } from '@/services/api/operators';
 
 export const useOperatorsStore = defineStore('operatorsStore', {
@@ -14,13 +15,14 @@ export const useOperatorsStore = defineStore('operatorsStore', {
       this.operators = await getOperators();
     },
    async addOperator(operator) {
-      const operatorId = await addOperator(operator);
+      const operatorId = await addOperatorAtBase(operator);
       operator.id = operatorId;
       this.operators.push(operator);
     },
-    updateOperator(updatedOperator) {
+    async updateOperator(updatedOperator) {
       const index = this.operators.findIndex(op => op.id === updatedOperator.id);
       if (index !== -1) {
+        await updateOperatorAtBase(updatedOperator);
         this.operators[index] = updatedOperator;
       }
     },

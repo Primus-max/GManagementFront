@@ -1,9 +1,13 @@
 <script setup>
+import { ref } from 'vue';
+
+import AddOperatorForm from '@/components/modals/AddOperatorForm.vue';
 import {
   Delete,
   Edit,
 } from '@element-plus/icons-vue';
 
+const emits = defineEmits(['editOperator']);
 const operatorsProps = defineProps({
     operators: {
         type: Array,
@@ -11,9 +15,13 @@ const operatorsProps = defineProps({
     }
 })
 
+const dialogVisible = ref(false);
+const editingOperator = ref(null);
 
-const editOperator = (operator) => {
-    console.log('Редактировать оператора:', operator);
+const editOperator = (operator) => { 
+      dialogVisible.value = true;
+      editingOperator.value = operator;
+   // emits('editOperator', operator);
 };
 
 const deleteOperator = (operator) => {
@@ -38,6 +46,12 @@ const deleteOperator = (operator) => {
             </el-table-column>
         </el-table>
     </div>
+
+    <el-drawer v-model="dialogVisible" title="Редактировать оператора"  direction="ltr">
+    <AddOperatorForm @close="dialogVisible = false" :operator="editingOperator" :isEditing="true" />
+  </el-drawer>
+
+
 </template>
 
 <style lang="css" scoped>

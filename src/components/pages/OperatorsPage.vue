@@ -21,15 +21,6 @@ onMounted(async () => {
   await operatorsStore.fetchOperators();
 });
 
-const handleClose = () => {
-  dialogVisible.value = false;
-};
-
-const editOperator = (operator) => {
-  console.log('Редактировать оператора:', operator);
-  // Добавьте здесь логику для редактирования оператора
-};
-
 const deleteOperator = (operatorId) => {
   operatorsStore.deleteOperator(operatorId);
   console.log('Удалить оператора:', operatorId);
@@ -54,16 +45,16 @@ const operators = computed(() => operatorsStore.operators);
               <el-button type="primary" @click="dialogVisible = true">
                 <i class="el-icon-plus"></i> Добавить оператора
               </el-button>
-              <el-drawer v-model="dialogVisible" title="Добавить оператора" :before-close="handleClose" direction="ltr">
-                <AddOperatorForm @close="dialogVisible = false" />
-              </el-drawer>
-              <OperatorsTable :operators="operators" @editOperator="editOperator" @deleteOperator="deleteOperator" />
+              <OperatorsTable :operators="operators"  @deleteOperator="deleteOperator" />
             </div>
           </el-tab-pane>
         </el-tabs>
       </el-card>
     </div>
   </div>
+  <el-drawer v-model="dialogVisible" title="Добавить оператора" :before-close="handleClose" direction="ltr">
+    <AddOperatorForm @close="dialogVisible = false"  :isEditing="false" />
+  </el-drawer>
 </template>
 
 <style scoped>

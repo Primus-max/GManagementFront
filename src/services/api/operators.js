@@ -9,12 +9,21 @@ export const getOperators = async() => {
     }
 }
 
-export const addOperator  = async (operator) => {
+export const addOperatorAtBase  = async (operator) => {
     try {
     const response = await apiClient.post('/operators', operator);
     return response.data;
     } catch (error) {
         throw new Error('Failed to add operator');
+    }
+}
+
+export const updateOperatorAtBase   = async  (operator)  =>  {
+    try {
+    const response = await apiClient.put(`/operators`, operator);
+    return response.data;
+    } catch (error) {
+        throw new Error('Failed to update operator');
     }
 }
 
