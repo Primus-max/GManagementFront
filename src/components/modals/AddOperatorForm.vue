@@ -64,7 +64,7 @@ const submitForm = async () => {
   loading.value = true;
   try {
     if (props.isEditing) {
-      await operatorsStore.updateOperator(props.operator.id, { ...form.value });
+      await operatorsStore.updateOperator( { ...form.value });
     } else {
       const newOperator = new Operator({ ...form.value });
       await operatorsStore.addOperator(newOperator);

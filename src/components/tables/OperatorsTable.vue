@@ -7,7 +7,6 @@ import {
   Edit,
 } from '@element-plus/icons-vue';
 
-const emits = defineEmits(['editOperator']);
 const operatorsProps = defineProps({
     operators: {
         type: Array,
@@ -18,10 +17,10 @@ const operatorsProps = defineProps({
 const dialogVisible = ref(false);
 const editingOperator = ref(null);
 
-const editOperator = (operator) => { 
-      dialogVisible.value = true;
-      editingOperator.value = operator;
-   // emits('editOperator', operator);
+const editOperator = (operator) => {
+    dialogVisible.value = true;
+    editingOperator.value = operator;
+    // emits('editOperator', operator);
 };
 
 const deleteOperator = (operator) => {
@@ -47,9 +46,9 @@ const deleteOperator = (operator) => {
         </el-table>
     </div>
 
-    <el-drawer v-model="dialogVisible" title="Редактировать оператора"  direction="ltr">
-    <AddOperatorForm @close="dialogVisible = false" :operator="editingOperator" :isEditing="true" />
-  </el-drawer>
+    <el-drawer v-model="dialogVisible" title="Редактировать оператора" direction="ltr">
+        <AddOperatorForm @close="dialogVisible = false" :operator="editingOperator" :isEditing="true" />
+    </el-drawer>
 
 
 </template>
