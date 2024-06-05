@@ -21,9 +21,17 @@ export const addOperatorAtBase  = async (operator) => {
 export const updateOperatorAtBase   = async  (operator)  =>  {
     try {
     const response = await apiClient.put(`/operators`, operator);
-    return response.data;
+    return response;
     } catch (error) {
         throw new Error('Failed to update operator');
     }
 }
 
+export const deleteOperatorAtBase  = async  (operatorId)  =>  {
+    try {
+    const response = await apiClient.delete(`/operators/${operatorId}`);
+    return response;
+    } catch (error) {
+        throw new Error('Failed to delete operator');
+    }
+}

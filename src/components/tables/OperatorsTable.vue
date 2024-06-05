@@ -2,10 +2,13 @@
 import { ref } from 'vue';
 
 import AddOperatorForm from '@/components/modals/AddOperatorForm.vue';
+import { useOperatorsStore } from '@/stores/operatorsStore';
 import {
   Delete,
   Edit,
 } from '@element-plus/icons-vue';
+
+const operatorsStore = useOperatorsStore();
 
 const operatorsProps = defineProps({
     operators: {
@@ -24,7 +27,7 @@ const editOperator = (operator) => {
 };
 
 const deleteOperator = (operator) => {
-    console.log('Удалить оператора:', operator);
+    operatorsStore.deleteOperator(operator);
 };
 </script>
 

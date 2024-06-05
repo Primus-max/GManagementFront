@@ -2,9 +2,11 @@ import { defineStore } from 'pinia';
 
 import {
   addOperatorAtBase,
+  deleteOperatorAtBase,
   getOperators,
   updateOperatorAtBase,
 } from '@/services/api/operators';
+import MessageService from '@/services/infoMessageService.js';
 
 export const useOperatorsStore = defineStore('operatorsStore', {
   state: () => ({
@@ -16,18 +18,35 @@ export const useOperatorsStore = defineStore('operatorsStore', {
     },
    async addOperator(operator) {
       const operatorId = await addOperatorAtBase(operator);
+      if (operatorId === -1){
+        MessageService.error("Не удалось добавить оператора");
+        return;
+      } 
+      MessageService.success(`Оператор ${operator.name} успешно добавлен в базу`);
       operator.id = operatorId;
       this.operators.push(operator);
     },
     async updateOperator(updatedOperator) {
       const index = this.operators.findIndex(op => op.id === updatedOperator.id);
       if (index !== -1) {
-        await updateOperatorAtBase(updatedOperator);
+       const response = await updateOperatorAtBase(updatedOperator);
+       if (response.status !== 200)  {
+        MessageService.error(response.statusText);
+        return;
+      }
+      MessageService.success(`Данные оператора ${updatedOperator.name} успешно обновлены`);
         this.operators[index] = updatedOperator;
       }
     },
-    deleteOperator(operatorId) {
-      this.operators = this.operators.filter(op => op.id !== operatorId);
+
+   async deleteOperator(operator) {
+     const response = await deleteOperatorAtBase(operator.id);
+      if (response.status !== 200)  {
+        MessageService.error(response.statusText);
+        return;
+      }
+      MessageService.success(`Оператор ${operator.name} успешно удален`);
+      this.operators = this.operators.filter(op => op.id !== operator.id);
     },
   },
 });
