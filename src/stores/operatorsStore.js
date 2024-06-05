@@ -1,6 +1,9 @@
 import { defineStore } from 'pinia';
 
-import { getOperators } from '@/services/api/operators';
+import {
+  addOperator,
+  getOperators,
+} from '@/services/api/operators';
 
 export const useOperatorsStore = defineStore('operatorsStore', {
   state: () => ({
@@ -10,7 +13,9 @@ export const useOperatorsStore = defineStore('operatorsStore', {
     async fetchOperators() {
       this.operators = await getOperators();
     },
-    addOperator(operator) {
+   async addOperator(operator) {
+      const operatorId = await addOperator(operator);
+      operator.id = operatorId;
       this.operators.push(operator);
     },
     updateOperator(updatedOperator) {

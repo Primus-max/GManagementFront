@@ -1,4 +1,4 @@
-class Operator {
+ class Operator {
     constructor(data) {
       this.id = data.id;
       this.name = data.name;
@@ -8,3 +8,5 @@ class Operator {
       this.balance = data.balance;
     }
   }
+
+  export default Operator;

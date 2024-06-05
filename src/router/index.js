@@ -61,8 +61,6 @@ const router = createRouter({
   routes,
 });
 
-
-
 // Глобальный guard для проверки авторизации
 router.beforeEach((to, from, next) => {
   
