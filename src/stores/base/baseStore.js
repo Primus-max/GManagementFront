@@ -5,6 +5,7 @@ import {
   addItem,
   deleteItem,
   getAll,
+  getById,
   updateItem,
 } from '@/services/api/base/baseRepository';
 import MessageService from '@/services/infoMessageService';
@@ -17,6 +18,9 @@ export const createStore = (storeName, endpoint) => {
     actions: {
       async fetchItems() {
         this.items = await getAll(endpoint);
+      },
+      async getElementById(itemId) {
+        return await getById(endpoint, itemId);
       },
       async addItem(item) {
         const itemId = await addItem(endpoint, item);

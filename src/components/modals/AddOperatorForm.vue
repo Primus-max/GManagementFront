@@ -1,6 +1,7 @@
 <script setup>
 import {
   computed,
+  nextTick,
   onMounted,
   ref,
   watch,
@@ -45,12 +46,29 @@ const resetForm = () => {
   form.value = { ...initialFormData };
 };
 
+const groups = computed(() => groupsStore.items);
+const getGroupName = (groupId) => {    
+  const group = groups.value.find(group => group.id === groupId);
+  return group ? group.name : '';
+};
+
 // Обновление формы в зависимости от режима редактирования/добавления
 watch(
   () => props.operator,
   (newOperator) => {
     if (props.isEditing && newOperator) {
+      const groupName = getGroupName(newOperator.groupId);
+      if (groupName) {
+        form.value.groupName = groupName;
+      } else {
+        form.value.groupName = '';
+      }
       form.value = { ...newOperator };
+
+      // Обновление el-select после изменения form.groupName
+      nextTick(() => {
+          form.value.groupName = groupName;
+      });
     } else {
       resetForm();
     }
@@ -58,34 +76,46 @@ watch(
   { immediate: true }
 );
 
+
 const cancelForm = () => {
   resetForm();
   emits('close');
 };
 
 const submitForm = async () => {
-  if(form.value?.groupName === '') {
+  if (!form.value?.groupName) {
     MessageService.warning('Выберите группу для оператора');
     return;
   }
+  
   loading.value = true;
   try {
-    if (props.isEditing) {
-      await operatorsStore.updateItem({ ...form.value });      
-    } else {
-      const newOperator = new Operator({ ...form.value });
-      newOperator.groupId = groups.value?.find(group => group.name === form.value?.groupName).id;
-      await operatorsStore.addItem(newOperator);      
+    // Найти группу по имени
+    const selectedGroup = groups.value?.find(group => group.name === form.value.groupName);
+    if (!selectedGroup) {
+      throw new Error('Группа не найдена');
     }
+    
+    // Создать объект оператора и установить groupId
+    const operatorData = {
+      ...form.value,
+      groupId: selectedGroup.id,
+    };
+
+    if (props.isEditing) {
+      await operatorsStore.updateItem(operatorData);
+    } else {
+      await operatorsStore.addItem(new Operator(operatorData));
+    }
+    
     cancelForm();
   } catch (error) {
     console.error('Failed to submit form', error);
+    MessageService.error('Не удалось отправить форму');
   } finally {
     loading.value = false;
   }
 };
-
-const groups = computed(() => groupsStore.items);
 
 const addGroup = () => {  
   const newGroupName = document.getElementById('select').value;
@@ -121,7 +151,7 @@ const deleteGroup = () => {
     </el-form-item>
 
     <el-form-item label="Группа" :label-width="formLabelWidth">
-      <el-select v-model="form.groupName"  placeholder="Выберите группу или создайте новую"  id="select"
+      <el-select v-model="form.groupName"   id="select"
         filterable  :reserve-keyword="false" allow-create :clearable="true">
         <el-option v-for="group in groups" :key="group.id" :label="group.name" :value="group.name" />
         <template #footer>

@@ -8,6 +8,15 @@ export const getAll = async (endpoint) => {
       throw new Error(`Failed to fetch data from ${endpoint}`);
     }
   };
+
+  export const getById = async (endpoint, itemId) => {
+    try {
+      const response = await apiClient.get(`${endpoint}/${itemId}`);
+      return response.data;
+    } catch (error) {
+      throw new Error(`Failed to fetch item from ${endpoint}`);
+    }
+  };
   
   export const addItem = async (endpoint, item) => {
     try {
