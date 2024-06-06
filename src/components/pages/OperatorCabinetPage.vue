@@ -21,6 +21,7 @@ const dialogVisible = ref(false);
 
 const dialogTableVisible = ref(false)
 const dialogFormVisible = ref(false)
+const selectedGirls = ref([]);
 const formLabelWidth = '140px'
 
 // Пример данных заказов
@@ -300,35 +301,41 @@ const gridData = [
 
 
 const girls = ref([
-    { id: 1, name: 'Анна' },
-    { id: 2, name: 'Мария' },
-    { id: 3, name: 'Екатерина' },
+    { id: 1, name: 'Анна', tg: '@anna' },
+    { id: 2, name: 'Мария', tg: '@maria' },
+    { id: 4, name: 'Екатерина', tg: '@ekaterina' },
+    { id: 5, name: 'Оксана', tg: '@oksana' },
+    { id: 6, name: 'Марина', tg: '@marina' },
     // Другие девушки...
 ]);
 
 
 const options = [
-  {
-    value: 'Option1',
-    label: 'Label1',
-  },
-  {
-    value: 'Option2',
-    label: 'Label2',
-  },
-  {
-    value: 'Option3',
-    label: 'Label3',
-  },
-  {
-    value: 'Option4',
-    label: 'Label4',
-  },
-  {
-    value: 'Option5',
-    label: 'Label5',
-  },
+    {
+        value: 'Option1',
+        label: 'Label1',
+    },
+    {
+        value: 'Option2',
+        label: 'Label2',
+    },
+    {
+        value: 'Option3',
+        label: 'Label3',
+    },
+    {
+        value: 'Option4',
+        label: 'Label4',
+    },
+    {
+        value: 'Option5',
+        label: 'Label5',
+    },
 ]
+
+const girlLabelSelect = (girl) => {
+    return girl.name + " " + girl.tg;
+}
 
 const handleClose = () => {
     dialogVisible.value = false;
@@ -339,32 +346,42 @@ const handleClose = () => {
 <template>
     <div class="page operator-page">
 
+        <div class="left-cards">
+            <el-card class="summary">
+                <div class="summary-wrapper">
+                    <div class="summary-item"><b> За смену </b>: {{ balance }} ₽</div>
+                    <div class="summary-item">Безнал: {{ balance }} ₽</div>
+                    <div class="summary-item">Моя З/П: {{ balance }} ₽</div>
+                    <div class="summary-item">Split З/П: {{ balance }} ₽</div>
+                </div>
+            </el-card>
 
-        <el-card class="summary">
-            <div class="summary-wrapper">
-                <div class="summary-item"><b> За смену </b>: {{ balance }} ₽</div>
-                <div class="summary-item">Безнал: {{ balance }} ₽</div>
-                <div class="summary-item">Моя З/П: {{ balance }} ₽</div>
-                <div class="summary-item">Split З/П: {{ balance }} ₽</div>
-            </div>
-        </el-card>
+            <el-card class="girls-in-shift">
+                <div class="girls-in-shift-wrapper">
+                    <div class="girls-select">
+                        <el-select v-model="selectedGirls" placeholder="Выбрать девушек в смену" style="width: 240px" clearable multiple>
+                            <template #label="{ label, value }">
+                                <span>{{ label }}: </span>
+                                <span style="font-weight: bold">{{ value }}</span>
+                            </template>
+                            <el-option v-for="girl in girls" :key="girl.id" :label="girlLabelSelect(girl)"
+                                :value="girl.id" />
+                        </el-select>
+                    </div>
+                </div>
+            </el-card>
+        </div>
 
         <div class="page-wrapper">
             <el-card>
                 <!-- Header -->
-                <header class="page-header ">
+                <header class="page-header">
 
                     <el-button type="primary" @click="dialogVisible = true">
                         <i class="el-icon-plus"></i> Создать заказ
-                    </el-button>
-
-                    <div class="girls-select">
-                        <el-select v-model="selectedGirls" placeholder="Выберите девушек" style="width: 240px" clearable multiple>
-    <template #label="{ name }">
-        <span>{{ name }}</span>
-    </template>
-    <el-option v-for="girl in girls" :key="girl.id" :label="girl.name" :value="girl.id" />
-</el-select>
+                    </el-button>                   
+                    <div>
+                        <el-button type="primary" @click="dialogVisible = true"> Начать смену</el-button>
 
                     </div>
 
@@ -418,6 +435,12 @@ const handleClose = () => {
     justify-content: flex-end;
 }
 
+.left-cards {
+    width: 280px;
+    display: flex;
+    flex-direction: column;  
+}
+
 .summary {
     margin-top: 20px;
     min-height: 240px;
@@ -436,9 +459,25 @@ const handleClose = () => {
     align-items: flex-start;
 }
 
+.girls-in-shift{
+    margin-top: 20px;
+    height: auto;
+    max-height: 240px;
+    max-width: 270px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .page-header {
     width: auto;
     padding-top: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    border-bottom: 1px solid #e0e0e0;
+    align-items: center;
 }
 
 .balance {
@@ -462,6 +501,8 @@ const handleClose = () => {
 
 .girls-select {
     width: 18%;
+
+
 }
 
 /* .shift-time {
