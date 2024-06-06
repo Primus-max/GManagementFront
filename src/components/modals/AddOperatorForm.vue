@@ -15,6 +15,10 @@ const props = defineProps({
     type: Object,
     default: null,
   },
+  groups: {
+    type: Array,
+    required: true,
+  },
   isEditing: {
     type: Boolean,
     required: true,
@@ -24,12 +28,13 @@ const props = defineProps({
 const form = ref({});
 const formLabelWidth = '100px';
 const loading = ref(false);
+const groups = ref(props.groups);
 
 const initialFormData = {
   name: '',
   login: '',
   password: '',
-  groupId: 0,
+  groupId: null,
 };
 
 // Инициализация формы
@@ -50,10 +55,7 @@ watch(
   { immediate: true }
 );
 
-const groups = ref([
-  { value: 4, label: 'Group 1' },
-  { value: 2, label: 'Group 2' },
-]);
+
 
 const cancelForm = () => {
   resetForm();
@@ -94,7 +96,7 @@ const submitForm = async () => {
 
     <el-form-item label="Группа" :label-width="formLabelWidth">
       <el-select v-model="form.groupId" placeholder="Выберите группу">
-        <el-option v-for="group in groups" :key="group.value" :label="group.label" :value="group.value" />
+        <el-option v-for="group in groups" :key="group.id" :label="group.name" :value="group.id" />
       </el-select>
     </el-form-item>
 

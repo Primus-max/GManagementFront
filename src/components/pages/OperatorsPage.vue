@@ -11,14 +11,17 @@ import AddOperatorForm from '@/components/modals/AddOperatorForm.vue';
 import SearchStatistics from '@/components/services/SearchStatistics.vue';
 import OperatorsStatistics from '@/components/tables/OperatorsStatistics.vue';
 import OperatorsTable from '@/components/tables/OperatorsTable.vue';
+import { useGroupsStore } from '@/stores/groupsStore';
 import { useOperatorsStore } from '@/stores/operatorsStore';
 
 const operatorsStore = useOperatorsStore();
+const groupsStore = useGroupsStore();
 const activeTab = ref('statistics');
 const dialogVisible = ref(false);
 
 onMounted(async () => {
   await operatorsStore.fetchItems();
+  await groupsStore.fetchItems();
 });
 
 // const deleteOperator = (operatorId) => {
@@ -27,6 +30,7 @@ onMounted(async () => {
 // };
 
 const operators = computed(() => operatorsStore.items);
+const groups = computed(() => groupsStore.items);
 </script>
 
 <template>
@@ -53,7 +57,7 @@ const operators = computed(() => operatorsStore.items);
     </div>
   </div>
   <el-drawer v-model="dialogVisible" title="Добавить оператора" :before-close="handleClose" direction="ltr">
-    <AddOperatorForm @close="dialogVisible = false"  :isEditing="false" />
+    <AddOperatorForm @close="dialogVisible = false"  :isEditing="false" :groups="groups"/>
   </el-drawer>
 </template>
 
