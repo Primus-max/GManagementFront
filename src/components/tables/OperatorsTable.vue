@@ -4,6 +4,7 @@ import {
   onMounted,
   ref,
   watch,
+  watchEffect,
 } from 'vue';
 
 import AddOperatorForm from '@/components/modals/AddOperatorForm.vue';
@@ -36,6 +37,10 @@ onMounted(async () => {
     console.error('Failed to fetch groups:', error);
   }
 });
+
+watchEffect(() => {
+      groups.value = groupsStore.items;
+    });
 
 const getGroupName = (groupId) => {    
   const group = groups.value.find(group => group.id === groupId);

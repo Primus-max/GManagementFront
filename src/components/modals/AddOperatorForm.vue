@@ -123,7 +123,7 @@ const addGroup = () => {
     groupsStore.addItem({ name: newGroupName });
     MessageService.success(`Группа ${newGroupName} успешно добавлена`);
     form.value.groupName = newGroupName;
-  } else if (groupsStore.groups.find(group => group.name === newGroupName)) {
+  } else if (groupsStore.items.find(group => group.name === newGroupName)) {
     MessageService.error('Группа с таким именем уже существует');
   }
 };
@@ -151,7 +151,7 @@ const deleteGroup = () => {
     </el-form-item>
 
     <el-form-item label="Группа" :label-width="formLabelWidth">
-      <el-select v-model="form.groupName"   id="select"
+      <el-select v-model="form.groupName"   id="select" placeholder="Выбрать"
         filterable  :reserve-keyword="false" allow-create :clearable="true">
         <el-option v-for="group in groups" :key="group.id" :label="group.name" :value="group.name" />
         <template #footer>
