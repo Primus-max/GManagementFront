@@ -7,6 +7,7 @@ import {
   getAll,
   updateItem,
 } from '@/services/api/base/baseRepository';
+import MessageService from '@/services/infoMessageService';
 
 export const createStore = (storeName, endpoint) => {
   return defineStore(storeName, {
@@ -20,10 +21,10 @@ export const createStore = (storeName, endpoint) => {
       async addItem(item) {
         const itemId = await addItem(endpoint, item);
         if (itemId === -1) {
-          MessageService.error(`Не удалось добавить элемент в ${endpoint}`);
+          MessageService.error(`Не удалось добавить элемент`);
           return;
         }
-        MessageService.success(`Элемент успешно добавлен в ${endpoint}`);
+        MessageService.success(`Данный успешно добавлены`);
         item.id = itemId;
         this.items.push(item);
       },
@@ -35,7 +36,7 @@ export const createStore = (storeName, endpoint) => {
             MessageService.error(response.statusText);
             return;
           }
-          MessageService.success(`Данные элемента успешно обновлены в ${endpoint}`);
+          MessageService.success(`Данные успешно обновлены`);
           this.items[index] = updatedItem;
         }
       },
@@ -45,7 +46,7 @@ export const createStore = (storeName, endpoint) => {
           MessageService.error(response.statusText);
           return;
         }
-        MessageService.success(`Элемент успешно удален из ${endpoint}`);
+        MessageService.success(`Элемент успешно удален`);
         this.items = this.items.filter(i => i.id !== item.id);
       }
     }

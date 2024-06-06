@@ -64,10 +64,10 @@ const submitForm = async () => {
   loading.value = true;
   try {
     if (props.isEditing) {
-      await operatorsStore.updateOperator( { ...form.value });
+      await operatorsStore.updateItem( { ...form.value });
     } else {
       const newOperator = new Operator({ ...form.value });
-      await operatorsStore.addOperator(newOperator);
+      await operatorsStore.addItem(newOperator);
     }
     cancelForm();
   } catch (error) {

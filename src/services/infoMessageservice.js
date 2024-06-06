@@ -1,6 +1,6 @@
 import { ElMessage } from 'element-plus';
 
-export default {
+const MessageService = {
   info(message) {
     ElMessage.info(message);
   },
@@ -14,3 +14,5 @@ export default {
     ElMessage.error(message);
   }
 };
+
+export default MessageService;

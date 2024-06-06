@@ -21,10 +21,10 @@ onMounted(async () => {
   await operatorsStore.fetchItems();
 });
 
-const deleteOperator = (operatorId) => {
-  operatorsStore.deleteOperator(operatorId);
-  console.log('Удалить оператора:', operatorId);
-};
+// const deleteOperator = (operatorId) => {
+//   operatorsStore.deleteOperator(operatorId);
+//   console.log('Удалить оператора:', operatorId);
+// };
 
 const operators = computed(() => operatorsStore.items);
 </script>
@@ -45,7 +45,7 @@ const operators = computed(() => operatorsStore.items);
               <el-button type="primary" @click="dialogVisible = true">
                 <i class="el-icon-plus"></i> Добавить оператора
               </el-button>
-              <OperatorsTable :operators="operators"  @deleteOperator="deleteOperator" />
+              <OperatorsTable :operators="operators"  />
             </div>
           </el-tab-pane>
         </el-tabs>

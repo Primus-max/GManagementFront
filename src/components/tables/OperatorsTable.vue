@@ -27,7 +27,7 @@ const editOperator = (operator) => {
 };
 
 const deleteOperator = (operator) => {
-    operatorsStore.deleteOperator(operator);
+    operatorsStore.deleteItem(operator);
 };
 </script>
 
