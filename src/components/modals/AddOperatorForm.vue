@@ -65,6 +65,10 @@ const cancelForm = () => {
 };
 
 const submitForm = async () => {
+  if(form.value.groupName === '') {
+    MessageService.warning('Выберите группу для оператора');
+    return;
+  }
   loading.value = true;
   try {
     if (props.isEditing) {
@@ -94,7 +98,8 @@ const addGroup = () => {
 };
 
 const deleteGroup = () => {
-  groupsStore.deleteItem(form.value);
+  const group = groups.value.find(group => group.name === form.value.groupName);
+  groupsStore.deleteItem(group);
 };
 
 </script>
