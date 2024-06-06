@@ -1,9 +1,9 @@
 <script setup>
 import {
+  computed,
   onMounted,
   ref,
   watch,
-  computed
 } from 'vue';
 
 import Operator from '@/models/Operator';
@@ -22,14 +22,14 @@ const props = defineProps({
   operator: {
     type: Object,
     default: null,
-  }, 
+  },
   isEditing: {
     type: Boolean,
     required: true,
   }
 });
 
-onMounted(async () => {  
+onMounted(async () => {
   await groupsStore.fetchItems();
 });
 
@@ -37,7 +37,7 @@ const initialFormData = {
   name: '',
   login: '',
   password: '',
-  groupId: null,
+  id: null,
 };
 
 // Инициализация формы
@@ -58,8 +58,6 @@ watch(
   { immediate: true }
 );
 
-
-
 const cancelForm = () => {
   resetForm();
   emits('close');
@@ -69,7 +67,7 @@ const submitForm = async () => {
   loading.value = true;
   try {
     if (props.isEditing) {
-      await operatorsStore.updateItem( { ...form.value });
+      await operatorsStore.updateItem({ ...form.value });
     } else {
       const newOperator = new Operator({ ...form.value });
       await operatorsStore.addItem(newOperator);
@@ -83,6 +81,11 @@ const submitForm = async () => {
 };
 
 const groups = computed(() => groupsStore.items);
+
+const deleteGroup = () => {
+  console.log(form.value.groupId);
+  groupsStore.deleteItem(form.value);  
+};
 
 </script>
 
@@ -101,11 +104,13 @@ const groups = computed(() => groupsStore.items);
     </el-form-item>
 
     <el-form-item label="Группа" :label-width="formLabelWidth">
-      <el-select v-model="form.groupId" placeholder="Выберите группу или создайте новую"
-        filterable
-        allow-create
+      <el-select v-model="form.id" placeholder="Выберите группу или создайте новую" filterable allow-create
         @create="addGroup">
         <el-option v-for="group in groups" :key="group.id" :label="group.name" :value="group.id" />
+        <template #footer>
+          <el-button type="danger" v-if="groups.length > 0" @click="deleteGroup" text bg
+            size="small">Удалить</el-button>
+        </template>
       </el-select>
     </el-form-item>
 
