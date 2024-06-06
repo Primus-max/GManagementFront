@@ -18,7 +18,7 @@ const activeTab = ref('statistics');
 const dialogVisible = ref(false);
 
 onMounted(async () => {
-  await operatorsStore.fetchOperators();
+  await operatorsStore.fetchItems();
 });
 
 const deleteOperator = (operatorId) => {
@@ -26,7 +26,7 @@ const deleteOperator = (operatorId) => {
   console.log('Удалить оператора:', operatorId);
 };
 
-const operators = computed(() => operatorsStore.operators);
+const operators = computed(() => operatorsStore.items);
 </script>
 
 <template>
