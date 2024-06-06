@@ -6,7 +6,7 @@ class Operator {
     this.login = data.login;
     this.password = data.password;
     this.groupId = data.groupId;
-    this.balance = data.balance;
+    this.balance = data.balance || 0;
   }
 }
 

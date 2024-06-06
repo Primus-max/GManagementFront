@@ -24,7 +24,7 @@ export const createStore = (storeName, endpoint) => {
           MessageService.error(`Не удалось добавить элемент`);
           return;
         }
-        MessageService.success(`Данный успешно добавлены`);
+        MessageService.success(`Данные успешно добавлены`);
         item.id = itemId;
         this.items.push(item);
       },

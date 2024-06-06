@@ -52,8 +52,7 @@ const deleteOperator = (operator) => {
     <el-drawer v-model="dialogVisible" title="Редактировать оператора" direction="ltr">
         <AddOperatorForm @close="dialogVisible = false" :operator="editingOperator" :isEditing="true" />
     </el-drawer>
-
-
+    
 </template>
 
 <style lang="css" scoped>

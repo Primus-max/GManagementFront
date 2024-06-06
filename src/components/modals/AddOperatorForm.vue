@@ -36,8 +36,7 @@ onMounted(async () => {
 const initialFormData = {
   name: '',
   login: '',
-  password: '',
-  id: null,
+  password: '',  
   groupName: ''
 };
 
@@ -65,17 +64,18 @@ const cancelForm = () => {
 };
 
 const submitForm = async () => {
-  if(form.value.groupName === '') {
+  if(form.value?.groupName === '') {
     MessageService.warning('Выберите группу для оператора');
     return;
   }
   loading.value = true;
   try {
     if (props.isEditing) {
-      await operatorsStore.updateItem({ ...form.value });
+      await operatorsStore.updateItem({ ...form.value });      
     } else {
       const newOperator = new Operator({ ...form.value });
-      await operatorsStore.addItem(newOperator);
+      newOperator.groupId = groups.value?.find(group => group.name === form.value?.groupName).id;
+      await operatorsStore.addItem(newOperator);      
     }
     cancelForm();
   } catch (error) {
@@ -92,6 +92,7 @@ const addGroup = () => {
   if (newGroupName && !groups.value?.find(group => group.name === newGroupName)) {
     groupsStore.addItem({ name: newGroupName });
     MessageService.success(`Группа ${newGroupName} успешно добавлена`);
+    form.value.groupName = newGroupName;
   } else if (groupsStore.groups.find(group => group.name === newGroupName)) {
     MessageService.error('Группа с таким именем уже существует');
   }
@@ -100,6 +101,7 @@ const addGroup = () => {
 const deleteGroup = () => {
   const group = groups.value.find(group => group.name === form.value.groupName);
   groupsStore.deleteItem(group);
+  document.getElementById('select').value = '';
 };
 
 </script>

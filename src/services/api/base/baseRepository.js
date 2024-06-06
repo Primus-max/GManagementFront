@@ -14,7 +14,7 @@ export const getAll = async (endpoint) => {
       const response = await apiClient.post(endpoint, item);
       return response.data;
     } catch (error) {
-      throw new Error(`Failed to add item to ${endpoint}`);
+      throw new Error(`Failed to add item to ${endpoint}`,error);
     }
   };
   
@@ -32,6 +32,6 @@ export const getAll = async (endpoint) => {
       const response = await apiClient.delete(`${endpoint}/${itemId}`);
       return response;
     } catch (error) {
-      throw new Error(`Failed to delete item from ${endpoint}`);
+      throw new Error(`Failed to delete item from ${endpoint}`, error);
     }
   };
