@@ -1,34 +1,37 @@
 <script setup>
 import {
+  onMounted,
   ref,
   watch,
+  computed
 } from 'vue';
 
 import Operator from '@/models/Operator';
+import { useGroupsStore } from '@/stores/groupsStore';
 import { useOperatorsStore } from '@/stores/operatorsStore';
 
 const emits = defineEmits(['close']);
 const operatorsStore = useOperatorsStore();
+const groupsStore = useGroupsStore();
+const form = ref({});
+const formLabelWidth = '100px';
+const loading = ref(false);
+
 
 const props = defineProps({
   operator: {
     type: Object,
     default: null,
-  },
-  groups: {
-    type: Array,
-    required: true,
-  },
+  }, 
   isEditing: {
     type: Boolean,
     required: true,
   }
 });
 
-const form = ref({});
-const formLabelWidth = '100px';
-const loading = ref(false);
-const groups = ref(props.groups);
+onMounted(async () => {  
+  await groupsStore.fetchItems();
+});
 
 const initialFormData = {
   name: '',
@@ -78,6 +81,9 @@ const submitForm = async () => {
     loading.value = false;
   }
 };
+
+const groups = computed(() => groupsStore.items);
+
 </script>
 
 <template>
@@ -95,7 +101,10 @@ const submitForm = async () => {
     </el-form-item>
 
     <el-form-item label="Группа" :label-width="formLabelWidth">
-      <el-select v-model="form.groupId" placeholder="Выберите группу">
+      <el-select v-model="form.groupId" placeholder="Выберите группу или создайте новую"
+        filterable
+        allow-create
+        @create="addGroup">
         <el-option v-for="group in groups" :key="group.id" :label="group.name" :value="group.id" />
       </el-select>
     </el-form-item>
