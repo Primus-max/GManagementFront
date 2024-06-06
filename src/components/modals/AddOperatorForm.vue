@@ -7,6 +7,7 @@ import {
 } from 'vue';
 
 import Operator from '@/models/Operator';
+import MessageService from '@/services/infoMessageService';
 import { useGroupsStore } from '@/stores/groupsStore';
 import { useOperatorsStore } from '@/stores/operatorsStore';
 
@@ -16,7 +17,6 @@ const groupsStore = useGroupsStore();
 const form = ref({});
 const formLabelWidth = '100px';
 const loading = ref(false);
-
 
 const props = defineProps({
   operator: {
@@ -38,6 +38,7 @@ const initialFormData = {
   login: '',
   password: '',
   id: null,
+  groupName: ''
 };
 
 // Инициализация формы
@@ -82,9 +83,18 @@ const submitForm = async () => {
 
 const groups = computed(() => groupsStore.items);
 
+const addGroup = () => {  
+  const newGroupName = document.getElementById('select').value;
+  if (newGroupName && !groups.value?.find(group => group.name === newGroupName)) {
+    groupsStore.addItem({ name: newGroupName });
+    MessageService.success(`Группа ${newGroupName} успешно добавлена`);
+  } else if (groupsStore.groups.find(group => group.name === newGroupName)) {
+    MessageService.error('Группа с таким именем уже существует');
+  }
+};
+
 const deleteGroup = () => {
-  console.log(form.value.groupId);
-  groupsStore.deleteItem(form.value);  
+  groupsStore.deleteItem(form.value);
 };
 
 </script>
@@ -104,12 +114,13 @@ const deleteGroup = () => {
     </el-form-item>
 
     <el-form-item label="Группа" :label-width="formLabelWidth">
-      <el-select v-model="form.id" placeholder="Выберите группу или создайте новую" filterable allow-create
-        @create="addGroup">
-        <el-option v-for="group in groups" :key="group.id" :label="group.name" :value="group.id" />
+      <el-select v-model="form.groupName"  placeholder="Выберите группу или создайте новую"  id="select"
+        filterable  :reserve-keyword="false" allow-create :clearable="true">
+        <el-option v-for="group in groups" :key="group.id" :label="group.name" :value="group.name" />
         <template #footer>
           <el-button type="danger" v-if="groups.length > 0" @click="deleteGroup" text bg
             size="small">Удалить</el-button>
+          <el-button type="primary" @click="addGroup" text bg size="small">Добавить</el-button>
         </template>
       </el-select>
     </el-form-item>
