@@ -1,4 +1,4 @@
-class Girl {
+ class Girl {
     constructor(data) {
       this.id = data.id;
       this.groupId = data.groupId;
@@ -7,3 +7,5 @@ class Girl {
       this.TGAcc = data.TGAcc;
     }
   }
+
+  export default Girl

@@ -1,5 +1,9 @@
 <script setup>
-import { ref } from 'vue';
+import {
+  computed,
+  onMounted,
+  ref,
+} from 'vue';
 
 import { ElDrawer } from 'element-plus';
 
@@ -7,31 +11,19 @@ import AddGirlForm from '@/components/modals/AddGirlForm.vue';
 import SearchStatistics from '@/components/services/SearchStatistics.vue';
 import GirlsStatistics from '@/components/tables/GirlsStatistics.vue';
 import GirlsTable from '@/components/tables/GirlsTable.vue';
+import { useGirlsStore } from '@/stores/girlsStore';
 
+const girlsStore = useGirlsStore();
 const activeTab = ref('statistics');
 const dialogVisible = ref(false);
 
-const girls = ref([
-  { id: 1, username: 'Girl1', group_id: 'Group1', balance: 100 },
-  { id: 2, username: 'Girl2', group_id: 'Group2', balance: 200 }
-]);
+onMounted(async () => {
+  await girlsStore.fetchItems();
+});
 
-const statistics = ref([
-  { id: 1, username: 'Girl1', totalOrders: 120, totalAmount: 1200 },
-  { id: 2, username: 'Girl2', totalOrders: 180, totalAmount: 1800 }
-]);
+const girls = computed(() => girlsStore.items);
 
-const handleClose = () => {
-  dialogVisible.value = false;
-};
-
-const editGirl = (girl) => {
-  console.log('Редактировать девушку:', girl);
-};
-
-const deleteGirl = (girl) => {
-  console.log('Удалить девушку:', girl);
-};
+console.log(girls.value);
 </script>
 
 <template>
@@ -41,7 +33,7 @@ const deleteGirl = (girl) => {
       <el-tabs v-model="activeTab" tab-position="left" >
         <el-tab-pane label="Статистика" name="statistics">
           <div class="search-header-wrapper">
-            <SearchStatistics searchType="girls" :names="girls.map(girl => girl.username)" />
+            <SearchStatistics searchType="girls" :names="girls.map(girl => girl.name)" />
             </div>
             <GirlsStatistics :statistics="statistics" />
           
@@ -52,9 +44,9 @@ const deleteGirl = (girl) => {
               <i class="el-icon-plus"></i> Добавить девушку
             </el-button>
             <el-drawer v-model="dialogVisible" title="Добавить девушку" :before-close="handleClose" direction="ltr">
-              <AddGirlForm @close="dialogVisible = false" />
+              <AddGirlForm @close="dialogVisible = false" :isEditing="false"/>
             </el-drawer>
-            <GirlsTable :girls="girls" @editGirl="editGirl" @deleteGirl="deleteGirl" />
+            <GirlsTable :girls="girls"  />
           </div>
         </el-tab-pane>        
       </el-tabs>

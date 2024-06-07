@@ -14,18 +14,12 @@ import OperatorsTable from '@/components/tables/OperatorsTable.vue';
 import { useOperatorsStore } from '@/stores/operatorsStore';
 
 const operatorsStore = useOperatorsStore();
-
 const activeTab = ref('statistics');
 const dialogVisible = ref(false);
 
 onMounted(async () => {
   await operatorsStore.fetchItems();  
 });
-
-// const deleteOperator = (operatorId) => {
-//   operatorsStore.deleteOperator(operatorId);
-//   console.log('Удалить оператора:', operatorId);
-// };
 
 const operators = computed(() => operatorsStore.items);
 

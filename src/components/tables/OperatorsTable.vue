@@ -10,6 +10,7 @@ import {
 import AddOperatorForm from '@/components/modals/AddOperatorForm.vue';
 import { useGroupsStore } from '@/stores/groupsStore';
 import { useOperatorsStore } from '@/stores/operatorsStore';
+import { getGroupName } from '@/utils/getters';
 import {
   Delete,
   Edit,
@@ -42,10 +43,10 @@ watchEffect(() => {
       groups.value = groupsStore.items;
     });
 
-const getGroupName = (groupId) => {    
-  const group = groups.value.find(group => group.id === groupId);
-  return group ? group.name : '';
-};
+// const getGroupName = (groupId) => {    
+//   const group = groups.value.find(group => group.id === groupId);
+//   return group ? group.name : '';
+// };
 
 const editOperator = (operator) => {
   dialogVisible.value = true;
@@ -65,7 +66,7 @@ const deleteOperator = (operator) => {
       <el-table-column prop="login" label="Логин"></el-table-column>
       <el-table-column label="Группа">
         <template #default="{ row }">
-          {{ row.groupId ? getGroupName(row.groupId) : '' }}
+          {{ row.groupId ? getGroupName(row.groupId, groups) : '' }}
         </template>
       </el-table-column>
       <el-table-column prop="balance" label="Баланс"></el-table-column>

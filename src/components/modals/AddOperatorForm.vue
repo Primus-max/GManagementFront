@@ -11,6 +11,7 @@ import Operator from '@/models/Operator';
 import MessageService from '@/services/infoMessageService';
 import { useGroupsStore } from '@/stores/groupsStore';
 import { useOperatorsStore } from '@/stores/operatorsStore';
+import { getGroupName } from '@/utils/getters';
 
 const emits = defineEmits(['close']);
 const operatorsStore = useOperatorsStore();
@@ -40,24 +41,24 @@ const initialFormData = {
   password: '',  
   groupName: ''
 };
-
+const groups = computed(() => groupsStore.items);
 // Инициализация формы
 const resetForm = () => {
   form.value = { ...initialFormData };
 };
 
-const groups = computed(() => groupsStore.items);
-const getGroupName = (groupId) => {    
-  const group = groups.value.find(group => group.id === groupId);
-  return group ? group.name : '';
-};
+
+// const getGroupName = (groupId) => {    
+//   const group = groups.value.find(group => group.id === groupId);
+//   return group ? group.name : '';
+// };
 
 // Обновление формы в зависимости от режима редактирования/добавления
 watch(
   () => props.operator,
   (newOperator) => {
     if (props.isEditing && newOperator) {
-      const groupName = getGroupName(newOperator.groupId);
+      const groupName = getGroupName(newOperator.groupId, groups.value);
       if (groupName) {
         form.value.groupName = groupName;
       } else {
@@ -172,9 +173,5 @@ const deleteGroup = () => {
 </template>
 
 <style scoped>
-.drawer__footer {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
-}
+@import '@/assets/styles/redefine.css';
 </style>
