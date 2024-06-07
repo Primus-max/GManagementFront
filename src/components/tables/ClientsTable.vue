@@ -3,6 +3,10 @@ import { ref } from 'vue';
 
 import AddClientForm from '@/components/modals/AddClientForm.vue';
 import { useClientsStore } from '@/stores/clientsStore';
+import {
+  Delete,
+  Edit,
+} from '@element-plus/icons-vue';
 
 const clientsStore = useClientsStore();
 const dialogVisible = ref(false);
@@ -14,6 +18,15 @@ const props = defineProps({
     required: true
   }
 });
+
+const editClient = (client) => {
+  editingClient.value = client;
+  dialogVisible.value = true;
+};
+
+const deleteClient = async (client) => {
+ await clientsStore.deleteItem(client);
+};
 </script>
 
 <template>
@@ -24,6 +37,12 @@ const props = defineProps({
     <el-table-column prop="tg" label="TG"></el-table-column>
     <el-table-column prop="phone" label="Телефон"></el-table-column>
     <!-- <el-table-column prop="bonus" label="Бонусы"></el-table-column> -->
+    <el-table-column label="Действия" width="120">
+        <template #default="{ row }">
+          <el-button type="text" class="control-button" :icon="Edit" @click="editClient(row)"></el-button>
+          <el-button type="text" class="control-button" :icon="Delete" @click="deleteClient(row)"></el-button>
+        </template>
+      </el-table-column>
   </el-table>
 
   <el-drawer v-model="dialogVisible" title="Редактировать клиента" direction="ltr">

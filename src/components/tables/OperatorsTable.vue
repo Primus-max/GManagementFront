@@ -18,6 +18,10 @@ import {
 
 const operatorsStore = useOperatorsStore();
 const groupsStore = useGroupsStore();
+const dialogVisible = ref(false);
+const editingOperator = ref(null);
+const groups = ref([]);
+
 
 const operatorsProps = defineProps({
   operators: {
@@ -26,9 +30,6 @@ const operatorsProps = defineProps({
   }
 });
 
-const dialogVisible = ref(false);
-const editingOperator = ref(null);
-const groups = ref([]);
 
 onMounted(async () => {
   try {
