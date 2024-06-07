@@ -132,7 +132,7 @@ const addGroup = () => {
 const deleteGroup = () => {
   const group = groups.value.find(group => group.name === form.value.groupName);
   groupsStore.deleteItem(group);
-  document.getElementById('select').value = '';
+  document.getElementById('select').innerText = '';
 };
 
 </script>

@@ -4,7 +4,7 @@ class Order {
       this.operatorId = data.operatorId;
       this.girlId = data.girlId;
       this.clientId = data.clientId;
-      this.clientName = data.clientName;
+      this.shiftId = data.shiftId;     
       this.totalTime = data.totalTime;
       this.amount = data.amount;
       this.isExtended = data.isExtended;
