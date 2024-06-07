@@ -44,3 +44,12 @@ export const getAll = async (endpoint) => {
       throw new Error(`Failed to delete item from ${endpoint}`, error);
     }
   };
+
+  export const executeSql = async (endpoint, sqlModel) => {
+    try {
+      const response = await apiClient.post(`${endpoint}/query`, sqlModel);
+      return response.data;
+    } catch (error) {      
+      throw new Error(`Failed to execute SQL on ${endpoint}: ${error.message}`);
+    }
+  };

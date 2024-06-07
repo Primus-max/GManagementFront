@@ -4,6 +4,7 @@ import { defineStore } from 'pinia';
 import {
   addItem,
   deleteItem,
+  executeSql,
   getAll,
   getById,
   updateItem,
@@ -52,6 +53,15 @@ export const createStore = (storeName, endpoint) => {
         }
         MessageService.success(`Элемент успешно удален`);
         this.items = this.items.filter(i => i.id !== item.id);
+      },
+      async executeFromSql(sqlModel) {
+        try {
+          const result = await executeSql(endpoint,sqlModel);
+          return result;
+        } catch (error) {
+          console.error(error.message);
+          MessageService.error(`Ошибка выполнения SQL-запроса: ${error.message}`);
+        }
       }
     }
   });

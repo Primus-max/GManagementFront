@@ -1,5 +1,7 @@
 <script setup>
 import {
+  computed,
+  onMounted,
   reactive,
   ref,
 } from 'vue';
@@ -14,15 +16,44 @@ import {
 
 import AddOrderForm from '@/components/modals/AddOrderForm.vue';
 import OrderTable from '@/components/tables/OrderTable.vue';
+import { useGirlsStore } from '@/stores/girlsStore';
 
-// Пример данных
-const balance = ref(5000); // Баланс оператора
-const dialogVisible = ref(false);
-
-const dialogTableVisible = ref(false)
+const girlsStore = useGirlsStore();
 const dialogFormVisible = ref(false)
+const balance = ref(5000); 
+const orderDialogVisible = ref(false);
+const detailBalancedialogVisible = ref(false)
 const selectedGirls = ref([]);
 const formLabelWidth = '140px'
+
+
+onMounted(async () => {
+    await girlsStore.fetchItems();  
+    await fetchGirls();  
+});
+
+const girls = computed(() => girlsStore.items);
+
+const fetchGirls = async () => {
+  const sql = 'SELECT * from "Girls" ';
+  const parameters = [];
+
+  const queryModel = {
+    Sql: sql,
+    Parameters: parameters,
+  };
+
+  try {
+    const girls = await girlsStore.executeFromSql(queryModel);
+    console.log('Girls:', girls);
+    return girls;
+  } catch (error) {
+    console.error('Error fetching girls:', error);
+    throw error;
+  }
+};
+
+
 
 // Пример данных заказов
 const orders = ref([
@@ -300,14 +331,14 @@ const gridData = [
 ]
 
 
-const girls = ref([
-    { id: 1, name: 'Анна', tg: '@anna' },
-    { id: 2, name: 'Мария', tg: '@maria' },
-    { id: 4, name: 'Екатерина', tg: '@ekaterina' },
-    { id: 5, name: 'Оксана', tg: '@oksana' },
-    { id: 6, name: 'Марина', tg: '@marina' },
-    // Другие девушки...
-]);
+// const girls = ref([
+//     { id: 1, name: 'Анна', tg: '@anna' },
+//     { id: 2, name: 'Мария', tg: '@maria' },
+//     { id: 4, name: 'Екатерина', tg: '@ekaterina' },
+//     { id: 5, name: 'Оксана', tg: '@oksana' },
+//     { id: 6, name: 'Марина', tg: '@marina' },
+//     // Другие девушки...
+// ]);
 
 
 const options = [
@@ -334,11 +365,14 @@ const options = [
 ]
 
 const girlLabelSelect = (girl) => {
-    return girl.name + " " + girl.tg;
+    return girl.name + " " + girl.tgAcc;
 }
 
+
+
+
 const handleClose = () => {
-    dialogVisible.value = false;
+    orderDialogVisible.value = false;
 };
 
 </script>
@@ -411,10 +445,10 @@ const handleClose = () => {
     </div>
 
     <el-drawer v-model="dialogVisible" title="Добавить заказ" :before-close="handleClose" direction="ltr">
-        <AddOrderForm @close="dialogVisible = false" />
+        <AddOrderForm @close="orderDialogVisible = false" />
     </el-drawer>
 
-    <el-dialog v-model="dialogTableVisible" title="Информация о формировании баланса" width="800">
+    <el-dialog v-model="detailBalancedialogVisible" title="Информация о формировании баланса" width="800">
         <el-table :data="gridData">
             <el-table-column property="date" label="Дата" width="150" />
             <el-table-column property="order" label="Заказ" width="200" />
