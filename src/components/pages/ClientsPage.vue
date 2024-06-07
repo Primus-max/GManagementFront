@@ -1,5 +1,10 @@
 <script setup>
-import { ref } from 'vue';
+import {
+  computed,
+  onMounted,
+  ref,
+  watch,
+} from 'vue';
 
 import { ElDrawer } from 'element-plus';
 
@@ -7,22 +12,17 @@ import AddClientForm from '@/components/modals/AddClientForm.vue';
 import SearchStatistics from '@/components/services/SearchStatistics.vue';
 import ClientsStatistics from '@/components/tables/ClientsStatistics.vue';
 import ClientsTable from '@/components/tables/ClientsTable.vue';
-import { useClientsStatisticsStore } from '@/stores/clientsStatisticsStore';
+import { useClientsStore } from '@/stores/clientsStore';
 
-const clientsStore = useClientsStatisticsStore();
+const clientsStore = useClientsStore();
 const activeTab = ref('statistics');
 const dialogVisible = ref(false);
 
+onMounted(async () => {
+  await clientsStore.fetchItems();
+});
 
-const clients = ref([
-  { id: 1, clientName: 'Олег', tg: 'ert', phone: 79003453434, bonus: 8 },
-  { id: 2, clientName: 'Валера', tg: 'ert', balance: 200, bonus: 1000 }
-]);
-
-const statistics = ref([
-  { id: 1, username: 'Girl1', totalOrders: 120, totalAmount: 1200 },
-  { id: 2, username: 'Girl2', totalOrders: 180, totalAmount: 1800 }
-]);
+const clients = computed(() => clientsStore.items);
 </script>
 
 <template>
@@ -33,7 +33,7 @@ const statistics = ref([
           <el-tab-pane label="Статистика" name="statistics">
             <div class="statistics-wrapper">
               <div class="search-header-wrapper">
-                <SearchStatistics searchType="clients" :names="statistics.map(client => client.name)" />
+                <SearchStatistics searchType="clients" :names="clients.map(client => client.name)" />
               </div>
               <ClientsStatistics :statistics="statistics" />
             </div>
@@ -43,7 +43,7 @@ const statistics = ref([
               <el-button type="primary" @click="dialogVisible = true">
                 <i class="el-icon-plus"></i> Добавить клиента
               </el-button>
-              <el-drawer v-model="dialogVisible" title="Добавить клиента" :before-close="handleClose" direction="ltr">
+              <el-drawer v-model="dialogVisible" title="Добавить клиента"  direction="ltr">
                 <AddClientForm @close="dialogVisible = false" />
               </el-drawer>
               <ClientsTable :clients="clients" />
@@ -54,7 +54,6 @@ const statistics = ref([
     </div>
   </div>
 </template>
-
 
 <style lang="css" scoped>
 @import '@/assets/styles/main.css';

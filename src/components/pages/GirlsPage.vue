@@ -22,8 +22,6 @@ onMounted(async () => {
 });
 
 const girls = computed(() => girlsStore.items);
-
-console.log(girls.value);
 </script>
 
 <template>
@@ -43,7 +41,7 @@ console.log(girls.value);
             <el-button type="primary" @click="dialogVisible = true">
               <i class="el-icon-plus"></i> Добавить девушку
             </el-button>
-            <el-drawer v-model="dialogVisible" title="Добавить девушку" :before-close="handleClose" direction="ltr">
+            <el-drawer v-model="dialogVisible" title="Добавить девушку" direction="ltr">
               <AddGirlForm @close="dialogVisible = false" :isEditing="false"/>
             </el-drawer>
             <GirlsTable :girls="girls"  />

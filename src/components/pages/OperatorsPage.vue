@@ -48,7 +48,7 @@ const operators = computed(() => operatorsStore.items);
       </el-card>
     </div>
   </div>
-  <el-drawer v-model="dialogVisible" title="Добавить оператора" :before-close="handleClose" direction="ltr">
+  <el-drawer v-model="dialogVisible" title="Добавить оператора"  direction="ltr">
     <AddOperatorForm @close="dialogVisible = false"  :isEditing="false" />
   </el-drawer>
 </template>
