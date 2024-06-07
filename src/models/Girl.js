@@ -3,7 +3,7 @@
       this.id = data.id;
       this.groupId = data.groupId;
       this.name = data.name;
-      this.nickname = data.nickName;
+      this.nickName = data.nickName;
       this.tgAcc = data.tgAcc;
     }
   }
