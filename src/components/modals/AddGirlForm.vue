@@ -93,7 +93,7 @@ const submitForm = () => {
     <div class="drawer__footer">
       <el-button @click="cancelForm">Отмена</el-button>
       <el-button type="primary" :loading="loading" @click="submitForm">
-        {{ loading ? 'Отправка ...' : 'Добавить' }}
+        {{ loading ? 'Отправка ...' : (props.isEditing ? 'Редактировать' : 'Добавить') }}
       </el-button>
     </div>
   </el-form>

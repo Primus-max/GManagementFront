@@ -40,8 +40,8 @@ onMounted(async () => {
 });
 
 watchEffect(() => {
-      groups.value = groupsStore.items;
-    });
+  groups.value = groupsStore.items;
+});
 
 // const getGroupName = (groupId) => {    
 //   const group = groups.value.find(group => group.id === groupId);
@@ -53,8 +53,8 @@ const editOperator = (operator) => {
   editingOperator.value = operator;
 };
 
-const deleteOperator =  async (operator) => {
- await operatorsStore.deleteItem(operator);
+const deleteOperator = async (operator) => {
+  await operatorsStore.deleteItem(operator);
 };
 </script>
 

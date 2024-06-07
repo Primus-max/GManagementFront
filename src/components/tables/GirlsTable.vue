@@ -4,6 +4,7 @@ import {
   ref,
 } from 'vue';
 
+import { useGirlsStore } from '@/stores/girlsStore';
 import { useGroupsStore } from '@/stores/groupsStore';
 import { getGroupName } from '@/utils/getters';
 import {
@@ -20,6 +21,7 @@ const props = defineProps({
   }
 });
 
+const girlsStore = useGirlsStore();
 const groupsStore = useGroupsStore();
 const groups = ref([]);
 const dialogVisible = ref(false);
