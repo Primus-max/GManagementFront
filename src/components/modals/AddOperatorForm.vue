@@ -13,13 +13,6 @@ import { useGroupsStore } from '@/stores/groupsStore';
 import { useOperatorsStore } from '@/stores/operatorsStore';
 import { getGroupName } from '@/utils/getters';
 
-const emits = defineEmits(['close']);
-const operatorsStore = useOperatorsStore();
-const groupsStore = useGroupsStore();
-const form = ref({});
-const formLabelWidth = '100px';
-const loading = ref(false);
-
 const props = defineProps({
   operator: {
     type: Object,
@@ -30,6 +23,14 @@ const props = defineProps({
     required: true,
   }
 });
+
+
+const emits = defineEmits(['close']);
+const operatorsStore = useOperatorsStore();
+const groupsStore = useGroupsStore();
+const form = ref({});
+const formLabelWidth = '100px';
+const loading = ref(false);
 
 onMounted(async () => {
   await groupsStore.fetchItems();
