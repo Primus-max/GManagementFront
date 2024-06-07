@@ -3,8 +3,8 @@
       this.id = data.id;
       this.groupId = data.groupId;
       this.name = data.name;
-      this.nickname = data.nickname;
-      this.TGAcc = data.TGAcc;
+      this.nickname = data.nickName;
+      this.tgAcc = data.tgAcc;
     }
   }
 

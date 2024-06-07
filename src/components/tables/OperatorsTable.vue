@@ -53,8 +53,8 @@ const editOperator = (operator) => {
   editingOperator.value = operator;
 };
 
-const deleteOperator = (operator) => {
-  operatorsStore.deleteItem(operator);
+const deleteOperator =  async (operator) => {
+ await operatorsStore.deleteItem(operator);
 };
 </script>
 
@@ -66,7 +66,7 @@ const deleteOperator = (operator) => {
       <el-table-column prop="login" label="Логин"></el-table-column>
       <el-table-column label="Группа">
         <template #default="{ row }">
-          {{ row.groupId ? getGroupName(row.groupId, groups) : '' }}
+          {{ row.groupId ? getGroupName(row.groupId, groups) : '--------' }}
         </template>
       </el-table-column>
       <el-table-column prop="balance" label="Баланс"></el-table-column>

@@ -11,6 +11,8 @@ import {
   Edit,
 } from '@element-plus/icons-vue';
 
+import AddGirlForm from '../modals/AddGirlForm.vue';
+
 const props = defineProps({
   girls: {
     type: Array,
@@ -20,19 +22,21 @@ const props = defineProps({
 
 const groupsStore = useGroupsStore();
 const groups = ref([]);
-const emits = defineEmits(['editGirl', 'deleteGirl']);
+const dialogVisible = ref(false);
+const editingGirl = ref(null);
 
 onMounted(async () => {
   await groupsStore.fetchItems();
   groups.value = groupsStore.items;
 });
 
-const handleEdit = (girl) => {
-  emits('editGirl', girl);
+const editGirl = (girl) => {
+  dialogVisible.value = true;
+  editingGirl.value = girl;
 };
 
-const handleDelete = (girl) => {
-  emits('deleteGirl', girl);
+const deleteGirl = async (girl) => {
+ await girlsStore.deleteItem(girl);
 };
 </script>
 
@@ -49,11 +53,16 @@ const handleDelete = (girl) => {
     </el-table-column>
     <el-table-column label="Действия" width="150">
       <template #default="{ row }">
-        <el-button el-button type="text" class="control-button" :icon="Edit" @click="handleEdit(row)" />
-        <el-button type="text" class="control-button" :icon="Delete" @click="handleDelete(row)" />
+        <el-button el-button type="text" class="control-button" :icon="Edit" @click="editGirl(row)" />
+        <el-button type="text" class="control-button" :icon="Delete" @click="deleteGirl(row)" />
       </template>
     </el-table-column>
   </el-table>
+
+  <el-drawer v-model="dialogVisible" title="Редактировать девушку" direction="ltr">
+    <AddGirlForm @close="dialogVisible = false" :girl="editingGirl" :isEditing="true" />
+  </el-drawer>
+
 </template>
 
 <style scoped>

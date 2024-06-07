@@ -35,9 +35,9 @@ const props = defineProps({
 // const groups = computed(() => groupsStore.items);
 
 const initialFormData =  {  
-    name: 'Natasha',
-    TGAcc: '@natasha',
-    nickname: 'nata',
+    name: '',
+    tgAcc: '',
+    nickName: '',
 };
 
 const resetForm = () => {
@@ -85,10 +85,10 @@ const submitForm = () => {
       <el-input v-model="form.name" autocomplete="off" />
     </el-form-item>
     <el-form-item label="Telegram" :label-width="formLabelWidth">
-      <el-input v-model="form.TGAcc" autocomplete="off" />
+      <el-input v-model="form.tgAcc" autocomplete="off" />
     </el-form-item>
     <el-form-item label="Nickname" :label-width="formLabelWidth">
-      <el-input v-model="form.nickname"  autocomplete="off" />
+      <el-input v-model="form.nickName"  autocomplete="off" />
     </el-form-item>
     <div class="drawer__footer">
       <el-button @click="cancelForm">Отмена</el-button>
