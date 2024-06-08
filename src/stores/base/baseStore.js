@@ -2,6 +2,7 @@
 import { defineStore } from 'pinia';
 
 import {
+  addGirlsToGroup,
   addItem,
   deleteItem,
   executeSql,
@@ -62,6 +63,14 @@ export const createStore = (storeName, endpoint) => {
           console.error(error.message);
           MessageService.error(`Ошибка выполнения SQL-запроса: ${error.message}`);
         }
+      },
+      async addGirlsToGroup(girls) {
+        const response = await addGirlsToGroup(endpoint, girls);
+        if (response.status !== 200) {
+          MessageService.error(response.statusText);
+          return;
+        }
+        MessageService.success(`Данные успешно обновлены`);
       }
     }
   });

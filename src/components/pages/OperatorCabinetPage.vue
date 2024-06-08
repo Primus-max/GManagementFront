@@ -29,29 +29,29 @@ const formLabelWidth = '140px'
 
 onMounted(async () => {
     await girlsStore.fetchItems();  
-    await fetchGirls();  
+    //await fetchGirls();  
 });
 
 const girls = computed(() => girlsStore.items);
 
-const fetchGirls = async () => {
-  const sql = 'SELECT * from "Girls" ';
-  const parameters = [];
+// const fetchGirls = async () => {
+//   const sql = 'SELECT * from "Girls" ';
+//   const parameters = [];
 
-  const queryModel = {
-    Sql: sql,
-    Parameters: parameters,
-  };
+//   const queryModel = {
+//     Sql: sql,
+//     Parameters: parameters,
+//   };
 
-  try {
-    const girls = await girlsStore.executeFromSql(queryModel);
-    console.log('Girls:', girls);
-    return girls;
-  } catch (error) {
-    console.error('Error fetching girls:', error);
-    throw error;
-  }
-};
+//   try {
+//     const girls = await girlsStore.executeFromSql(queryModel);
+//     console.log('Girls:', girls);
+//     return girls;
+//   } catch (error) {
+//     console.error('Error fetching girls:', error);
+//     throw error;
+//   }
+// };
 
 
 
@@ -368,7 +368,9 @@ const girlLabelSelect = (girl) => {
     return girl.name + " " + girl.tgAcc;
 }
 
-
+const testAdd = async () => {
+    await girlsStore.addGirlsToGroup(selectedGirls.value);
+}
 
 
 const handleClose = () => {
@@ -415,7 +417,7 @@ const handleClose = () => {
                         <i class="el-icon-plus"></i> Создать заказ
                     </el-button>                   
                     <div>
-                        <el-button type="primary" @click="dialogVisible = true"> Начать смену</el-button>
+                        <el-button type="primary" @click="testAdd"> Начать смену</el-button>
 
                     </div>
 

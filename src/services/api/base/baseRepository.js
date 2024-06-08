@@ -53,3 +53,12 @@ export const getAll = async (endpoint) => {
       throw new Error(`Failed to execute SQL on ${endpoint}: ${error.message}`);
     }
   };
+
+  export const addGirlsToGroup = async (endpoint, girls) => {
+    try {
+      const response = await apiClient.post(`${endpoint}/add-to-group`, girls);
+      return response.data;
+    } catch (error) {
+      throw new Error(`Failed to add girls to group: ${error.message}`);
+    }
+  };
