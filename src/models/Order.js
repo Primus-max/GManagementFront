@@ -13,3 +13,5 @@ class Order {
       this.comment = data.comment;
     }
   }
+
+  export default Order

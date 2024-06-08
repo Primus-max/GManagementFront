@@ -8,6 +8,7 @@ import {
   executeSql,
   getAll,
   getById,
+  getGirlsGroups,
   updateItem,
 } from '@/services/api/base/baseRepository';
 import MessageService from '@/services/infoMessageService';
@@ -15,7 +16,9 @@ import MessageService from '@/services/infoMessageService';
 export const createStore = (storeName, endpoint) => {
   return defineStore(storeName, {
     state: () => ({
-      items: []
+      items: [],
+      selectedItrem: null,
+      selectedItems: [],
     }),
     actions: {
       async fetchItems() {
@@ -64,6 +67,8 @@ export const createStore = (storeName, endpoint) => {
           MessageService.error(`Ошибка выполнения SQL-запроса: ${error.message}`);
         }
       },
+
+      // Специфичные методы для девушек
       async addGirlsToGroup(girls) {
         const response = await addGirlsToGroup(endpoint, girls);
         if (response.status !== 200) {
@@ -71,7 +76,27 @@ export const createStore = (storeName, endpoint) => {
           return;
         }
         MessageService.success(`Данные успешно обновлены`);
+        return response.data;
+      },
+      async getGirlsFromGroup()  {
+      const response= await getGirlsGroups(endpoint);
+      if (response.status !== 200) {
+        MessageService.error(response.statusText);
+        return;
       }
+      return response.data;
+    }
+    },
+
+
+    // Специфичные методы для оператора
+    async getGirlsOnMyShift () {
+      const response = await getGirlsOnMyShift(endpoint);
+      if (response.status !== 200) {
+        MessageService.error(response.statusText);
+        return;
+      }
+      return response.data;
     }
   });
 };

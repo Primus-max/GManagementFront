@@ -54,11 +54,40 @@ export const getAll = async (endpoint) => {
     }
   };
 
+  // Специфичные методы для девушек
   export const addGirlsToGroup = async (endpoint, girls) => {
     try {
       const response = await apiClient.post(`${endpoint}/add-to-group`, girls);
-      return response.data;
+      return response;
     } catch (error) {
       throw new Error(`Failed to add girls to group: ${error.message}`);
     }
   };
+
+  export const removeGirlFromGroup = async (endpoint, girlId) => {
+    try {
+      const response = await apiClient.delete(`${endpoint}/remove-from-group/${girlId}`);
+      return response;
+    } catch (error) {
+      throw new Error(`Failed to remove girl from group: ${error.message}`);
+    }
+  };
+
+  export const getGirlsGroups = async (endpoint) => {
+    try {
+      const response = await apiClient.get(`${endpoint}/by-group`);
+      return response;
+    } catch (error) {
+      throw new Error(`Failed to fetch groups: ${error.message}`);
+    }
+  };
+
+  // Специфичные методы для операторов
+  export const getGirlsOnMyShift = async (endpoint) => {
+    try {
+      const response = await apiClient.get(`${endpoint}/girls-in-my-shift`);
+      return response.data;
+    } catch (error) {
+      throw new Error(`Failed to fetch me: ${error.message}`);
+    }
+  }

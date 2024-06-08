@@ -16,43 +16,51 @@ import {
 
 import AddOrderForm from '@/components/modals/AddOrderForm.vue';
 import OrderTable from '@/components/tables/OrderTable.vue';
+import OperationIntent from '@/models/enums/OperationIntent';
 import { useGirlsStore } from '@/stores/girlsStore';
+import { useOperatorsStore } from '@/stores/operatorsStore';
 
+const operatorsStore = useOperatorsStore();
 const girlsStore = useGirlsStore();
 const dialogFormVisible = ref(false)
-const balance = ref(5000); 
+const balance = ref(5000);
 const orderDialogVisible = ref(false);
 const detailBalancedialogVisible = ref(false)
 const selectedGirls = ref([]);
 const formLabelWidth = '140px'
 
 
+const operators = ref([]);
+
 onMounted(async () => {
-    await girlsStore.fetchItems();  
-    //await fetchGirls();  
+    await girlsStore.fetchItems();
+    selectedGirls.value = await girlsStore.getGirlsFromGroup();  
+    await operatorsStore.fetchItems();
+    operators.value = operatorsStore.items;
+    //await fetchGirls();
 });
 
 const girls = computed(() => girlsStore.items);
 
 // const fetchGirls = async () => {
-//   const sql = 'SELECT * from "Girls" ';
+//   const sql = 'SELECT * FROM "Girls"';
 //   const parameters = [];
 
 //   const queryModel = {
+//     Intent: OperationIntent.GetGirlsByGroupId, // Указываем намерение запроса
 //     Sql: sql,
 //     Parameters: parameters,
 //   };
 
 //   try {
-//     const girls = await girlsStore.executeFromSql(queryModel);
-//     console.log('Girls:', girls);
-//     return girls;
+//     const response = await girlsStore.executeFromSql(queryModel); // Отправляем запрос
+//     console.log('Girls:', response.data);
+//     return response.data;
 //   } catch (error) {
 //     console.error('Error fetching girls:', error);
 //     throw error;
 //   }
 // };
-
 
 
 // Пример данных заказов
@@ -331,45 +339,12 @@ const gridData = [
 ]
 
 
-// const girls = ref([
-//     { id: 1, name: 'Анна', tg: '@anna' },
-//     { id: 2, name: 'Мария', tg: '@maria' },
-//     { id: 4, name: 'Екатерина', tg: '@ekaterina' },
-//     { id: 5, name: 'Оксана', tg: '@oksana' },
-//     { id: 6, name: 'Марина', tg: '@marina' },
-//     // Другие девушки...
-// ]);
-
-
-const options = [
-    {
-        value: 'Option1',
-        label: 'Label1',
-    },
-    {
-        value: 'Option2',
-        label: 'Label2',
-    },
-    {
-        value: 'Option3',
-        label: 'Label3',
-    },
-    {
-        value: 'Option4',
-        label: 'Label4',
-    },
-    {
-        value: 'Option5',
-        label: 'Label5',
-    },
-]
-
 const girlLabelSelect = (girl) => {
-    return girl.name + " " + girl.tgAcc;
+    return girl.name + "-" + girl.tgAcc;
 }
 
-const testAdd = async () => {
-    await girlsStore.addGirlsToGroup(selectedGirls.value);
+const addGirlsToGroup = async () => {
+    await girlsStore.addGirlsToGroup(selectedGirls.value);    
 }
 
 
@@ -394,8 +369,14 @@ const handleClose = () => {
 
             <el-card class="girls-in-shift">
                 <div class="girls-in-shift-wrapper">
-                    <div >
-                        <el-select v-model="selectedGirls" placeholder="Выбрать девушек в смену" style="width: 240px" clearable multiple class="girls-select">
+                    <div>
+                        <el-select v-model="selectedGirls" placeholder="Выбрать девушек в смену" style="width: 240px"
+                            clearable multiple class="girls-select" :reserve-keyword="true" >
+                            <!-- <template #select>
+                                <div class="el-select__selected-item">
+                                    {{ selectedGirls.length }}
+                                </div>
+                            </template> -->
                             <template #label="{ label, value }">
                                 <span>{{ label }}: </span>
                                 <span style="font-weight: bold">{{ value }}</span>
@@ -403,6 +384,9 @@ const handleClose = () => {
                             <el-option v-for="girl in girls" :key="girl.id" :label="girlLabelSelect(girl)"
                                 :value="girl.id" />
                         </el-select>
+                    </div>
+                    <div class="select-girl-button">
+                        <el-button type="primary" size="small" @click="addGirlsToGroup">Добавить</el-button>
                     </div>
                 </div>
             </el-card>
@@ -413,9 +397,9 @@ const handleClose = () => {
                 <!-- Header -->
                 <header class="page-header">
 
-                    <el-button type="primary" @click="dialogVisible = true">
-                        <i class="el-icon-plus"></i> Создать заказ
-                    </el-button>                   
+                    <el-button type="primary" @click="dialogFormVisible = true">
+                        Создать заказ
+                    </el-button>
                     <div>
                         <el-button type="primary" @click="testAdd"> Начать смену</el-button>
 
@@ -446,8 +430,8 @@ const handleClose = () => {
         </div>
     </div>
 
-    <el-drawer v-model="dialogVisible" title="Добавить заказ" :before-close="handleClose" direction="ltr">
-        <AddOrderForm @close="orderDialogVisible = false" />
+    <el-drawer v-model="dialogFormVisible" title="Добавить заказ" :before-close="handleClose" direction="ltr">
+        <AddOrderForm @close="dialogFormVisible = false" :selectedGirls="selectedGirls"/>
     </el-drawer>
 
     <el-dialog v-model="detailBalancedialogVisible" title="Информация о формировании баланса" width="800">
@@ -474,7 +458,7 @@ const handleClose = () => {
 .left-cards {
     width: 280px;
     display: flex;
-    flex-direction: column;  
+    flex-direction: column;
 }
 
 .summary {
@@ -495,7 +479,7 @@ const handleClose = () => {
     align-items: flex-start;
 }
 
-.girls-in-shift{
+.girls-in-shift {
     margin-top: 20px;
     height: auto;
     max-height: 240px;
@@ -503,7 +487,14 @@ const handleClose = () => {
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: end;
+}
+
+.select-girl-button {
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .page-header {

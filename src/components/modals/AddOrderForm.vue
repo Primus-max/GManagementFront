@@ -1,5 +1,82 @@
-<template>
 
+<script setup>
+import {
+  defineEmits,
+  onMounted,
+  ref,
+} from 'vue';
+
+import { id } from 'element-plus/es/locales.mjs';
+
+import Order from '@/models/Order';
+import MessageService from '@/services/infoMessageService';
+import { useGirlsStore } from '@/stores/girlsStore';
+import { useOperatorsStore } from '@/stores/operatorsStore';
+
+const props = defineProps({
+  operator: {
+    type: Object,
+    default: null,
+  },
+  girl: {
+    type: Object,
+    default: null,
+  },
+  isEditing: {
+    type: Boolean,
+    required: true,
+  },
+});
+
+const operatorsStore = useOperatorsStore();
+const girlsStore = useGirlsStore();
+const operators = ref([]);
+const girls = ref([]);
+
+onMounted(async () => {
+  girls.value = await girlsStore.getGirlsFromGroup();  
+});
+
+const emits = defineEmits('close');
+  
+  const form = ref({    
+    girl: '',
+    client_name: '',
+    order_time: '',
+    amount: '',
+    split_percentage: '',
+    comment: '',
+    is_extended: false,
+    is_cancelled: false
+  });
+  
+  const formLabelWidth = '100px';
+  
+  const loading = ref(false);
+  
+  const cancelForm = () => {
+    // Сброс формы и закрытие модального окна
+    form.value.girl = '';
+    form.value.client_name = '';
+    form.value.amount = '';
+    form.value.split_percentage = '';
+    form.value.comment = '';
+    form.value.is_extended = false;
+    form.value.is_cancelled = false;
+    emits('close');
+  };
+  
+  const submitForm = () => {
+    // Обработка отправки формы (вы можете добавить логику отправки на сервер)
+    loading.value = true;
+    setTimeout(() => {
+      loading.value = false;
+      cancelForm();
+    }, 1500);
+  };
+</script>
+
+<template>
     <el-form :model="form">
         <el-form-item label="Девушка" :label-width="formLabelWidth">
       <el-select v-model="form.girl" placeholder="Выберите девушку">
@@ -65,62 +142,7 @@
     </el-form>
   </template>
   
-  <script setup>
-import {
-  defineEmits,
-  ref,
-} from 'vue';
-
-const emits = defineEmits('close');
-  
-  const form = ref({
-    girl: '',
-    client_name: '',
-    order_time: '',
-    amount: '',
-    split_percentage: '',
-    comment: '',
-    is_extended: false,
-    is_cancelled: false
-  });
-  
-  const formLabelWidth = '100px';
-  
-  const loading = ref(false);
-  
-  const cancelForm = () => {
-    // Сброс формы и закрытие модального окна
-    form.value.girl = '';
-    form.value.client_name = '';
-    form.value.amount = '';
-    form.value.split_percentage = '';
-    form.value.comment = '';
-    form.value.is_extended = false;
-    form.value.is_cancelled = false;
-    emits('close');
-  };
-  
-  const submitForm = () => {
-    // Обработка отправки формы (вы можете добавить логику отправки на сервер)
-    loading.value = true;
-    setTimeout(() => {
-      loading.value = false;
-      cancelForm();
-    }, 1500);
-  };
-  
-  const operators = ref([
-  { id: 1, username: 'Оператор1' },
-  { id: 2, username: 'Оператор2' },
-  // Здесь будут ваши операторы
-]);
-  
-const girls = ref([
-  { id: 1, name: 'Девушка1' },
-  { id: 2, name: 'Девушка2' },
-  // Здесь будут ваши девушки
-]);
-</script>
+ 
   
   <style scoped>
   .drawer__footer {

@@ -11,13 +11,6 @@ import MessageService from '@/services/infoMessageService';
 import { useGirlsStore } from '@/stores/girlsStore';
 import { useGroupsStore } from '@/stores/groupsStore';
 
-const emits = defineEmits(['close']);
- const girlsStore = useGirlsStore();
-// const groupsStore = useGroupsStore();
-const form = ref({});
-const formLabelWidth = '100px';
-const loading = ref(false);
-
 const props = defineProps({
   girl: {
     type: Object,
@@ -28,6 +21,14 @@ const props = defineProps({
     required: true,
   },
 });
+
+const emits = defineEmits(['close']);
+ const girlsStore = useGirlsStore();
+// const groupsStore = useGroupsStore();
+const form = ref({});
+const formLabelWidth = '100px';
+const loading = ref(false);
+
 
 // onMounted(async () => {
 //   await groupsStore.fetchItems();
