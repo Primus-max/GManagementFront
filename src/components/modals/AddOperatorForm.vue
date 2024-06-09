@@ -12,7 +12,7 @@ import { useGroupsStore } from '@/stores/groupsStore';
 import { useOperatorsStore } from '@/stores/operatorsStore';
 import { getGroupName } from '@/utils/getters';
 
-import MessageService from '../../services/infoMessageService.js';
+import MessageService from './services/infoMessageService.js';
 
 const props = defineProps({
   operator: {
