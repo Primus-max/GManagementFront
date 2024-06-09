@@ -7,7 +7,7 @@ import {
 } from 'vue';
 
 import Girl from '@/models/Girl';
-import MessageService from '@/services/infoMessageService';
+// import MessageService from '@/services/infoMessageService';
 import { useGirlsStore } from '@/stores/girlsStore';
 import { useGroupsStore } from '@/stores/groupsStore';
 

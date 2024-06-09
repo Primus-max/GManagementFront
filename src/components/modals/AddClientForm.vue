@@ -5,7 +5,7 @@ import {
 } from 'vue';
 
 import Client from '@/models/Client';
-import MessageService from '@/services/infoMessageService';
+// import MessageService from '@/services/infoMessageService';
 import { useClientsStore } from '@/stores/clientsStore';
 
 const props = defineProps({
