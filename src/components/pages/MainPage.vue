@@ -13,7 +13,7 @@ import {
 } from 'element-plus';
 
 import OrderTable from '@/components/tables/OrderTable.vue';
-import MessageService from '@/services/infoMessageService.js';
+// import MessageService from '@/services/infoMessageService.js';
 import {
   Check,
   Close,
@@ -47,25 +47,25 @@ groups.value = [
         }
         // другие группы
     ];
-const editOrder = (order) => {
-    MessageService.info(`Редактировать заказ: ${order.id}`);
-};
+// const editOrder = (order) => {
+//     MessageService.info(`Редактировать заказ: ${order.id}`);
+// };
 
-const deleteOrder = (order) => {
-    MessageService.info(`Удалить заказ: ${order.id}`);
-};
+// const deleteOrder = (order) => {
+//     MessageService.info(`Удалить заказ: ${order.id}`);
+// };
 
-const cancelOrder = (order) => {
-    MessageService.info(`Отмена заказа: ${order.id}`);
-};
+// const cancelOrder = (order) => {
+//     MessageService.info(`Отмена заказа: ${order.id}`);
+// };
 
-const extendOrder = (order) => {
-    MessageService.info(`Продление заказа: ${order.id}`);
-};
+// const extendOrder = (order) => {
+//     MessageService.info(`Продление заказа: ${order.id}`);
+// };
 
-const payOrder = (order) => {
-    MessageService.info(`Выплата заказа: ${order.id}`);
-};
+// const payOrder = (order) => {
+//     MessageService.info(`Выплата заказа: ${order.id}`);
+// };
 
 </script>
 
