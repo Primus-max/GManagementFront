@@ -8,11 +8,10 @@ import {
 } from 'vue';
 
 import Operator from '@/models/Operator';
+import MessageService from '@/services/infoMessageService';
 import { useGroupsStore } from '@/stores/groupsStore';
 import { useOperatorsStore } from '@/stores/operatorsStore';
 import { getGroupName } from '@/utils/getters';
-
-import MessageService from './services/infoMessageService.js';
 
 const props = defineProps({
   operator: {
