@@ -431,7 +431,7 @@ const handleClose = () => {
     </div>
 
     <el-drawer v-model="dialogFormVisible" title="Добавить заказ" :before-close="handleClose" direction="ltr">
-        <AddOrderForm @close="dialogFormVisible = false" :selectedGirls="selectedGirls"/>
+        <AddOrderForm @close="dialogFormVisible = false" />
     </el-drawer>
 
     <el-dialog v-model="detailBalancedialogVisible" title="Информация о формировании баланса" width="800">
