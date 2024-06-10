@@ -1,8 +1,9 @@
 <script setup>
 import { ref } from 'vue';
 
-import SearchArchive from '@/components/services/SearchArchive.vue';
-import ArchiveTable from '@/components/tables/ArchiveTable.vue';
+import SearchArchive from 'src/components/services/SearchArchive.vue';
+import ArchiveTable from 'src/components/tables/ArchiveTable.vue';
+
 import {
   Delete,
   Edit,
@@ -49,7 +50,7 @@ const deleteOrder = (order) => {
     </div>
   </template>
 <style scoped>
-@import '@/assets/styles/main.css';
+@import 'src/assets/styles/main.css';
 .page-header-wrapper {
     width: 100%;
     height: 40px;

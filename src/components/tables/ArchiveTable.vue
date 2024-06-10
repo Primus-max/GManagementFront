@@ -84,6 +84,6 @@ const payOrder = (order) => {
 
   
   <style scoped>
-@import '@/assets/styles/main.css';
+@import 'src/assets/styles/main.css';
   </style>
   

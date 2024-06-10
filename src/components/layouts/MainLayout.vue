@@ -1,9 +1,9 @@
 <script setup>
 import { computed } from 'vue';
 
-import Navigation from '@/components/Navigation.vue';
-import AuthorizationPage from '@/components/pages/AuthorizationPage.vue';
-import { userAuth } from '@/stores/userAuthStore.js';
+import Navigation from 'src/components/Navigation.vue';
+import AuthorizationPage from 'src/components/pages/AuthorizationPage.vue';
+import { userAuth } from 'src/stores/userAuthStore.js';
 
 const authStore = userAuth();
 const isAuthenticated = computed(() => authStore.isAuthenticated);
@@ -24,7 +24,7 @@ const isAuthenticated = computed(() => authStore.isAuthenticated);
 </template>
 
 <style lang="css" scoped>
-@import '@/assets/styles/scaffolding.css';
+@import 'src/assets/styles/scaffolding.css';
 
 .common-layout {
   height: 100vh;

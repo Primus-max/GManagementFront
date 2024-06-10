@@ -1,16 +1,15 @@
+import ArchivePage from 'src/components/pages/ArchivePage.vue';
+import AuthorizationPage from 'src/components/pages/AuthorizationPage.vue';
+import ClientsPage from 'src/components/pages/ClientsPage.vue';
+import GirlsPage from 'src/components/pages/GirlsPage.vue';
+import MainPage from 'src/components/pages/MainPage.vue';
+import OperatorCabinetPage from 'src/components/pages/OperatorCabinetPage.vue';
+import OperatorsPage from 'src/components/pages/OperatorsPage.vue';
+import { userAuth } from 'src/stores/userAuthStore.js';
 import {
   createRouter,
   createWebHistory,
 } from 'vue-router';
-
-import ArchivePage from '@/components/pages/ArchivePage.vue';
-import AuthorizationPage from '@/components/pages/AuthorizationPage.vue';
-import ClientsPage from '@/components/pages/ClientsPage.vue';
-import GirlsPage from '@/components/pages/GirlsPage.vue';
-import MainPage from '@/components/pages/MainPage.vue';
-import OperatorCabinetPage from '@/components/pages/OperatorCabinetPage.vue';
-import OperatorsPage from '@/components/pages/OperatorsPage.vue';
-import { userAuth } from '@/stores/userAuthStore.js';
 
 const routes = [
   {

@@ -7,11 +7,11 @@ import {
   watch,
 } from 'vue';
 
-import Operator from '@/models/Operator';
-import MessageService from '@/services/infoMessageService.js';
-import { useGroupsStore } from '@/stores/groupsStore';
-import { useOperatorsStore } from '@/stores/operatorsStore';
-import { getGroupName } from '@/utils/getters';
+import Operator from 'src/models/Operator';
+import MessageService from 'src/services/infoMessageService.js';
+import { useGroupsStore } from 'src/stores/groupsStore';
+import { useOperatorsStore } from 'src/stores/operatorsStore';
+import { getGroupName } from 'src/utils/getters';
 
 const props = defineProps({
   operator: {
@@ -174,5 +174,5 @@ const deleteGroup = () => {
 </template>
 
 <style scoped>
-@import '@/assets/styles/redefine.css';
+@import 'src/assets/styles/redefine.css';
 </style>

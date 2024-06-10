@@ -1,8 +1,9 @@
 <script setup>
 import { ref } from 'vue';
 
-import AddClientForm from '@/components/modals/AddClientForm.vue';
-import { useClientsStore } from '@/stores/clientsStore';
+import AddClientForm from 'src/components/modals/AddClientForm.vue';
+import { useClientsStore } from 'src/stores/clientsStore';
+
 import {
   Delete,
   Edit,
@@ -53,6 +54,6 @@ const deleteClient = async (client) => {
 
 
 
-<style scoped>
-@import '@/assets/styles/main.css';
+<style lang="css" scoped>
+@import 'src/assets/styles/main.css';
 </style>

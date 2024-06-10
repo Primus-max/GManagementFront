@@ -13,12 +13,11 @@ import {
   ElTable,
   ElTableColumn,
 } from 'element-plus';
-
-import AddOrderForm from '@/components/modals/AddOrderForm.vue';
-import OrderTable from '@/components/tables/OrderTable.vue';
-import OperationIntent from '@/models/enums/OperationIntent';
-import { useGirlsStore } from '@/stores/girlsStore';
-import { useOperatorsStore } from '@/stores/operatorsStore';
+import AddOrderForm from 'src/components/modals/AddOrderForm.vue';
+import OrderTable from 'src/components/tables/OrderTable.vue';
+import OperationIntent from 'src/models/enums/OperationIntent';
+import { useGirlsStore } from 'src/stores/girlsStore';
+import { useOperatorsStore } from 'src/stores/operatorsStore';
 
 const operatorsStore = useOperatorsStore();
 const girlsStore = useGirlsStore();
@@ -446,7 +445,7 @@ const handleClose = () => {
 
 
 <style lang="css" scoped>
-@import '@/assets/styles/main.css';
+@import 'src/assets/styles/main.css';
 
 .operator-page {
     display: flex;

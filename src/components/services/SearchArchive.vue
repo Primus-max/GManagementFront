@@ -3,7 +3,7 @@ import { ref } from 'vue';
 
 import {
   useArchiveStatisticsStore,
-} from '@/stores/archiveStatisticsStore'; // Переименуйте этот стор, если необходимо
+} from 'src/stores/archiveStatisticsStore'; // Переименуйте этот стор, если необходимо
 
 const props = defineProps({
     type: {

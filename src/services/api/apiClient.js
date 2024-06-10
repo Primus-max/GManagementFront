@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-import { setupInterceptors } from '@/services/api/interceptors';
+import { setupInterceptors } from 'src/services/api/interceptors';
 
 const apiClient = axios.create({
     baseURL: 'http://localhost:5102/api',

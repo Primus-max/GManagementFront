@@ -55,7 +55,7 @@ const activeIndex = ref('1');
 
 
 <style lang="css" scoped>
-@import '@/assets/styles/main.css';
+@import 'src/assets/styles/main.css';
 
 .menu-wrapper{
   width: 100%;

@@ -6,12 +6,11 @@ import {
 } from 'vue';
 
 import { ElDrawer } from 'element-plus';
-
-import AddOperatorForm from '@/components/modals/AddOperatorForm.vue';
-import SearchStatistics from '@/components/services/SearchStatistics.vue';
-import OperatorsStatistics from '@/components/tables/OperatorsStatistics.vue';
-import OperatorsTable from '@/components/tables/OperatorsTable.vue';
-import { useOperatorsStore } from '@/stores/operatorsStore';
+import AddOperatorForm from 'src/components/modals/AddOperatorForm.vue';
+import SearchStatistics from 'src/components/services/SearchStatistics.vue';
+import OperatorsStatistics from 'src/components/tables/OperatorsStatistics.vue';
+import OperatorsTable from 'src/components/tables/OperatorsTable.vue';
+import { useOperatorsStore } from 'src/stores/operatorsStore';
 
 const operatorsStore = useOperatorsStore();
 const activeTab = ref('statistics');
@@ -54,5 +53,5 @@ const operators = computed(() => operatorsStore.items);
 </template>
 
 <style scoped>
-@import '@/assets/styles/main.css';
+@import 'src/assets/styles/main.css';
 </style>

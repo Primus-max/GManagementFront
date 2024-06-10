@@ -4,15 +4,15 @@ import {
   ref,
 } from 'vue';
 
-import { useGirlsStore } from '@/stores/girlsStore';
-import { useGroupsStore } from '@/stores/groupsStore';
-import { getGroupName } from '@/utils/getters';
+import AddGirlForm from 'src/components/modals/AddGirlForm.vue';
+import { useGirlsStore } from 'src/stores/girlsStore';
+import { useGroupsStore } from 'src/stores/groupsStore';
+import { getGroupName } from 'src/utils/getters';
+
 import {
   Delete,
   Edit,
 } from '@element-plus/icons-vue';
-
-import AddGirlForm from '../modals/AddGirlForm.vue';
 
 const props = defineProps({
   girls: {
@@ -68,5 +68,5 @@ const deleteGirl = async (girl) => {
 </template>
 
 <style scoped>
-@import '@/assets/styles/main.css';
+@import 'src/assets/styles/main.css';
 </style>

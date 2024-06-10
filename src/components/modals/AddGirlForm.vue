@@ -6,10 +6,10 @@ import {
   watch,
 } from 'vue';
 
-import Girl from '@/models/Girl';
+import Girl from 'src/models/Girl';
 // import MessageService from '@/services/infoMessageService';
-import { useGirlsStore } from '@/stores/girlsStore';
-import { useGroupsStore } from '@/stores/groupsStore';
+import { useGirlsStore } from 'src/stores/girlsStore';
+import { useGroupsStore } from 'src/stores/groupsStore';
 
 const props = defineProps({
   girl: {
@@ -102,5 +102,5 @@ const submitForm = () => {
 
 
 <style scoped>
-@import '@/assets/styles/redefine.css';
+@import 'src/assets/styles/redefine.css';
 </style>

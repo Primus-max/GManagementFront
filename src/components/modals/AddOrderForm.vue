@@ -5,11 +5,11 @@ import {
   watch,
 } from 'vue';
 
-import Order from '@/models/Order';
-import { useClientsStore } from '@/stores/clientsStore';
-import { useGirlsStore } from '@/stores/girlsStore';
+import Order from 'src/models/Order';
+import { useClientsStore } from 'src/stores/clientsStore';
+import { useGirlsStore } from 'src/stores/girlsStore';
 // import MessageService from '@/services/infoMessageService.js';
-import { useOperatorsStore } from '@/stores/operatorsStore';
+import { useOperatorsStore } from 'src/stores/operatorsStore';
 
 const props = defineProps({
   order: {

@@ -4,9 +4,9 @@ import {
   watch,
 } from 'vue';
 
-import Client from '@/models/Client';
+import Client from 'src/models/Client';
 // import MessageService from '@/services/infoMessageService';
-import { useClientsStore } from '@/stores/clientsStore';
+import { useClientsStore } from 'src/stores/clientsStore';
 
 const props = defineProps({
   client: {

@@ -11,8 +11,8 @@ import {
   ElTable,
   ElTableColumn,
 } from 'element-plus';
+import OrderTable from 'src/components/tables/OrderTable.vue';
 
-import OrderTable from '@/components/tables/OrderTable.vue';
 // import MessageService from '@/services/infoMessageService.js';
 import {
   Check,
@@ -80,7 +80,7 @@ groups.value = [
     </div>
 </template>
 <style scoped>
-@import '@/assets/styles/main.css';
+@import 'src/assets/styles/main.css';
 
 .page-title {
     margin: 0;

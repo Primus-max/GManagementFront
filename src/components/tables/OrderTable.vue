@@ -84,7 +84,7 @@ const payOrder = (order) => {
 </template>
 
 <style scoped>
-@import '@/assets/styles/main.css';
+@import 'src/assets/styles/main.css';
 .table {
   max-height: 60vh; /* Установите нужную высоту */
   overflow: auto; /* Включение прокрутки */

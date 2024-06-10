@@ -6,12 +6,11 @@ import {
 } from 'vue';
 
 import { ElDrawer } from 'element-plus';
-
-import AddGirlForm from '@/components/modals/AddGirlForm.vue';
-import SearchStatistics from '@/components/services/SearchStatistics.vue';
-import GirlsStatistics from '@/components/tables/GirlsStatistics.vue';
-import GirlsTable from '@/components/tables/GirlsTable.vue';
-import { useGirlsStore } from '@/stores/girlsStore';
+import AddGirlForm from 'src/components/modals/AddGirlForm.vue';
+import SearchStatistics from 'src/components/services/SearchStatistics.vue';
+import GirlsStatistics from 'src/components/tables/GirlsStatistics.vue';
+import GirlsTable from 'src/components/tables/GirlsTable.vue';
+import { useGirlsStore } from 'src/stores/girlsStore';
 
 const girlsStore = useGirlsStore();
 const activeTab = ref('statistics');
@@ -54,5 +53,5 @@ const girls = computed(() => girlsStore.items);
 </template>
 
 <style scoped>
-@import '@/assets/styles/main.css';
+@import 'src/assets/styles/main.css';
 </style>

@@ -1,4 +1,4 @@
-import apiClient from '@/services/api/apiClient';
+import apiClient from 'src/services/api/apiClient';
 
 export const getAll = async (endpoint) => {
     try {

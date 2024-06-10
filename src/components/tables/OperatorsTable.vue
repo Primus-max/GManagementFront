@@ -7,10 +7,11 @@ import {
   watchEffect,
 } from 'vue';
 
-import AddOperatorForm from '@/components/modals/AddOperatorForm.vue';
-import { useGroupsStore } from '@/stores/groupsStore';
-import { useOperatorsStore } from '@/stores/operatorsStore';
-import { getGroupName } from '@/utils/getters';
+import AddOperatorForm from 'src/components/modals/AddOperatorForm.vue';
+import { useGroupsStore } from 'src/stores/groupsStore';
+import { useOperatorsStore } from 'src/stores/operatorsStore';
+import { getGroupName } from 'src/utils/getters';
+
 import {
   Delete,
   Edit,
@@ -86,5 +87,5 @@ const deleteOperator = async (operator) => {
 </template>
 
 <style lang="css" scoped>
-@import '@/assets/styles/main.css';
+@import 'src/assets/styles/main.css';
 </style>

@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from 'vue';
 
-import router from '@/router/index.js';
-import { userAuth } from '@/stores/userAuthStore';
+import router from 'src/router/index.js';
+import { userAuth } from 'src/stores/userAuthStore';
 
 const authStore = userAuth();
 const loginForm = ref({

@@ -1,6 +1,5 @@
 // src/stores/createStore.js
 import { defineStore } from 'pinia';
-
 import {
   addGirlsToGroup,
   addItem,
@@ -10,8 +9,8 @@ import {
   getById,
   getGirlsGroups,
   updateItem,
-} from '@/services/api/base/baseRepository';
-import MessageService from '@/services/infoMessageService';
+} from 'src/services/api/base/baseRepository';
+import MessageService from 'src/services/infoMessageService';
 
 export const createStore = (storeName, endpoint) => {
   return defineStore(storeName, {

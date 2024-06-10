@@ -7,12 +7,11 @@ import {
 } from 'vue';
 
 import { ElDrawer } from 'element-plus';
-
-import AddClientForm from '@/components/modals/AddClientForm.vue';
-import SearchStatistics from '@/components/services/SearchStatistics.vue';
-import ClientsStatistics from '@/components/tables/ClientsStatistics.vue';
-import ClientsTable from '@/components/tables/ClientsTable.vue';
-import { useClientsStore } from '@/stores/clientsStore';
+import AddClientForm from 'src/components/modals/AddClientForm.vue';
+import SearchStatistics from 'src/components/services/SearchStatistics.vue';
+import ClientsStatistics from 'src/components/tables/ClientsStatistics.vue';
+import ClientsTable from 'src/components/tables/ClientsTable.vue';
+import { useClientsStore } from 'src/stores/clientsStore';
 
 const clientsStore = useClientsStore();
 const activeTab = ref('statistics');
@@ -56,5 +55,5 @@ const clients = computed(() => clientsStore.items);
 </template>
 
 <style lang="css" scoped>
-@import '@/assets/styles/main.css';
+@import 'src/assets/styles/main.css';
 </style>
