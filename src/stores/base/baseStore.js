@@ -10,7 +10,7 @@ import {
   getGirlsGroups,
   updateItem,
 } from 'src/services/api/base/baseRepository';
-import MessageService from 'src/services/infoMessageService';
+import MessageService from 'src/services/messageServices/infoMessageService';
 
 export const createStore = (storeName, endpoint) => {
   return defineStore(storeName, {

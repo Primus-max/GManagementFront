@@ -8,7 +8,7 @@ import {
 } from 'vue';
 
 import Operator from 'src/models/Operator';
-import MessageService from 'src/services/infoMessageService.js';
+import MessageService from 'src/services/messageServices/infoMessageService.js';
 import { useGroupsStore } from 'src/stores/groupsStore';
 import { useOperatorsStore } from 'src/stores/operatorsStore';
 import { getGroupName } from 'src/utils/getters';
