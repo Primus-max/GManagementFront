@@ -2,7 +2,7 @@ import axios from 'axios';
 import { setupInterceptors } from 'src/services/api/interceptors';
 
 const apiClient = axios.create({
-    baseURL: 'https://amvera-perovkin87-run-gmanagment-back/api',
+    baseURL: 'http://amvera-perovkin87-run-gmanagment-back/api',
     headers: {
         'Content-type': 'application/json'
     },   
