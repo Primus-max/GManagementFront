@@ -370,12 +370,7 @@ const handleClose = () => {
                 <div class="girls-in-shift-wrapper">
                     <div>
                         <el-select v-model="selectedGirls" placeholder="Выбрать девушек в смену" style="width: 240px"
-                            clearable multiple class="girls-select" :reserve-keyword="true" >
-                            <!-- <template #select>
-                                <div class="el-select__selected-item">
-                                    {{ selectedGirls.length }}
-                                </div>
-                            </template> -->
+                            clearable multiple class="girls-select" :reserve-keyword="true" >                         
                             <template #label="{ label, value }">
                                 <span>{{ label }}: </span>
                                 <span style="font-weight: bold">{{ value }}</span>

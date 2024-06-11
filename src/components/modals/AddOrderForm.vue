@@ -15,7 +15,7 @@ const props = defineProps({
   order: {
     type: Object,
     required: true,
-  },  
+  },
   isEditing: {
     type: Boolean,
     required: true,
@@ -47,7 +47,7 @@ const cancelForm = () => {
 
 const initialFormData = {
   girl: '',
-  clientName: '',
+  client: '',
   startTime: '',
   finishTime: '',
   amount: '',
@@ -61,7 +61,7 @@ const initialFormData = {
 onMounted(async () => {
   await clientsStore.fetchItems();
   await operatorsStore.fetchItems();
-  await girlsStore.fetchItems();  
+  await girlsStore.fetchItems();
   clients.value = clientsStore.items;
   operators.value = operatorsStore.items;
   girls.value = girlsStore.items;
@@ -84,20 +84,39 @@ const submitForm = () => {
   const newOrder = {
     ...form.value,
   }
-
 };
+
+const girlLabelSelect = (girl) => {
+  return girl.name + "-" + girl.tgAcc;
+}
+
+const clientLabelSelect = (client) => {
+  return client.name + "-" + (client.phone || client.tg);
+}
+
+
 </script>
 
 <template>
   <el-form :model="form">
     <el-form-item label="Девушка" :label-width="formLabelWidth">
       <el-select v-model="form.girl" placeholder="Выберите девушку">
-        <el-option v-for="girl in girls" :key="girl.id" :label="girl.name" :value="girl.id"></el-option>
+        <template #label="{ label, value }">
+          <span>{{ label }}: </span>
+          <span style="font-weight: bold">{{ value }}</span>
+        </template>
+        <el-option v-for="girl in girls" :key="girl.id" :label="girlLabelSelect(girl)" :value="girl.id" />
       </el-select>
     </el-form-item>
 
-    <el-form-item label="Имя клиента" :label-width="formLabelWidth">
-      <el-input v-model="form.clientName" autocomplete="off" />
+    <el-form-item label="Клиент" :label-width="formLabelWidth">
+      <el-select v-model="form.client" placeholder="Выберите клиента" filterable>
+        <template #label="{ label, value }">
+          <span>{{ label }}: </span>
+          <span style="font-weight: bold">{{ value }}</span>
+        </template>
+        <el-option v-for="client in clients" :key="client.id" :label="clientLabelSelect(client)" :value="client.id" />
+      </el-select>
     </el-form-item>
 
 
