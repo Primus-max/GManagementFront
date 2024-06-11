@@ -46,8 +46,8 @@ const cancelForm = () => {
 };
 
 const initialFormData = {
-  girl: '',
-  client: '',
+  girlId: '',
+  clientid: '',
   startTime: '',
   finishTime: '',
   amount: '',
@@ -81,8 +81,10 @@ watch(
 
 const submitForm = () => {
   loading.value = true;
+  form.value.startTime = orderTime.value[0];
+  form.value.finishTime = orderTime.value[1];
   const newOrder = {
-    ...form.value,
+    ...form.value,    
   }
 };
 
@@ -100,7 +102,7 @@ const clientLabelSelect = (client) => {
 <template>
   <el-form :model="form">
     <el-form-item label="Девушка" :label-width="formLabelWidth">
-      <el-select v-model="form.girl" placeholder="Выберите девушку">
+      <el-select v-model="form.girlId" placeholder="Выберите девушку">
         <template #label="{ label, value }">
           <span>{{ label }}: </span>
           <span style="font-weight: bold">{{ value }}</span>
@@ -110,7 +112,7 @@ const clientLabelSelect = (client) => {
     </el-form-item>
 
     <el-form-item label="Клиент" :label-width="formLabelWidth">
-      <el-select v-model="form.client" placeholder="Выберите клиента" filterable>
+      <el-select v-model="form.clientId" placeholder="Выберите клиента" filterable>
         <template #label="{ label, value }">
           <span>{{ label }}: </span>
           <span style="font-weight: bold">{{ value }}</span>
@@ -134,9 +136,9 @@ const clientLabelSelect = (client) => {
     </el-form-item>
 
     <el-form-item label="Split %" :label-width="formLabelWidth">
-      <el-select v-model="form.splitPercentage" placeholder="Выберите оператора">
-        <el-option v-for="operator in operators" :key="operator.id" :label="operator.username"
-          :value="operator.id"></el-option>
+      <el-select v-model="form.splitWithOperator" placeholder="Выберите оператора" filterable>
+        <el-option v-for="operator in operators" :key="operator.id" :label="operator.name"
+          :value="operator.id" />
       </el-select>
     </el-form-item>
 
