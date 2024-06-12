@@ -10,6 +10,7 @@ import { useClientsStore } from 'src/stores/clientsStore';
 import { useGirlsStore } from 'src/stores/girlsStore';
 // import MessageService from '@/services/infoMessageService.js';
 import { useOperatorsStore } from 'src/stores/operatorsStore';
+import { useOrdersStore } from 'src/stores/ordersStore';
 
 const props = defineProps({
   order: {
@@ -27,6 +28,7 @@ const emits = defineEmits(['close']);
 const operatorsStore = useOperatorsStore();
 const clientsStore = useClientsStore();
 const girlsStore = useGirlsStore();
+const ordersStore = useOrdersStore();
 const operators = ref([]);
 const clients = ref([]);
 const girls = ref([]);
@@ -34,16 +36,6 @@ const orderTime = ref([]);
 const form = ref({});
 const formLabelWidth = '100px';
 const loading = ref(false);
-
-
-const resetForm = () => {
-  form.value = { ...initialFormData };
-};
-
-const cancelForm = () => {
-  resetForm();
-  emits('close');
-};
 
 const initialFormData = {
   girlId: '',
@@ -57,6 +49,14 @@ const initialFormData = {
   isEancelled: false,
 }
 
+const resetForm = () => {
+  form.value = { ...initialFormData };
+};
+
+const cancelForm = () => {
+  resetForm();
+  emits('close');
+};
 
 onMounted(async () => {
   await clientsStore.fetchItems();
@@ -86,6 +86,14 @@ const submitForm = () => {
   const newOrder = {
     ...form.value,    
   }
+  if(props.isEditing){
+    ordersStore.updateItem(newOrder);
+  } else {
+    ordersStore.addItem(new Order(newOrder));
+  }
+
+  cancelForm();
+  loading.value = false;  
 };
 
 const girlLabelSelect = (girl) => {
@@ -95,7 +103,6 @@ const girlLabelSelect = (girl) => {
 const clientLabelSelect = (client) => {
   return client.name + "-" + (client.phone || client.tg);
 }
-
 
 </script>
 
@@ -152,10 +159,10 @@ const clientLabelSelect = (client) => {
     <!-- <el-form-item>
         <el-checkbox v-model="form.is_cancelled">Отмена</el-checkbox>
       </el-form-item> -->
-    <div class="drawer__footer">
+      <div class="drawer__footer">
       <el-button @click="cancelForm">Отмена</el-button>
       <el-button type="primary" :loading="loading" @click="submitForm">
-        {{ loading ? 'Отправка ...' : 'Добавить' }}
+        {{ loading ? 'Отправка ...' : (props.isEditing ? 'Редактировать' : 'Добавить') }}
       </el-button>
     </div>
   </el-form>
@@ -164,9 +171,10 @@ const clientLabelSelect = (client) => {
 
 
 <style scoped>
-.drawer__footer {
+@import 'src/assets/styles/redefine.css';
+/* .drawer__footer {
   display: flex;
   justify-content: flex-end;
   margin-top: 20px;
-}
+} */
 </style>

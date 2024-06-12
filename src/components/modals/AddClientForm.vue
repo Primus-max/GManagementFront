@@ -26,9 +26,9 @@ const loading = ref(false);
 const form = ref({});
 
 const initialFormData = {
-  name: 'Александр',
-  tg: '@alexander',
-  phone: '+7 999 999 99 99',
+  name: '',
+  tg: '',
+  phone: '',
 };
 
 const resetForm = () => {
@@ -101,9 +101,10 @@ const submitForm = () => {
 </template>
 
 <style scoped>
-.drawer__footer {
+@import 'src/assets/styles/redefine.css';
+/* .drawer__footer {
   display: flex;
   justify-content: flex-end;
   margin-top: 20px;
-}
+} */
 </style>

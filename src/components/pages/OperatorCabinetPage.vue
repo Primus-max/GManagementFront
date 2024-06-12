@@ -303,16 +303,16 @@ const shiftTimeLeft = ref("02:30:00"); // Время до конца смены
 //     // },
 //   })
 // };
-const form = reactive({
-    name: '',
-    region: '',
-    date1: '',
-    date2: '',
-    delivery: false,
-    type: [],
-    resource: '',
-    desc: '',
-})
+// const form = reactive({
+//     name: '',
+//     region: '',
+//     date1: '',
+//     date2: '',
+//     delivery: false,
+//     type: [],
+//     resource: '',
+//     desc: '',
+// })
 
 const gridData = [
     {
