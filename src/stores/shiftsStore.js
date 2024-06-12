@@ -16,6 +16,7 @@ export const useShiftsStore = defineStore("shiftsStore", {
         return;
       }
       MessageService.success(`Смена успешно начата`);
+      return response.data;
     }
   },
 });

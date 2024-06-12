@@ -355,13 +355,11 @@ const startShift = async () => {
     const startShift = new Date();
     const me = JSON.parse(localStorage.getItem('me'));
 
-    const shift = new Shift({
-        start: startShift,
-        employeeId: me.id,
-        groupId: me.groupId,
-    });    
-
-    await shiftsStore.startShift(shift);
+    const shift = new Shift({...me, start: startShift});
+   
+    const shiftId = await shiftsStore.startShift(shift);
+    shift.id = shiftId;
+    shiftsStore.currentShift = shift;
     MessageService.success(`Вы начали смену`);
 }
 
