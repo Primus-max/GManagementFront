@@ -6,13 +6,25 @@ import {
 } from 'vue';
 
 import Order from 'src/models/Order';
-import { useClientsStore } from 'src/stores/clientsStore';
-import { useGirlsStore } from 'src/stores/girlsStore';
+// import { useGirlsStore } from 'src/stores/girlsStore';
 // import MessageService from '@/services/infoMessageService.js';
-import { useOperatorsStore } from 'src/stores/operatorsStore';
+// import { useOperatorsStore } from 'src/stores/operatorsStore';
 import { useOrdersStore } from 'src/stores/ordersStore';
+import { useShiftsStore } from 'src/stores/shiftsStore';
 
 const props = defineProps({
+  girls: {
+    type: Array,
+    required: true,
+  },
+  operators: {
+    type: Array,
+    required: true,
+  },
+  clients: {
+    type: Array,
+    required: true,
+  },
   order: {
     type: Object,
     required: true,
@@ -25,13 +37,11 @@ const props = defineProps({
 
 const emits = defineEmits(['close']);
 
-const operatorsStore = useOperatorsStore();
-const clientsStore = useClientsStore();
-const girlsStore = useGirlsStore();
+const shiftsStore = useShiftsStore();
+// const girlsStore = useGirlsStore();
 const ordersStore = useOrdersStore();
-const operators = ref([]);
-const clients = ref([]);
-const girls = ref([]);
+
+// const girls = ref([]);
 const orderTime = ref([]);
 const form = ref({});
 const formLabelWidth = '100px';
@@ -39,7 +49,7 @@ const loading = ref(false);
 
 const initialFormData = {
   girlId: '',
-  clientid: '',
+  clientId: '',
   startTime: '',
   finishTime: '',
   amount: '',
@@ -58,14 +68,10 @@ const cancelForm = () => {
   emits('close');
 };
 
-onMounted(async () => {
-  await clientsStore.fetchItems();
-  await operatorsStore.fetchItems();
-  await girlsStore.fetchItems();
-  clients.value = clientsStore.items;
-  operators.value = operatorsStore.items;
-  girls.value = girlsStore.items;
-});
+// onMounted(async () => {   
+//   await girlsStore.fetchItems();    
+//   girls.value = girlsStore.items;
+// });
 
 watch(
   () => props.order,
@@ -83,6 +89,7 @@ const submitForm = () => {
   loading.value = true;
   form.value.startTime = orderTime.value[0];
   form.value.finishTime = orderTime.value[1];
+  form.value.shiftId = shiftsStore.currentShift.id;
   const newOrder = {
     ...form.value,    
   }
@@ -114,7 +121,7 @@ const clientLabelSelect = (client) => {
           <span>{{ label }}: </span>
           <span style="font-weight: bold">{{ value }}</span>
         </template>
-        <el-option v-for="girl in girls" :key="girl.id" :label="girlLabelSelect(girl)" :value="girl.id" />
+        <el-option v-for="girl in props.girls" :key="girl.id" :label="girlLabelSelect(girl)" :value="girl.id" />
       </el-select>
     </el-form-item>
 
@@ -124,7 +131,7 @@ const clientLabelSelect = (client) => {
           <span>{{ label }}: </span>
           <span style="font-weight: bold">{{ value }}</span>
         </template>
-        <el-option v-for="client in clients" :key="client.id" :label="clientLabelSelect(client)" :value="client.id" />
+        <el-option v-for="client in props.clients" :key="client.id" :label="clientLabelSelect(client)" :value="client.id" />
       </el-select>
     </el-form-item>
 
@@ -144,7 +151,7 @@ const clientLabelSelect = (client) => {
 
     <el-form-item label="Split %" :label-width="formLabelWidth">
       <el-select v-model="form.splitWithOperator" placeholder="Выберите оператора" filterable>
-        <el-option v-for="operator in operators" :key="operator.id" :label="operator.name"
+        <el-option v-for="operator in props.operators" :key="operator.id" :label="operator.name"
           :value="operator.id" />
       </el-select>
     </el-form-item>

@@ -18,32 +18,39 @@ import OrderTable from 'src/components/tables/OrderTable.vue';
 import OperationIntent from 'src/models/enums/OperationIntent';
 import Shift from 'src/models/Shift.js';
 import MessageService from 'src/services/messageServices/infoMessageService';
+import { useClientsStore } from 'src/stores/clientsStore';
 import { useGirlsStore } from 'src/stores/girlsStore';
 import { useOperatorsStore } from 'src/stores/operatorsStore';
+import { useOrdersStore } from 'src/stores/ordersStore';
 import { useShiftsStore } from 'src/stores/shiftsStore';
 
 const operatorsStore = useOperatorsStore();
 const girlsStore = useGirlsStore();
 const shiftsStore = useShiftsStore();
+const ordersStore = useOrdersStore();
+const clientsStore = useClientsStore();
 const dialogFormVisible = ref(false)
 const balance = ref(5000);
 const orderDialogVisible = ref(false);
 const detailBalancedialogVisible = ref(false)
 const selectedGirls = ref([]);
+const clients = ref([]);
+
+
 const formLabelWidth = '140px'
 
-
-const operators = ref([]);
-
 onMounted(async () => {
+    await clientsStore.fetchItems();
     await girlsStore.fetchItems();
-    selectedGirls.value = await girlsStore.getGirlsFromGroup();
     await operatorsStore.fetchItems();
-    operators.value = operatorsStore.items;
-    //await fetchGirls();
+    clients.value = clientsStore.items;
+    selectedGirls.value = await girlsStore.getGirlsFromGroup();    
+    operators.value = operatorsStore.items;    
 });
 
 const girls = computed(() => girlsStore.items);
+const orders = computed(() => ordersStore.items);
+const operators = computed(() => operatorsStore.items);
 
 // const fetchGirls = async () => {
 //   const sql = 'SELECT * FROM "Girls"';
@@ -66,280 +73,10 @@ const girls = computed(() => girlsStore.items);
 // };
 
 
-// Пример данных заказов
-const orders = ref([
-    {
-        id: 1,
-        girl: 'Анна',
-        client_name: 'Иван',
-        amount: 3000,
-        split_with: 'Оператор1',
-        order_time: '12:00 - 14:00',
-        is_extended: false,
-        is_cancelled: false,
-        comment: 'Комментарий к заказу',
-    },
-    {
-        id: 2,
-        girl: 'Мария',
-        client_name: 'Петр',
-        amount: 2000,
-        split_with: 'Оператор2',
-        order_time: '15:00 - 16:00',
-        is_extended: true,
-        is_cancelled: false,
-        comment: 'Комментарий к заказу',
-    },
-    {
-        id: 2,
-        girl: 'Мария',
-        client_name: 'Петр',
-        amount: 2000,
-        split_with: 'Оператор2',
-        order_time: '15:00 - 16:00',
-        is_extended: true,
-        is_cancelled: false,
-        comment: 'Комментарий к заказу',
-    },
-    {
-        id: 2,
-        girl: 'Мария',
-        client_name: 'Петр',
-        amount: 2000,
-        split_with: 'Оператор2',
-        order_time: '15:00 - 16:00',
-        is_extended: true,
-        is_cancelled: false,
-        comment: 'Комментарий к заказу',
-    },
-    {
-        id: 2,
-        girl: 'Мария',
-        client_name: 'Петр',
-        amount: 2000,
-        split_with: 'Оператор2',
-        order_time: '15:00 - 16:00',
-        is_extended: true,
-        is_cancelled: false,
-        comment: 'Комментарий к заказу',
-    },
-    {
-        id: 2,
-        girl: 'Мария',
-        client_name: 'Петр',
-        amount: 2000,
-        split_with: 'Оператор2',
-        order_time: '15:00 - 16:00',
-        is_extended: true,
-        is_cancelled: false,
-        comment: 'Комментарий к заказу',
-    },
-    {
-        id: 2,
-        girl: 'Мария',
-        client_name: 'Петр',
-        amount: 2000,
-        split_with: 'Оператор2',
-        order_time: '15:00 - 16:00',
-        is_extended: true,
-        is_cancelled: false,
-        comment: 'Комментарий к заказу',
-    },
-    {
-        id: 2,
-        girl: 'Мария',
-        client_name: 'Петр',
-        amount: 2000,
-        split_with: 'Оператор2',
-        order_time: '15:00 - 16:00',
-        is_extended: true,
-        is_cancelled: false,
-        comment: 'Комментарий к заказу',
-    },
-    {
-        id: 2,
-        girl: 'Мария',
-        client_name: 'Петр',
-        amount: 2000,
-        split_with: 'Оператор2',
-        order_time: '15:00 - 16:00',
-        is_extended: true,
-        is_cancelled: false,
-        comment: 'Комментарий к заказу',
-    },
-    {
-        id: 2,
-        girl: 'Мария',
-        client_name: 'Петр',
-        amount: 2000,
-        split_with: 'Оператор2',
-        order_time: '15:00 - 16:00',
-        is_extended: true,
-        is_cancelled: false,
-        comment: 'Комментарий к заказу',
-    },
-    {
-        id: 2,
-        girl: 'Мария',
-        client_name: 'Петр',
-        amount: 2000,
-        split_with: 'Оператор2',
-        order_time: '15:00 - 16:00',
-        is_extended: true,
-        is_cancelled: false,
-        comment: 'Комментарий к заказу',
-    },
-    {
-        id: 2,
-        girl: 'Мария',
-        client_name: 'Петр',
-        amount: 2000,
-        split_with: 'Оператор2',
-        order_time: '15:00 - 16:00',
-        is_extended: true,
-        is_cancelled: false,
-        comment: 'Комментарий к заказу',
-    },
-    {
-        id: 2,
-        girl: 'Мария',
-        client_name: 'Петр',
-        amount: 2000,
-        split_with: 'Оператор2',
-        order_time: '15:00 - 16:00',
-        is_extended: true,
-        is_cancelled: false,
-        comment: 'Комментарий к заказу',
-    },
-    {
-        id: 2,
-        girl: 'Мария',
-        client_name: 'Петр',
-        amount: 2000,
-        split_with: 'Оператор2',
-        order_time: '15:00 - 16:00',
-        is_extended: true,
-        is_cancelled: false,
-        comment: 'Комментарий к заказу',
-    },
-    {
-        id: 2,
-        girl: 'Мария',
-        client_name: 'Петр',
-        amount: 2000,
-        split_with: 'Оператор2',
-        order_time: '15:00 - 16:00',
-        is_extended: true,
-        is_cancelled: false,
-        comment: 'Комментарий к заказу',
-    },
-    {
-        id: 2,
-        girl: 'Мария',
-        client_name: 'Петр',
-        amount: 2000,
-        split_with: 'Оператор2',
-        order_time: '15:00 - 16:00',
-        is_extended: true,
-        is_cancelled: false,
-        comment: 'Комментарий к заказу',
-    },
-    {
-        id: 2,
-        girl: 'Мария',
-        client_name: 'Петр',
-        amount: 2000,
-        split_with: 'Оператор2',
-        order_time: '15:00 - 16:00',
-        is_extended: true,
-        is_cancelled: false,
-        comment: 'Комментарий к заказу',
-    },
-    {
-        id: 2,
-        girl: 'Мария',
-        client_name: 'Петр',
-        amount: 2000,
-        split_with: 'Оператор2',
-        order_time: '15:00 - 16:00',
-        is_extended: true,
-        is_cancelled: false,
-        comment: 'Комментарий к заказу',
-    },
-    {
-        id: 2,
-        girl: 'Мария',
-        client_name: 'Петр',
-        amount: 2000,
-        split_with: 'Оператор2',
-        order_time: '15:00 - 16:00',
-        is_extended: true,
-        is_cancelled: false,
-        comment: 'Комментарий к заказу',
-    },
-    {
-        id: 2,
-        girl: 'Мария',
-        client_name: 'Петр',
-        amount: 2000,
-        split_with: 'Оператор2',
-        order_time: '15:00 - 16:00',
-        is_extended: true,
-        is_cancelled: false,
-        comment: 'Комментарий к заказу',
-    },
-]);
-
 
 const shiftStartTime = ref("08:00"); // Начало смены
 const shiftEndTime = ref("16:00"); // Конец смены
 const shiftTimeLeft = ref("02:30:00"); // Время до конца смены
-// const openBalanceModal = () => {
-//     ElMessageBox.alert('This is a message', 'Информация о балансе', {
-//     // if you want to disable its autofocus
-//     // autofocus: false,
-//     confirmButtonText: 'OK',
-//     // callback: (action) => {
-//     //   ElMessage({
-//     //     type: 'info',
-//     //     message: `action: ${action}`,
-//     //   })
-//     // },
-//   })
-// };
-// const form = reactive({
-//     name: '',
-//     region: '',
-//     date1: '',
-//     date2: '',
-//     delivery: false,
-//     type: [],
-//     resource: '',
-//     desc: '',
-// })
-
-const gridData = [
-    {
-        date: '2016-05-02',
-        order: 234,
-        client: 'Валера',
-    },
-    {
-        date: '2016-05-04',
-        order: 248,
-        client: 'John Smith',
-    },
-    {
-        date: '2016-05-01',
-        order: 122,
-        client: 'Андрей Борсивич',
-    },
-    {
-        date: '2016-05-03',
-        order: 301,
-        client: 'John Smith',
-    },
-]
 
 
 const girlLabelSelect = (girl) => {
@@ -441,7 +178,7 @@ const handleClose = () => {
     </div>
 
     <el-drawer v-model="dialogFormVisible" title="Добавить заказ" :before-close="handleClose" direction="ltr">
-        <AddOrderForm @close="dialogFormVisible = false" />
+        <AddOrderForm @close="dialogFormVisible = false" :clients="clients" :operators="operators" :girls="selectedGirls" />
     </el-drawer>
 
     <el-dialog v-model="detailBalancedialogVisible" title="Информация о формировании баланса" width="800">
