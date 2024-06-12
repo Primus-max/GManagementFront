@@ -37,7 +37,7 @@ const operators = ref([]);
 
 onMounted(async () => {
     await girlsStore.fetchItems();
-    selectedGirls.value = await girlsStore.getGirlsFromGroup();  
+    selectedGirls.value = await girlsStore.getGirlsFromGroup();
     await operatorsStore.fetchItems();
     operators.value = operatorsStore.items;
     //await fetchGirls();
@@ -347,12 +347,21 @@ const girlLabelSelect = (girl) => {
 }
 
 const addGirlsToGroup = async () => {
-    await girlsStore.addGirlsToGroup(selectedGirls.value);    
+    await girlsStore.addGirlsToGroup(selectedGirls.value);
 }
 
 
-const startShift = () => {
-    const startShift = shiftsStore.startShift( new Date() )
+const startShift = async () => {
+    const startShift = new Date();
+    const me = JSON.parse(localStorage.getItem('me'));
+
+    const shift = new Shift({
+        start: startShift,
+        employeeId: me.id,
+        groupId: me.groupId,
+    });    
+
+    await shiftsStore.startShift(shift);
     MessageService.success(`Вы начали смену`);
 }
 
@@ -379,7 +388,7 @@ const handleClose = () => {
                 <div class="girls-in-shift-wrapper">
                     <div>
                         <el-select v-model="selectedGirls" placeholder="Выбрать девушек в смену" style="width: 240px"
-                            clearable multiple class="girls-select" :reserve-keyword="true" >                         
+                            clearable multiple class="girls-select" :reserve-keyword="true">
                             <template #label="{ label, value }">
                                 <span>{{ label }}: </span>
                                 <span style="font-weight: bold">{{ value }}</span>

@@ -9,8 +9,8 @@ export const useShiftsStore = defineStore("shiftsStore", {
   }),
   actions: {
     async fetchShifts() {},
-    async startShift(startTime) {
-      const response = await postShift(startTime);
+    async startShift(shift) {
+      const response = await postShift(shift);
       if (response.status !== 200) {
         MessageService.error(response.statusText);
         return;
