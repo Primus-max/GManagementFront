@@ -82,8 +82,7 @@ export const getAll = async (endpoint) => {
     }
   };
 
-  // Специфичные методы для операторов
-  export const getGirlsOnMyShift = async (endpoint) => {
+export const getGirlsOnMyShift = async (endpoint) => {
     try {
       const response = await apiClient.get(`${endpoint}/girls-in-my-shift`);
       return response.data;
@@ -91,3 +90,15 @@ export const getAll = async (endpoint) => {
       throw new Error(`Failed to fetch me: ${error.message}`);
     }
   }
+
+  // Специфичные методы для операторов
+  export const getMe = async (endpoint) => {
+    try  {
+      console.log(  `${endpoint}/get-me`);
+      const response = await apiClient.get(`${endpoint}/get-me`);
+      return response;
+    } catch (error) {
+      throw new Error(`Failed to fetch me: ${error.message}`);
+    }
+  }
+  

@@ -8,6 +8,7 @@ import {
   getAll,
   getById,
   getGirlsGroups,
+  getMe,
   updateItem,
 } from 'src/services/api/base/baseRepository';
 import MessageService from 'src/services/messageServices/infoMessageService';
@@ -80,22 +81,33 @@ export const createStore = (storeName, endpoint) => {
       async getGirlsFromGroup()  {
       const response= await getGirlsGroups(endpoint);
       if (response.status !== 200) {
-        MessageService.error(response.statusText);
+        console.error(response.statusText);
         return;
       }
       return response.data;
-    }
     },
-
-
-    // Специфичные методы для оператора
     async getGirlsOnMyShift () {
       const response = await getGirlsOnMyShift(endpoint);
       if (response.status !== 200) {
-        MessageService.error(response.statusText);
+        console.error(response.statusText);
         return;
       }
       return response.data;
-    }
+    },
+
+    // Специфичные методы для оператора
+    async getMe () {
+      const response = await getMe(endpoint);
+      if (response.status !== 200) {
+        console.error(response.statusText);
+        return;
+      }
+      return response.data;
+    },
+    },
+
+    
+
+   
   });
 };

@@ -7,8 +7,7 @@ class Shift {
       this.groupId = data.groupId;
       this.employeeType = data.employeeType;
       this.employeeId = data.employeeId;
-      this.group = data.group;
-      this.girl = data.girl;
-      this.operator = data.operator;
   }
 }
+
+export default Shift

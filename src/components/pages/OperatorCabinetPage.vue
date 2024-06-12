@@ -16,11 +16,15 @@ import {
 import AddOrderForm from 'src/components/modals/AddOrderForm.vue';
 import OrderTable from 'src/components/tables/OrderTable.vue';
 import OperationIntent from 'src/models/enums/OperationIntent';
+import Shift from 'src/models/Shift.js';
+import MessageService from 'src/services/messageServices/infoMessageService';
 import { useGirlsStore } from 'src/stores/girlsStore';
 import { useOperatorsStore } from 'src/stores/operatorsStore';
+import { useShiftsStore } from 'src/stores/shiftsStore';
 
 const operatorsStore = useOperatorsStore();
 const girlsStore = useGirlsStore();
+const shiftsStore = useShiftsStore();
 const dialogFormVisible = ref(false)
 const balance = ref(5000);
 const orderDialogVisible = ref(false);
@@ -347,6 +351,11 @@ const addGirlsToGroup = async () => {
 }
 
 
+const startShift = () => {
+    const startShift = shiftsStore.startShift( new Date() )
+    MessageService.success(`Вы начали смену`);
+}
+
 const handleClose = () => {
     orderDialogVisible.value = false;
 };
@@ -395,7 +404,7 @@ const handleClose = () => {
                         Создать заказ
                     </el-button>
                     <div>
-                        <el-button type="primary" @click="testAdd"> Начать смену</el-button>
+                        <el-button type="primary" @click="startShift"> Начать смену</el-button>
 
                     </div>
 
