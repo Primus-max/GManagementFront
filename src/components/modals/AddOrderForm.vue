@@ -38,10 +38,9 @@ const props = defineProps({
 const emits = defineEmits(['close']);
 
 const shiftsStore = useShiftsStore();
-// const girlsStore = useGirlsStore();
 const ordersStore = useOrdersStore();
 
-// const girls = ref([]);
+// const shifts = ref([]);
 const orderTime = ref([]);
 const form = ref({});
 const formLabelWidth = '100px';
@@ -69,8 +68,8 @@ const cancelForm = () => {
 };
 
 // onMounted(async () => {   
-//   await girlsStore.fetchItems();    
-//   girls.value = girlsStore.items;
+//   await shiftsStore.fetchItems();    
+//   shifts.value = shiftsStore.items;
 // });
 
 watch(
@@ -85,7 +84,7 @@ watch(
   { immediate: true }
 );
 
-const submitForm = () => {
+const submitForm = async () => {
   loading.value = true;
   form.value.startTime = orderTime.value[0];
   form.value.finishTime = orderTime.value[1];
@@ -94,9 +93,9 @@ const submitForm = () => {
     ...form.value,    
   }
   if(props.isEditing){
-    ordersStore.updateItem(newOrder);
+   await ordersStore.updatedOrder(newOrder);
   } else {
-    ordersStore.addItem(new Order(newOrder));
+    await ordersStore.addOrder(new Order(newOrder));
   }
 
   cancelForm();

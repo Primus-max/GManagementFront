@@ -6,6 +6,8 @@ const props = defineProps({
     }
 });
 
+console.log(props.orders);
+
 const cancelOrder = (order) => {
     // логика отмены заказа
 };

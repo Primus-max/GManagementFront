@@ -38,7 +38,9 @@ export const createStore = (storeName, endpoint) => {
         this.items.push(item);
       },
       async updateItem(updatedItem) {
-        const index = this.items.findIndex(item => item.id === updatedItem.id);
+        const index = this.items.findIndex(
+          (item) => item.id === updatedItem.id
+        );
         if (index !== -1) {
           const response = await updateItem(endpoint, updatedItem);
           if (response.status !== 200) {
@@ -56,15 +58,17 @@ export const createStore = (storeName, endpoint) => {
           return;
         }
         MessageService.success(`Элемент успешно удален`);
-        this.items = this.items.filter(i => i.id !== item.id);
+        this.items = this.items.filter((i) => i.id !== item.id);
       },
       async executeFromSql(sqlModel) {
         try {
-          const result = await executeSql(endpoint,sqlModel);
+          const result = await executeSql(endpoint, sqlModel);
           return result;
         } catch (error) {
           console.error(error.message);
-          MessageService.error(`Ошибка выполнения SQL-запроса: ${error.message}`);
+          MessageService.error(
+            `Ошибка выполнения SQL-запроса: ${error.message}`
+          );
         }
       },
 
@@ -78,36 +82,41 @@ export const createStore = (storeName, endpoint) => {
         MessageService.success(`Данные успешно обновлены`);
         return response.data;
       },
-      async getGirlsFromGroup()  {
-      const response= await getGirlsGroups(endpoint);
-      if (response.status !== 200) {
-        console.error(response.statusText);
-        return;
-      }
-      return response.data;
-    },
-    async getGirlsOnMyShift () {
-      const response = await getGirlsOnMyShift(endpoint);
-      if (response.status !== 200) {
-        console.error(response.statusText);
-        return;
-      }
-      return response.data;
-    },
+      async getGirlsFromGroup() {
+        const response = await getGirlsGroups(endpoint);
+        if (response.status !== 200) {
+          console.error(response.statusText);
+          return;
+        }
+        return response.data;
+      },
+      async getGirlsOnMyShift() {
+        const response = await getGirlsOnMyShift(endpoint);
+        if (response.status !== 200) {
+          console.error(response.statusText);
+          return;
+        }
+        return response.data;
+      },
 
-    // Специфичные методы для оператора
-    async getMe () {
-      const response = await getMe(endpoint);
-      if (response.status !== 200) {
-        console.error(response.statusText);
-        return;
-      }
-      return response.data;
-    },
-    },
+      // Специфичные методы для оператора
+      async getMe() {
+        const response = await getMe(endpoint);
+        if (response.status !== 200) {
+          console.error(response.statusText);
+          return;
+        }
+        return response.data;
+      },
 
-    
-
-   
+      // async getOrdersWidhDetails() {
+      //   const response = await getOrdersWidthDetails(endpoint);
+      //   if (response.status !== 200) {
+      //     console.error(response.statusText);
+      //     return;
+      //   }
+      //   return response.data;
+      // },
+    },
   });
 };

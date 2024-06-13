@@ -35,23 +35,57 @@ const orderDialogVisible = ref(false);
 const detailBalancedialogVisible = ref(false)
 const selectedGirls = ref([]);
 const clients = ref([]);
-
-
+const orders = ref([]);
 const formLabelWidth = '140px'
 
 onMounted(async () => {
     await clientsStore.fetchItems();
     await girlsStore.fetchItems();
     await operatorsStore.fetchItems();
-    clients.value = clientsStore.items;
-    selectedGirls.value = await girlsStore.getGirlsFromGroup();    
-    operators.value = operatorsStore.items;    
+    // await ordersStore.fetchItems();
+    await ordersStore.getOrdersWidhDetails();
+    orders.value = ordersStore.ordersWithDetails;
+   
+    clients.value = clientsStore.items;    
+    selectedGirls.value = await girlsStore.getGirlsFromGroup();
+    operators.value = operatorsStore.items;   
 });
 
 const girls = computed(() => girlsStore.items);
-const orders = computed(() => ordersStore.items);
+// const orders = computed(() => ordersStore.items);
 const operators = computed(() => operatorsStore.items);
 
+// const fetchOrders = async () => {
+//     const sql = `SELECT 
+//                 o."Id",
+//                 c."Name" as "ClientName",
+//                 op."Name" as "OperatorName",
+//                 g."Name" as "GirlName",
+//                  o."Amount"
+//               FROM 
+//                 "Orders" o
+//               JOIN 
+//                 "Clients" c ON o."ClientId" = c."Id"
+//               JOIN 
+//                 "Operators" op ON o."OperatorId" = op."Id"
+//               JOIN 
+//                 "Girls" g ON o."GirlId" = g."Id"`
+//     const parameters = [];
+
+//     const queryModel = {
+//         Sql: sql,
+//         Parameters: parameters,
+//     };
+
+//     try {
+//         const response = await ordersStore.executeFromSql(queryModel);
+//         console.log('Orders:', response.data);
+//         return response.data;
+//     } catch (error) {
+//         console.error('Error fetching orders:', error);
+//         throw error;
+//     }
+// }
 // const fetchGirls = async () => {
 //   const sql = 'SELECT * FROM "Girls"';
 //   const parameters = [];
@@ -92,12 +126,12 @@ const startShift = async () => {
     const startShift = new Date();
     const me = JSON.parse(localStorage.getItem('me'));
 
-    const shift = new Shift({...me, start: startShift});
-   
+    const shift = new Shift({ ...me, start: startShift });
+
     const shiftId = await shiftsStore.startShift(shift);
     shift.id = shiftId;
     shiftsStore.currentShift = shift;
-    MessageService.success(`Вы начали смену`);
+    // MessageService.success(`Вы начали смену`);
 }
 
 const handleClose = () => {
@@ -178,7 +212,8 @@ const handleClose = () => {
     </div>
 
     <el-drawer v-model="dialogFormVisible" title="Добавить заказ" :before-close="handleClose" direction="ltr">
-        <AddOrderForm @close="dialogFormVisible = false" :clients="clients" :operators="operators" :girls="selectedGirls" />
+        <AddOrderForm @close="dialogFormVisible = false" :clients="clients" :operators="operators"
+            :girls="selectedGirls" />
     </el-drawer>
 
     <el-dialog v-model="detailBalancedialogVisible" title="Информация о формировании баланса" width="800">
