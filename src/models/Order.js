@@ -10,6 +10,7 @@ class Order {
     this.amount = data.amount;
     this.isExtended = data.isExtended;
     this.isCancelled = data.isCancelled;
+    this.isCashless = data.isCashless;
     this.splitWithOperator = data.splitWithOperator;
     this.comment = data.comment;
   }
