@@ -205,7 +205,7 @@ const handleClose = () => {
 
                 <!-- Orders List -->
                 <div class="orders-list">
-                    <OrderTable :orders="orders" />
+                    <OrderTable  />
                 </div>
             </el-card>
         </div>

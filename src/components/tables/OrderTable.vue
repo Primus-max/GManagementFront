@@ -1,12 +1,11 @@
 <script setup>
-const props = defineProps({
-    orders: {
-        type: Array,
-        required: true
-    }
-});
+import { computed } from 'vue';
 
-console.log(props.orders);
+import { useOrdersStore } from 'src/stores/ordersStore';
+
+const ordersStore = useOrdersStore();
+const orders = computed(() => ordersStore.ordersWithDetails);
+
 
 const cancelOrder = (order) => {
     // логика отмены заказа
