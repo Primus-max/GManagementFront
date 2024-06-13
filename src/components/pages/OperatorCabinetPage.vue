@@ -54,9 +54,7 @@ onBeforeMount(async () => {
         if (shiftsStore.currentShift) {
             await startShiftCountdown(shiftsStore.currentShift.end, handleShiftEnd);
             shiftState(true, false);
-            return;
-            //   isCurrentShiftExists.value = true;
-            //   isLoading.value = false;
+            return;          
         }
     } catch (error) {
         console.error('Ошибка при загрузке смены', error);
@@ -81,7 +79,6 @@ const operators = computed(() => operatorsStore.items);
 const shiftStartTime = ref(new Date().setHours(10, 0, 0));
 const shiftEndTime = ref(new Date().setHours(21, 0, 0));
 // const shiftTimeLeft = ref("02:30:00");
-
 
 const girlLabelSelect = (girl) => {
     return girl.name + "-" + girl.tgAcc;
@@ -205,9 +202,9 @@ const shiftState = (exests, loading) => {
         </div>
     </div>
 
-    <el-drawer v-model="dialogFormVisible" title="Добавить заказ" :before-close="handleClose" direction="ltr">
+    <el-drawer v-model="dialogFormVisible" title="Добавить заказ"  direction="ltr">
         <AddOrderForm @close="dialogFormVisible = false" :clients="clients" :operators="operators"
-            :girls="selectedGirls" />
+            :girls="selectedGirls" :isEditing="false"/>
     </el-drawer>
 
     <el-dialog v-model="detailBalancedialogVisible" title="Информация о формировании баланса" width="800">

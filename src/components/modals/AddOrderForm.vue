@@ -56,6 +56,7 @@ const initialFormData = {
   comment: '',
   isExtended: false,
   isEancelled: false,
+  isCashless: false,
 }
 
 const resetForm = () => {
@@ -161,6 +162,9 @@ const clientLabelSelect = (client) => {
 
     <el-form-item>
       <el-checkbox v-model="form.isExtended">Продление</el-checkbox>
+    </el-form-item>
+    <el-form-item>
+      <el-checkbox v-model="form.isCashless">Б/Н</el-checkbox>
     </el-form-item>
     <!-- <el-form-item>
         <el-checkbox v-model="form.is_cancelled">Отмена</el-checkbox>
