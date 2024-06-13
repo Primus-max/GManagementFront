@@ -1,6 +1,7 @@
 <script setup>
 import {
   computed,
+  onBeforeMount,
   onMounted,
   reactive,
   ref,
@@ -23,6 +24,12 @@ import { useGirlsStore } from 'src/stores/girlsStore';
 import { useOperatorsStore } from 'src/stores/operatorsStore';
 import { useOrdersStore } from 'src/stores/ordersStore';
 import { useShiftsStore } from 'src/stores/shiftsStore';
+import { formatTime } from 'src/utils/formatters';
+import {
+  handleShiftEnd,
+  shiftTimeLeft,
+  startShiftCountdown,
+} from 'src/utils/shiftUtils';
 
 const operatorsStore = useOperatorsStore();
 const girlsStore = useGirlsStore();
@@ -36,23 +43,32 @@ const detailBalancedialogVisible = ref(false)
 const selectedGirls = ref([]);
 const clients = ref([]);
 const orders = ref([]);
+const isCurrentShiftExists = ref(false);
+const isLoading = ref(true);
 const formLabelWidth = '140px'
+
+
+onBeforeMount( async() => {
+    await shiftsStore.fetchCurrentShift();
+    if (shiftsStore.currentShift) {
+        await startShiftCountdown(shiftsStore.currentShift.end, handleShiftEnd);        
+        isCurrentShiftExists.value = true;
+    }
+    isLoading.value = false
+})
 
 onMounted(async () => {
     await clientsStore.fetchItems();
     await girlsStore.fetchItems();
     await operatorsStore.fetchItems();
-    // await ordersStore.fetchItems();
     await ordersStore.getOrdersWidhDetails();
-    orders.value = ordersStore.ordersWithDetails;
-   
-    clients.value = clientsStore.items;    
+    orders.value = ordersStore.ordersWithDetails;    
+    clients.value = clientsStore.items;
     selectedGirls.value = await girlsStore.getGirlsFromGroup();
-    operators.value = operatorsStore.items;   
+    operators.value = operatorsStore.items;
 });
 
 const girls = computed(() => girlsStore.items);
-// const orders = computed(() => ordersStore.items);
 const operators = computed(() => operatorsStore.items);
 
 // const fetchOrders = async () => {
@@ -108,9 +124,9 @@ const operators = computed(() => operatorsStore.items);
 
 
 
-const shiftStartTime = ref("08:00"); // Начало смены
-const shiftEndTime = ref("16:00"); // Конец смены
-const shiftTimeLeft = ref("02:30:00"); // Время до конца смены
+const shiftStartTime = ref(new Date().setHours(10, 0, 0));
+const shiftEndTime = ref(new Date().setHours(18, 0, 0));
+// const shiftTimeLeft = ref("02:30:00");
 
 
 const girlLabelSelect = (girl) => {
@@ -126,17 +142,21 @@ const startShift = async () => {
     const startShift = new Date();
     const me = JSON.parse(localStorage.getItem('me'));
 
-    const shift = new Shift({ ...me, start: startShift });
+    const shift = new Shift({
+        ...me,
+        start: new Date(shiftStartTime.value).toISOString(),
+        end: new Date(shiftEndTime.value).toISOString(),
+    });
 
     const shiftId = await shiftsStore.startShift(shift);
     shift.id = shiftId;
     shiftsStore.currentShift = shift;
-    // MessageService.success(`Вы начали смену`);
 }
 
 const handleClose = () => {
     orderDialogVisible.value = false;
 };
+
 
 </script>
 
@@ -181,9 +201,9 @@ const handleClose = () => {
                     <el-button type="primary" @click="dialogFormVisible = true">
                         Создать заказ
                     </el-button>
-                    <div>
+                    
+                    <div v-if="!isLoading && !isCurrentShiftExists">
                         <el-button type="primary" @click="startShift"> Начать смену</el-button>
-
                     </div>
 
                     <div class="shift-time-wrapper">
@@ -192,8 +212,8 @@ const handleClose = () => {
                                 <el-button class="popover-button">Смена</el-button>
                             </template>
                             <div class="shift-info">
-                                <div>Начало: {{ shiftStartTime }}</div>
-                                <div>Конец: {{ shiftEndTime }}</div>
+                                <div>Начало: {{ formatTime(shiftStartTime) }}</div>
+                                <div>Конец: {{ formatTime(shiftEndTime) }}</div>
                             </div>
                         </el-popover>
                         <div>осталось: {{ shiftTimeLeft }}</div>
@@ -205,7 +225,7 @@ const handleClose = () => {
 
                 <!-- Orders List -->
                 <div class="orders-list">
-                    <OrderTable  />
+                    <OrderTable />
                 </div>
             </el-card>
         </div>

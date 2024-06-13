@@ -9,11 +9,20 @@ export const getShifts = async () => {
     };
 }
 
-export const postShift  = async  (data)  =>  {
+export const postShift  = async  (endpoint,data)  =>  {
     try {
-        const response = await apiClient.post('/shifts/start-shift', data);
+        const response = await apiClient.post(`/${endpoint}/start-shift`, data);
         return response;
     } catch (error) {
         throw new Error('Failed to add shift');
+    };
+}
+
+export const getCurrentShift = async (endpoint) => {
+    try {
+        const response = await apiClient.get(`/${endpoint}/current-shift`);
+        return response;
+    } catch (error) {
+        console.log(error.response.data);
     };
 }
