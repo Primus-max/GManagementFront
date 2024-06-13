@@ -27,7 +27,7 @@ export const useShiftsStore = defineStore("shiftsStore", {
         MessageService.error(response.statusText);
         return;
       }
-      MessageService.success(`Смена успешно начата`);
+      MessageService.success(`Смена началась`);
       return response.data;
     }
   },

@@ -11,6 +11,7 @@ import {
   ElCheckbox,
   ElMessage,
   ElMessageBox,
+  ElPopover,
   ElTable,
   ElTableColumn,
 } from 'element-plus';
@@ -26,7 +27,6 @@ import { useOrdersStore } from 'src/stores/ordersStore';
 import { useShiftsStore } from 'src/stores/shiftsStore';
 import { formatTime } from 'src/utils/formatters';
 import {
-  handleShiftEnd,
   shiftTimeLeft,
   startShiftCountdown,
 } from 'src/utils/shiftUtils';
@@ -48,21 +48,28 @@ const isLoading = ref(true);
 const formLabelWidth = '140px'
 
 
-onBeforeMount( async() => {
-    await shiftsStore.fetchCurrentShift();
-    if (shiftsStore.currentShift) {
-        await startShiftCountdown(shiftsStore.currentShift.end, handleShiftEnd);        
-        isCurrentShiftExists.value = true;
-    }
-    isLoading.value = false
-})
+onBeforeMount(async () => {
+    try {
+        await shiftsStore.fetchCurrentShift();
+        if (shiftsStore.currentShift) {
+            await startShiftCountdown(shiftsStore.currentShift.end, handleShiftEnd);
+            shiftState(true, false);
+            return;
+            //   isCurrentShiftExists.value = true;
+            //   isLoading.value = false;
+        }
+    } catch (error) {
+        console.error('Ошибка при загрузке смены', error);
+        shiftState(false, false);
+    } 
+});
 
 onMounted(async () => {
     await clientsStore.fetchItems();
     await girlsStore.fetchItems();
     await operatorsStore.fetchItems();
     await ordersStore.getOrdersWidhDetails();
-    orders.value = ordersStore.ordersWithDetails;    
+    orders.value = ordersStore.ordersWithDetails;
     clients.value = clientsStore.items;
     selectedGirls.value = await girlsStore.getGirlsFromGroup();
     operators.value = operatorsStore.items;
@@ -71,61 +78,8 @@ onMounted(async () => {
 const girls = computed(() => girlsStore.items);
 const operators = computed(() => operatorsStore.items);
 
-// const fetchOrders = async () => {
-//     const sql = `SELECT 
-//                 o."Id",
-//                 c."Name" as "ClientName",
-//                 op."Name" as "OperatorName",
-//                 g."Name" as "GirlName",
-//                  o."Amount"
-//               FROM 
-//                 "Orders" o
-//               JOIN 
-//                 "Clients" c ON o."ClientId" = c."Id"
-//               JOIN 
-//                 "Operators" op ON o."OperatorId" = op."Id"
-//               JOIN 
-//                 "Girls" g ON o."GirlId" = g."Id"`
-//     const parameters = [];
-
-//     const queryModel = {
-//         Sql: sql,
-//         Parameters: parameters,
-//     };
-
-//     try {
-//         const response = await ordersStore.executeFromSql(queryModel);
-//         console.log('Orders:', response.data);
-//         return response.data;
-//     } catch (error) {
-//         console.error('Error fetching orders:', error);
-//         throw error;
-//     }
-// }
-// const fetchGirls = async () => {
-//   const sql = 'SELECT * FROM "Girls"';
-//   const parameters = [];
-
-//   const queryModel = {
-//     Intent: OperationIntent.GetGirlsByGroupId, // Указываем намерение запроса
-//     Sql: sql,
-//     Parameters: parameters,
-//   };
-
-//   try {
-//     const response = await girlsStore.executeFromSql(queryModel); // Отправляем запрос
-//     console.log('Girls:', response.data);
-//     return response.data;
-//   } catch (error) {
-//     console.error('Error fetching girls:', error);
-//     throw error;
-//   }
-// };
-
-
-
 const shiftStartTime = ref(new Date().setHours(10, 0, 0));
-const shiftEndTime = ref(new Date().setHours(18, 0, 0));
+const shiftEndTime = ref(new Date().setHours(21, 0, 0));
 // const shiftTimeLeft = ref("02:30:00");
 
 
@@ -136,7 +90,6 @@ const girlLabelSelect = (girl) => {
 const addGirlsToGroup = async () => {
     await girlsStore.addGirlsToGroup(selectedGirls.value);
 }
-
 
 const startShift = async () => {
     const startShift = new Date();
@@ -151,11 +104,32 @@ const startShift = async () => {
     const shiftId = await shiftsStore.startShift(shift);
     shift.id = shiftId;
     shiftsStore.currentShift = shift;
+    await startShiftCountdown(shiftsStore.currentShift.end, handleShiftEnd);
+    shiftState(true, true);
+    // isCurrentShiftExists.value = true;
+    // isLoading.value = false;
 }
 
 const handleClose = () => {
     orderDialogVisible.value = false;
 };
+
+const handleShiftEnd = () => {
+    ElMessageBox.confirm('Смена закончилась', 'Подтвердите действие', {
+        confirmButtonText: 'Ок',
+        type: 'info',
+        showCancelButton: false
+    }).then(() => {
+        shiftState(false, false);
+        //   isCurrentShiftExists.value = false;
+        //   isLoading.value = true;
+    })
+};
+
+const shiftState = (exests, loading) => {
+    isCurrentShiftExists.value = exests;
+    isLoading.value = loading;
+}
 
 
 </script>
@@ -201,7 +175,7 @@ const handleClose = () => {
                     <el-button type="primary" @click="dialogFormVisible = true">
                         Создать заказ
                     </el-button>
-                    
+
                     <div v-if="!isLoading && !isCurrentShiftExists">
                         <el-button type="primary" @click="startShift"> Начать смену</el-button>
                     </div>
