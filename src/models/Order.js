@@ -11,7 +11,7 @@ class Order {
     this.isExtended = data.isExtended;
     this.isCancelled = data.isCancelled;
     this.isCashless = data.isCashless;
-    this.splitWithOperator = data.splitWithOperator;
+    this.splitWithOperator = data.splitWithOperator || -1;
     this.comment = data.comment;
   }
 }

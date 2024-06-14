@@ -4,7 +4,9 @@ import { computed } from 'vue';
 import { useOrdersStore } from 'src/stores/ordersStore';
 
 const ordersStore = useOrdersStore();
-const orders = computed(() => ordersStore.ordersWithDetails);
+const orders = computed(() => {
+  return ordersStore.ordersWithDetails.slice().reverse();
+});
 
 
 const cancelOrder = (order) => {
@@ -31,7 +33,7 @@ const payOrder = (order) => {
 
 <template>
     <div class="order-table">
-        <el-table :data="orders" class="table" size="large" fit height="60vh">
+        <el-table :data="orders" class="table" size="large" fit height="60vh" default-sort="{ prop: 'id', order: 'descending' }">
             <el-table-column prop="id" label="ID" width="50" ></el-table-column>
             <el-table-column prop="girl" label="Девушка"></el-table-column>
             <el-table-column prop="client" label="Клиент"></el-table-column>
