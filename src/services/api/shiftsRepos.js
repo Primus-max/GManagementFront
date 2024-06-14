@@ -26,3 +26,21 @@ export const getCurrentShift = async (endpoint) => {
         console.log(error.response.data);
     };
 }
+
+export const endShift = async (endpoint, shiftId) => {
+    try {
+        const response = await apiClient.get(`/${endpoint}/end-shift`, shiftId);
+        return response;
+    } catch (error) {
+        console.log(error.response.data);
+    };
+}
+
+export const getShiftsWithDetails = async (endpoint) => {
+    try {
+        const response = await apiClient.get(`${endpoint}/shifts-with-orders`);
+        return response;
+    } catch (error) {
+        throw new Error('Failed to fetch shifts');
+    };
+}

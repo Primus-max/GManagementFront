@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia';
 import {
+  endShift,
   getCurrentShift,
+  getShiftsWithDetails,
   postShift,
 } from 'src/services/api/shiftsRepos';
 import MessageService from 'src/services/messageServices/infoMessageService';
@@ -9,26 +11,49 @@ export const useShiftsStore = defineStore("shiftsStore", {
   state: () => ({
     endpoint: "shifts",
     shifts: [],
-    currentShift: null
+    currentShift: null,
   }),
   actions: {
     async fetchShifts() {},
     async fetchCurrentShift() {
-      const response = await getCurrentShift(this.endpoint);
-      if (response.status !== 200) {
-        MessageService.error(response.statusText);
-        return;
+      try {
+          const response = await getCurrentShift(this.endpoint);
+  
+          if (response.status === 200) {
+              this.currentShift = response.data;
+          } else {
+              this.currentShift = null;              
+          }
+      } catch (error) {
+          this.currentShift = null;          
       }
-      this.currentShift = response.data;
-    },
+  },
+  
     async startShift(shift) {
-      const response = await postShift(this.endpoint,shift);
+      const response = await postShift(this.endpoint, shift);
       if (response.status !== 200) {
         MessageService.error(response.statusText);
         return;
       }
       MessageService.success(`Смена началась`);
       return response.data;
-    }
+    },
+    async stopShift(shiftId) {
+      const response = await endShift(this.endpoint, shiftId);
+      if (response.status !== 200) {
+        MessageService.error(response.statusText);
+        return;
+      }
+      return response.data;
+    },
+
+    async fetchShiftsWithDetails() {
+      const response = await getShiftsWithDetails(this.endpoint);
+      if (response.status !== 200) {
+        MessageService.error(response.statusText);
+        return;
+      }
+      return response.data;
+    },
   },
 });

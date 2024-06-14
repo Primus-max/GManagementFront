@@ -5,6 +5,7 @@ import {
   watch,
 } from 'vue';
 
+import { ElMessageBox } from 'element-plus';
 import Order from 'src/models/Order';
 // import { useGirlsStore } from 'src/stores/girlsStore';
 // import MessageService from '@/services/infoMessageService.js';
@@ -35,7 +36,7 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['close']);
+const emits = defineEmits(['close', 'order-added']);
 
 const shiftsStore = useShiftsStore();
 const ordersStore = useOrdersStore();
@@ -86,6 +87,15 @@ watch(
 );
 
 const submitForm = async () => {
+  if(!shiftsStore.currentShift)
+  ElMessageBox.confirm('Для создания заказа, надо начать смену', 'Внимание!', {
+        confirmButtonText: 'Ок',
+        type: 'info',
+        showCancelButton: false
+    }).then( () => {
+        return;
+    })
+
   loading.value = true;
   form.value.startTime = orderTime.value[0];
   form.value.finishTime = orderTime.value[1];
@@ -101,6 +111,8 @@ const submitForm = async () => {
 
   cancelForm();
   loading.value = false;  
+
+  emits('order-added');
 };
 
 const girlLabelSelect = (girl) => {

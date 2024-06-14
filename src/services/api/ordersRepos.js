@@ -8,3 +8,4 @@ export const getOrdersWidthDetails = async (endpoint) => {
     throw new Error(`Failed to fetch orders: ${error.message}`);
   }
 };
+

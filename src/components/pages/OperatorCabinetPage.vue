@@ -37,7 +37,7 @@ const shiftsStore = useShiftsStore();
 const ordersStore = useOrdersStore();
 const clientsStore = useClientsStore();
 const dialogFormVisible = ref(false)
-const balance = ref(5000);
+const balance = ref(0);
 const orderDialogVisible = ref(false);
 const detailBalancedialogVisible = ref(false)
 const selectedGirls = ref([]);
@@ -50,16 +50,18 @@ const formLabelWidth = '140px'
 
 onBeforeMount(async () => {
     try {
+       await updateBalance();
+
         await shiftsStore.fetchCurrentShift();
         if (shiftsStore.currentShift) {
             await startShiftCountdown(shiftsStore.currentShift.end, handleShiftEnd);
             shiftState(true, false);
-            return;          
-        }
+            return;
+        } else shiftState(false, false);
     } catch (error) {
-        console.error('Ошибка при загрузке смены', error);
+        console.log('Нет текущих смен');
         shiftState(false, false);
-    } 
+    }
 });
 
 onMounted(async () => {
@@ -89,7 +91,8 @@ const addGirlsToGroup = async () => {
 }
 
 const startShift = async () => {
-    const startShift = new Date();
+    if (shiftsStore.currentShift) return;
+
     const me = JSON.parse(localStorage.getItem('me'));
 
     const shift = new Shift({
@@ -103,23 +106,16 @@ const startShift = async () => {
     shiftsStore.currentShift = shift;
     await startShiftCountdown(shiftsStore.currentShift.end, handleShiftEnd);
     shiftState(true, true);
-    // isCurrentShiftExists.value = true;
-    // isLoading.value = false;
 }
-
-const handleClose = () => {
-    orderDialogVisible.value = false;
-};
 
 const handleShiftEnd = () => {
     ElMessageBox.confirm('Смена закончилась', 'Подтвердите действие', {
         confirmButtonText: 'Ок',
         type: 'info',
         showCancelButton: false
-    }).then(() => {
+    }).then(async () => {
         shiftState(false, false);
-        //   isCurrentShiftExists.value = false;
-        //   isLoading.value = true;
+        await shiftsStore.stopShift(shiftsStore.currentShift.id);
     })
 };
 
@@ -128,7 +124,11 @@ const shiftState = (exests, loading) => {
     isLoading.value = loading;
 }
 
-
+const updateBalance = async () => {
+    const me = await operatorsStore.getMe();
+    operatorsStore.operatotBalance = me.balance;
+    balance.value = operatorsStore.operatotBalance
+}
 </script>
 
 <template>
@@ -202,9 +202,9 @@ const shiftState = (exests, loading) => {
         </div>
     </div>
 
-    <el-drawer v-model="dialogFormVisible" title="Добавить заказ"  direction="ltr">
-        <AddOrderForm @close="dialogFormVisible = false" :clients="clients" :operators="operators"
-            :girls="selectedGirls" :isEditing="false"/>
+    <el-drawer v-model="dialogFormVisible" title="Добавить заказ" direction="ltr">
+        <AddOrderForm @close="dialogFormVisible = false" @order-added="updateBalance" :clients="clients" :operators="operators"
+            :girls="selectedGirls" :isEditing="false" />
     </el-drawer>
 
     <el-dialog v-model="detailBalancedialogVisible" title="Информация о формировании баланса" width="800">
