@@ -132,12 +132,6 @@ const updateBalance = async () => {
     operatorsStore.operatotBalance = me.balance;
     balance.value = operatorsStore.operatotBalance
 }
-
-const viewDetailBalance = async () => {
-    detailBalancedialogVisible.value = true
-    await shiftsStore.getUnpaidShifts();
-    unpaidShifts.value = shiftsStore.unpaidShifts
-}
 </script>
 
 <template>

@@ -1,15 +1,13 @@
 <script setup>
 import {
-  onMounted,
   ref,
   watch,
 } from 'vue';
 
 import { ElMessageBox } from 'element-plus';
 import Order from 'src/models/Order';
-// import { useGirlsStore } from 'src/stores/girlsStore';
-// import MessageService from '@/services/infoMessageService.js';
-// import { useOperatorsStore } from 'src/stores/operatorsStore';
+import ConfirmMessageServices
+  from 'src/services/messageServices/confirmMessageServices';
 import { useOrdersStore } from 'src/stores/ordersStore';
 import { useShiftsStore } from 'src/stores/shiftsStore';
 
@@ -41,7 +39,6 @@ const emits = defineEmits(['close', 'order-added']);
 const shiftsStore = useShiftsStore();
 const ordersStore = useOrdersStore();
 
-// const shifts = ref([]);
 const orderTime = ref([]);
 const form = ref({});
 const formLabelWidth = '100px';
@@ -69,11 +66,6 @@ const cancelForm = () => {
   emits('close');
 };
 
-// onMounted(async () => {   
-//   await shiftsStore.fetchItems();    
-//   shifts.value = shiftsStore.items;
-// });
-
 watch(
   () => props.order,
   (newOrder) => {
@@ -87,30 +79,27 @@ watch(
 );
 
 const submitForm = async () => {
-  if(!shiftsStore.currentShift)
-  ElMessageBox.confirm('Для создания заказа, надо начать смену', 'Внимание!', {
-        confirmButtonText: 'Ок',
-        type: 'info',
-        showCancelButton: false
-    }).then( () => {
+  if (!shiftsStore.currentShift)
+    ConfirmMessageServices.info('Для создания заказа, надо начать смену')
+      .then(() => {
         return;
-    })
+      })
 
   loading.value = true;
   form.value.startTime = orderTime.value[0];
   form.value.finishTime = orderTime.value[1];
   form.value.shiftId = shiftsStore.currentShift.id;
   const newOrder = {
-    ...form.value,    
+    ...form.value,
   }
-  if(props.isEditing){
-   await ordersStore.updatedOrder(newOrder);
+  if (props.isEditing) {
+    await ordersStore.updatedOrder(newOrder);
   } else {
     await ordersStore.addOrder(new Order(newOrder));
   }
 
   cancelForm();
-  loading.value = false;  
+  loading.value = false;
 
   emits('order-added');
 };
@@ -143,7 +132,8 @@ const clientLabelSelect = (client) => {
           <span>{{ label }}: </span>
           <span style="font-weight: bold">{{ value }}</span>
         </template>
-        <el-option v-for="client in props.clients" :key="client.id" :label="clientLabelSelect(client)" :value="client.id" />
+        <el-option v-for="client in props.clients" :key="client.id" :label="clientLabelSelect(client)"
+          :value="client.id" />
       </el-select>
     </el-form-item>
 
@@ -163,8 +153,7 @@ const clientLabelSelect = (client) => {
 
     <el-form-item label="Split %" :label-width="formLabelWidth">
       <el-select v-model="form.splitWithOperator" placeholder="Выберите оператора" filterable>
-        <el-option v-for="operator in props.operators" :key="operator.id" :label="operator.name"
-          :value="operator.id" />
+        <el-option v-for="operator in props.operators" :key="operator.id" :label="operator.name" :value="operator.id" />
       </el-select>
     </el-form-item>
 
@@ -181,7 +170,7 @@ const clientLabelSelect = (client) => {
     <!-- <el-form-item>
         <el-checkbox v-model="form.is_cancelled">Отмена</el-checkbox>
       </el-form-item> -->
-      <div class="drawer__footer">
+    <div class="drawer__footer">
       <el-button @click="cancelForm">Отмена</el-button>
       <el-button type="primary" :loading="loading" @click="submitForm">
         {{ loading ? 'Отправка ...' : (props.isEditing ? 'Редактировать' : 'Добавить') }}
