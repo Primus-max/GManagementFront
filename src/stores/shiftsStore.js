@@ -3,6 +3,7 @@ import {
   endShift,
   getCurrentShift,
   getShiftsWithDetails,
+  getUnpaidShifts,
   postShift,
 } from 'src/services/api/shiftsRepos';
 import MessageService from 'src/services/messageServices/infoMessageService';
@@ -12,6 +13,7 @@ export const useShiftsStore = defineStore("shiftsStore", {
     endpoint: "shifts",
     shifts: [],
     currentShift: null,
+    unpaidShifts: [],
   }),
   actions: {
     async fetchShifts() {},
@@ -55,5 +57,19 @@ export const useShiftsStore = defineStore("shiftsStore", {
       }
       return response.data;
     },
+
+    async getUnpaidShifts() {
+      try {
+          const response = await getUnpaidShifts(this.endpoint);
+  
+          if (response.status === 200) {
+              this.unpaidShifts = response.data;
+          } else {
+              this.currentShift = null;              
+          }
+      } catch (error) {
+          console.log("Не удалось получить не выплаченные смены", error);         
+      }
+  }
   },
 });

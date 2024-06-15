@@ -104,12 +104,12 @@ export const getGirlsOnMyShift = async (endpoint) => {
     }
   }
 
-  export const getBalace = async (endpoint) => {
-    try {
-      const response = await apiClient.get(`${endpoint}/balance`);
-      return response;
-    } catch (error) {
-      throw new Error(`Failed to fetch balance: ${error.message}`);
-    }
-  }
+  // export const getBalace = async (endpoint) => {
+  //   try {
+  //     const response = await apiClient.get(`${endpoint}/balance`);
+  //     return response;
+  //   } catch (error) {
+  //     throw new Error(`Failed to fetch balance: ${error.message}`);
+  //   }
+  // }
 

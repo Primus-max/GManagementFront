@@ -6,7 +6,6 @@ import {
   deleteItem,
   executeSql,
   getAll,
-  getBalace,
   getById,
   getGirlsGroups,
   getMe,
@@ -111,14 +110,14 @@ export const createStore = (storeName, endpoint) => {
         return response.data;
       },
 
-      async getMyBalance () {
-        const response = await getBalace(endpoint);
-        if (response.status !== 200) {
-          console.error(response.statusText);
-          return;
-        }
-        this.operatorBalance = response.data;
-      }
+      // async getMyBalance () {
+      //   const response = await getBalace(endpoint);
+      //   if (response.status !== 200) {
+      //     console.error(response.statusText);
+      //     return;
+      //   }
+      //   this.operatorBalance = response.data;
+      // },    
     },
   });
 };

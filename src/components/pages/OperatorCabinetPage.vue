@@ -16,6 +16,8 @@ import {
   ElTableColumn,
 } from 'element-plus';
 import AddOrderForm from 'src/components/modals/AddOrderForm.vue';
+import DetailOperatorBalance
+  from 'src/components/modals/DetailOperatorBalance.vue';
 import OrderTable from 'src/components/tables/OrderTable.vue';
 import OperationIntent from 'src/models/enums/OperationIntent';
 import Shift from 'src/models/Shift.js';
@@ -43,6 +45,7 @@ const detailBalancedialogVisible = ref(false)
 const selectedGirls = ref([]);
 const clients = ref([]);
 const orders = ref([]);
+const unpaidShifts = ref([]);
 const isCurrentShiftExists = ref(false);
 const isLoading = ref(true);
 const formLabelWidth = '140px'
@@ -129,6 +132,12 @@ const updateBalance = async () => {
     operatorsStore.operatotBalance = me.balance;
     balance.value = operatorsStore.operatotBalance
 }
+
+const viewDetailBalance = async () => {
+    detailBalancedialogVisible.value = true
+    await shiftsStore.getUnpaidShifts();
+    unpaidShifts.value = shiftsStore.unpaidShifts
+}
 </script>
 
 <template>
@@ -189,8 +198,8 @@ const updateBalance = async () => {
                         </el-popover>
                         <div>осталось: {{ shiftTimeLeft }}</div>
                     </div>
-                    <el-button class="balance-button" plain @click="dialogTableVisible = true">
-                        Баланс: {{ balance }} ₽
+                    <el-button class="balance-button" plain @click="detailBalancedialogVisible = true">
+                        Баланс: {{ balance.toFixed(1) }} ₽
                     </el-button>
                 </header>
 
@@ -208,11 +217,7 @@ const updateBalance = async () => {
     </el-drawer>
 
     <el-dialog v-model="detailBalancedialogVisible" title="Информация о формировании баланса" width="800">
-        <el-table :data="gridData">
-            <el-table-column property="date" label="Дата" width="150" />
-            <el-table-column property="order" label="Заказ" width="200" />
-            <el-table-column property="client" label="Клиент" />
-        </el-table>
+        <DetailOperatorBalance @close="detailBalancedialogVisible = false" :unpaidShifts="unpaidShifts" />     
     </el-dialog>
 
 </template>
@@ -301,16 +306,6 @@ const updateBalance = async () => {
 
 .girls-select {
     width: 18%;
-
-
 }
 
-/* .shift-time {
-    font-size: 18px;
-} */
-/* 
-.orders-list {
-    width: 100%;
-    margin-top: 20px;
-} */
 </style>
