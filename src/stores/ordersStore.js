@@ -7,13 +7,28 @@ import {
 } from 'src/services/api/base/baseRepository';
 import { getOrdersWidthDetails } from 'src/services/api/ordersRepos';
 import MessageService from 'src/services/messageServices/infoMessageService';
+import { calculateSummary } from 'src/utils/ordersUtils';
 
 export const useOrdersStore = defineStore("ordersStore", {
   state: () => ({
     endpoint: "orders",
     orders: [],
     ordersWithDetails: [],
+    ordersSummary: {
+      totalAmount: 0,
+      cashlessAmount: 0,
+      mySalary: 0,
+      splitSalary: 0,
+    },
   }),
+
+  getters: {
+    getTotalAmount: (state) => state.ordersSummary.totalAmount,
+    getCashlessAmount: (state) => state.ordersSummary.cashlessAmount,
+    getMySalary: (state) => state.ordersSummary.mySalary,
+    getSplitSalary: (state) => state.ordersSummary.splitSalary,
+  },
+
   actions: {
     async fetchOrders() {
       this.orders = await getAll();
@@ -25,7 +40,17 @@ export const useOrdersStore = defineStore("ordersStore", {
         return;
       }
       this.ordersWithDetails = response.data;
+      this.calculateSummary();
     },
+
+    calculateSummary() {
+      const summary = calculateSummary(this.ordersWithDetails);
+      this.ordersSummary.totalAmount = summary.totalAmount;
+      this.ordersSummary.cashlessAmount = summary.cashlessAmount;
+      this.ordersSummary.mySalary = summary.mySalary;
+      this.ordersSummary.splitSalary = summary.splitSalary;
+    },
+
     async addOrder(order) {
       const orderId = await addItem(this.endpoint, order);
       if (orderId === -1) {
@@ -60,4 +85,5 @@ export const useOrdersStore = defineStore("ordersStore", {
       this.orders = this.orders.filter((op) => op.id !== order.id);
     },
   },
+   
 });

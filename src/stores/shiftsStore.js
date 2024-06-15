@@ -13,8 +13,9 @@ export const useShiftsStore = defineStore("shiftsStore", {
     endpoint: "shifts",
     shifts: [],
     currentShift: null,
-    unpaidShifts: [],
+    unpaidShifts: [],   
   }),
+
   actions: {
     async fetchShifts() {},
     async fetchCurrentShift() {
@@ -22,7 +23,7 @@ export const useShiftsStore = defineStore("shiftsStore", {
           const response = await getCurrentShift(this.endpoint);
   
           if (response.status === 200) {
-              this.currentShift = response.data;
+              this.currentShift = response.data;              
           } else {
               this.currentShift = null;              
           }

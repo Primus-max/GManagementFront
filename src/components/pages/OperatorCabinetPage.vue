@@ -21,6 +21,8 @@ import DetailOperatorBalance
 import OrderTable from 'src/components/tables/OrderTable.vue';
 import OperationIntent from 'src/models/enums/OperationIntent';
 import Shift from 'src/models/Shift.js';
+import ConfirmMessageServices
+  from 'src/services/messageServices/confirmMessageServices';
 import MessageService from 'src/services/messageServices/infoMessageService';
 import { useClientsStore } from 'src/stores/clientsStore';
 import { useGirlsStore } from 'src/stores/girlsStore';
@@ -53,7 +55,7 @@ const formLabelWidth = '140px'
 
 onBeforeMount(async () => {
     try {
-       await updateBalance();
+        await updateBalance();
         await shiftsStore.fetchCurrentShift();
         if (shiftsStore.currentShift) {
             await startShiftCountdown(shiftsStore.currentShift.end, handleShiftEnd);
@@ -110,15 +112,18 @@ const startShift = async () => {
     shiftState(true, true);
 }
 
-const handleShiftEnd = () => {
-    ElMessageBox.confirm('Смена закончилась', 'Подтвердите действие', {
-        confirmButtonText: 'Ок',
-        type: 'info',
-        showCancelButton: false
-    }).then(async () => {
-        shiftState(false, false);
-        await shiftsStore.stopShift(shiftsStore.currentShift.id);
-    })
+const handleShiftEnd = async () => {
+    await ConfirmMessageServices.info("Смена закончилась");
+    shiftState(false, false);
+    await shiftsStore.stopShift(shiftsStore.currentShift.id);
+    // ElMessageBox.confirm('Смена закончилась', 'Подтвердите действие', {
+    //     confirmButtonText: 'Ок',
+    //     type: 'info',
+    //     showCancelButton: false
+    // }).then(async () => {
+    //     shiftState(false, false);
+    //     await shiftsStore.stopShift(shiftsStore.currentShift.id);
+    // })
 };
 
 const shiftState = (exests, loading) => {
@@ -144,10 +149,10 @@ const viewDetailBalance = async () => {
         <div class="left-cards">
             <el-card class="summary">
                 <div class="summary-wrapper">
-                    <div class="summary-item"><b> За смену </b>: {{ balance }} ₽</div>
-                    <div class="summary-item">Безнал: {{ balance }} ₽</div>
-                    <div class="summary-item">Моя З/П: {{ balance }} ₽</div>
-                    <div class="summary-item">Split З/П: {{ balance }} ₽</div>
+                    <div class="summary-item"><b> За смену </b>: {{ ordersStore.getTotalAmount.toFixed(1) }} ₽</div>
+                    <div class="summary-item">Безнал: {{ ordersStore.getCashlessAmount.toFixed(1) }} ₽</div>
+                    <div class="summary-item">Моя З/П: {{ ordersStore.getMySalary.toFixed(1) }} ₽</div>
+                    <div class="summary-item">Split З/П: {{ ordersStore.getSplitSalary.toFixed(1) }} ₽</div>
                 </div>
             </el-card>
 
@@ -210,12 +215,12 @@ const viewDetailBalance = async () => {
     </div>
 
     <el-drawer v-model="dialogFormVisible" title="Добавить заказ" direction="ltr">
-        <AddOrderForm @close="dialogFormVisible = false" @order-added="updateBalance" :clients="clients" :operators="operators"
-            :girls="selectedGirls" :isEditing="false" />
+        <AddOrderForm @close="dialogFormVisible = false" @order-added="updateBalance" :clients="clients"
+            :operators="operators" :girls="selectedGirls" :isEditing="false" />
     </el-drawer>
 
     <el-dialog v-model="detailBalancedialogVisible" title="Информация о формировании баланса" width="800">
-        <DetailOperatorBalance @close="detailBalancedialogVisible = false" :unpaidShifts="unpaidShifts" />     
+        <DetailOperatorBalance @close="detailBalancedialogVisible = false" :unpaidShifts="unpaidShifts" />
     </el-dialog>
 
 </template>
@@ -305,5 +310,4 @@ const viewDetailBalance = async () => {
 .girls-select {
     width: 18%;
 }
-
 </style>

@@ -34,6 +34,5 @@ export const startShiftCountdown = (shiftEndTime, handleShiftEnd) => {
   }, 1000);
 };
 
-// export const handleShiftEnd = () => {
-//     console.log("Смена завершена");
-// };
+
+
