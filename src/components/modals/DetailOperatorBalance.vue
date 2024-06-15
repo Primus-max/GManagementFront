@@ -1,28 +1,40 @@
 <script setup>
 import {
   computed,
-  onBeforeMount,
   onMounted,
+  ref,
+  watch,
 } from 'vue';
 
 import { useShiftsStore } from 'src/stores/shiftsStore';
 
 const shiftsStore = useShiftsStore();
-const emits = defineEmits(['close']);
+const dialogVisible = ref(false);
 
-onBeforeMount(async () => {
-  await shiftsStore.getUnpaidShifts();  
-});
+// // Загружаем данные при первом открытии
+// onMounted(async () => {
+//   await loadUnpaidShifts();
+// });
 
+// // Следим за изменением видимости модального окна
+// watch(() => dialogVisible.value, async (newValue) => {
+//   if (newValue) {
+//     await loadUnpaidShifts();
+//   }
+// });
+
+// const loadUnpaidShifts = async () => {
+//   await shiftsStore.getUnpaidShifts();
+// };
 
 const formattedUnpaidShifts = computed(() => {
   return shiftsStore.unpaidShifts.map(shift => ({
     ...shift,
     date: formatDate(shift.date),
+    amount: shift.amount.toFixed(1) + ' ₽',
     income: shift.income.toFixed(1) + ' ₽'
   }));
 });
-
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -35,12 +47,13 @@ const formatDate = (dateString) => {
 </script>
 
 <template>
-    <el-table :data="formattedUnpaidShifts">
-        <el-table-column property="date" label="Дата смены"  />
-        <el-table-column property="amount" label="Сумма смены"  />
-        <el-table-column property="income" label="ЗП" />
-    </el-table>
+  <el-table :data="formattedUnpaidShifts">
+    <el-table-column property="date" label="Дата смены" />
+    <el-table-column property="amount" label="Сумма смены" />
+    <el-table-column property="income" label="ЗП" />
+  </el-table>
 </template>
 
-<style lang="css" scoped>
+<style scoped>
+/* Ваши стили */
 </style>

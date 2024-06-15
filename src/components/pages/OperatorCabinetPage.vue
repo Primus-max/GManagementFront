@@ -131,6 +131,11 @@ const updateBalance = async () => {
     operatorsStore.operatotBalance = me.balance;
     balance.value = operatorsStore.operatotBalance
 }
+
+const viewDetailBalance = async () => {
+    await shiftsStore.getUnpaidShifts();
+    detailBalancedialogVisible.value = true
+}
 </script>
 
 <template>
@@ -191,7 +196,7 @@ const updateBalance = async () => {
                         </el-popover>
                         <div>осталось: {{ shiftTimeLeft }}</div>
                     </div>
-                    <el-button class="balance-button" plain @click="detailBalancedialogVisible = true">
+                    <el-button class="balance-button" plain @click="viewDetailBalance">
                         Баланс: {{ balance.toFixed(1) }} ₽
                     </el-button>
                 </header>
