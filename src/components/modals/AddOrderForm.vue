@@ -79,11 +79,20 @@ watch(
 );
 
 const submitForm = async () => {
-  if (!shiftsStore.currentShift)
+  if (!shiftsStore.currentShift) {
     ConfirmMessageServices.info('Для создания заказа, надо начать смену')
       .then(() => {
+        loading.value = false;
+        emits('close');
         return;
       })
+  }
+
+  const me = JSON.parse(localStorage.getItem('me'));
+  if (me.id === form.value.splitWithOperator) {
+    await ConfirmMessageServices.info('Нельзя делить процент с самим собой');
+    return;
+  }
 
   loading.value = true;
   form.value.startTime = orderTime.value[0];
@@ -100,7 +109,6 @@ const submitForm = async () => {
 
   cancelForm();
   loading.value = false;
-
   emits('order-added');
 };
 

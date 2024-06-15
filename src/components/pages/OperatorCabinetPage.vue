@@ -54,7 +54,6 @@ const formLabelWidth = '140px'
 onBeforeMount(async () => {
     try {
        await updateBalance();
-
         await shiftsStore.fetchCurrentShift();
         if (shiftsStore.currentShift) {
             await startShiftCountdown(shiftsStore.currentShift.end, handleShiftEnd);

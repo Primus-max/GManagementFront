@@ -1,9 +1,15 @@
 <script setup>
-import { computed } from 'vue';
+import {
+  computed,
+  onBeforeMount,
+} from 'vue';
 
 import { useOrdersStore } from 'src/stores/ordersStore';
 
 const ordersStore = useOrdersStore();
+
+// onBeforeMount()
+
 const orders = computed(() => {
   return ordersStore.ordersWithDetails.slice().reverse();
 });
