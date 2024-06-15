@@ -160,7 +160,7 @@ const clientLabelSelect = (client) => {
     </el-form-item>
 
     <el-form-item label="Split %" :label-width="formLabelWidth">
-      <el-select v-model="form.splitWithOperator" placeholder="Выберите оператора" filterable>
+      <el-select v-model="form.splitWithOperator" placeholder="Выберите оператора" filterable clearable>
         <el-option v-for="operator in props.operators" :key="operator.id" :label="operator.name" :value="operator.id" />
       </el-select>
     </el-form-item>
