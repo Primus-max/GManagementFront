@@ -14,6 +14,7 @@ import {
   Edit,
 } from '@element-plus/icons-vue';
 
+const activeTab = ref('operators');
 const shiftsStore = useShiftsStore();
 
 onMounted(async () => {
@@ -21,26 +22,8 @@ onMounted(async () => {
 });
 
 const shifts = computed(() => {
-  return shiftsStore.shiftsWithOrders.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
+  return shiftsStore.shiftsWithOrders.slice().reverse();
 });
-
-// const orders = ref([
-//   { id: 1, operator: 'оператор1', client_name: 'Клиент1', status: 'Оплачен', split_percentage: 50, comment: 'Комментарий1', is_extended: false, is_cancelled: false },
-//   { id: 2, operator: 'оператор2', client_name: 'Клиент2', status: 'Не оплачен', split_percentage: 60, comment: 'Комментарий2', is_extended: true, is_cancelled: true }
-//   // Здесь добавьте начальные данные заказов
-// ]);
-
-const activeTab = ref('operators');
-
-// const editOrder = (order) => {
-//   // Логика редактирования заказа
-//   console.log('Редактировать заказ', order);
-// };
-
-// const deleteOrder = (order) => {
-//   // Логика удаления заказа
-//   console.log('Удалить заказ', order);
-// };
 
 </script>
 

@@ -1,4 +1,9 @@
 <script setup>
+import { ref } from 'vue';
+
+import DetailShift from 'src/components/modals/DetailShift.vue';
+import { formatDate } from 'src/utils/formatters';
+
 import {
   Check,
   Close,
@@ -10,6 +15,9 @@ const props = defineProps({
         required: true
     }
 });
+
+const detailShiftDialogVisible = ref(false);
+const orders = ref([]);
 
 const cancelOrder = (order) => {
     // логика отмены заказа
@@ -24,20 +32,21 @@ const editOrder = (order) => {
 };
 
 const deleteOrder = (order) => {
-    // логика удаления заказа
+
 };
 
 const payOrder = (order) => {
     // логика выплаты заказа
 };
 
-const formatDate = (date) => {
-    return new Date(date).toISOString().split('T')[0];
-};
+const viewDetailShift = (shift) => {
+    detailShiftDialogVisible.value = true;    
+    orders.value = shift.orders;
+}
 </script>
 
 <template>
-    <el-table :data="shifts" class="table" size="large">
+    <el-table :data="shifts" class="table" size="large" @cell-dblclick="viewDetailShift" >
         <el-table-column prop="id" label="ID" width="50"></el-table-column>
         <el-table-column prop="operatorName" label="Оператор" align="center"></el-table-column>
         <el-table-column label="Дата" align="center">
@@ -99,19 +108,24 @@ const formatDate = (date) => {
             </template>
         </el-table-column>
     </el-table>
+
+    <el-dialog v-model="detailShiftDialogVisible" title="Информация о формировании смены" width="800">
+        <DetailShift :orders="orders" />
+    </el-dialog>
 </template>
 
 
 
 <style scoped>
 @import 'src/assets/styles/main.css';
+
 .paid-icon {
-  color: green;
-  font-size: large;
+    color: green;
+    font-size: large;
 }
 
 .not-paid-icon {
-  color: red;
-  font-size: large;
+    color: red;
+    font-size: large;
 }
 </style>
