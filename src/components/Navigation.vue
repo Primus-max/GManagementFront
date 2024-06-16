@@ -10,13 +10,12 @@ const activeIndex = ref('1');
 <template>
   <div class="menu-wrapper">
     <!-- <p class="active-page">{{ activePage }}</p> -->
-  
+    <!-- @select="handleSelect" -->
   <div class="nav-wrapper">
     <el-menu
       :default-active="activeIndex"
       class="el-menu"
-      mode="horizontal"
-      @select="handleSelect"
+      mode="horizontal"      
     >
       <el-menu-item index="1">
         <RouterLink to="/">

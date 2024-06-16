@@ -2,6 +2,7 @@
 import {
   ref,
   watch,
+  watchEffect,
 } from 'vue';
 
 import { ElMessageBox } from 'element-plus';
@@ -66,17 +67,28 @@ const cancelForm = () => {
   emits('close');
 };
 
-watch(
-  () => props.order,
-  (newOrder) => {
-    if (props.isEditing && newOrder) {
-      form.value = { ...newOrder };
-    } else {
-      resetForm();
-    }
-  },
-  { immediate: true }
-);
+watchEffect(() => {
+  if (props.isEditing && props.order) {
+    console.log('New order received:', props.order); // Логируем новый order
+    form.value = { ...props.order };
+    orderTime.value = [props.order.startTime, props.order.finishTime];
+  } else {
+    resetForm();
+  }
+});
+
+// watch(
+//   () => props.order,
+//   (newOrder) => {
+//     if (props.isEditing && newOrder) {
+//       console.log('New order received:', newOrder);
+//       form.value = { ...newOrder };
+//     } else {
+//       resetForm();
+//     }
+//   },
+//   { immediate: true }
+// );
 
 const submitForm = async () => {
   if (!shiftsStore.currentShift) {

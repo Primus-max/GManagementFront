@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 
+import AddOrderForm from 'src/components/modals/AddOrderForm.vue';
 import OrderTable from 'src/components/tables/OrderTable.vue';
 
 const props = defineProps({
@@ -11,11 +12,13 @@ const props = defineProps({
 });
 
 const dialogFormVisible = ref(false);
-
+const editOrder = ref(null);
 // console.log(props.orders);
 
-const editOrder = (order) => {
-    // логика редактирования заказа
+const handleEditOrder = (order) => {
+    console.log('Order to edit:', order);
+    dialogFormVisible.value = true;
+    editOrder.value = order;    
 };
 </script>
 
@@ -35,7 +38,7 @@ const editOrder = (order) => {
                 <template v-slot="scope">
                     <div class="control-buttons-wrapper">
                         <el-tooltip placement="top" content="Редактировать заказ">
-                            <el-button class="control-button" type="text" @click="editOrder(scope.row)">
+                            <el-button class="control-button" type="text" @click="handleEditOrder(scope.row)">
                                 <el-icon>
                                     <Edit />
                                 </el-icon>
@@ -57,10 +60,9 @@ const editOrder = (order) => {
 
 
     <!-- Edit Order Form -->
-    <!-- <el-drawer v-model="dialogFormVisible" title="Редактировать заказ" direction="ltr">
-        <AddOrderForm @close="dialogFormVisible = false" @order-added="updateBalance" :clients="clients"
-            :operators="operators" :girls="selectedGirls" :isEditing="false" />
-    </el-drawer> -->
+    <el-drawer v-model="dialogFormVisible" title="Редактировать заказ" direction="ltr">
+        <AddOrderForm @close="dialogFormVisible = false" :order="editOrder" :isEditing="true" />
+    </el-drawer>
 
 </template>
 
