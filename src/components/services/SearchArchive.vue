@@ -69,10 +69,10 @@ const fetchStatistics = () => {
                 </el-select>
             </div> -->
 
-            <div class="picker amount-picker">
+            <!-- <div class="picker amount-picker">
                 <p class="label-select">сумме</p>
                 <el-input v-model="amount" type="number" autocomplete="off" @change="updateAmount" />
-            </div>
+            </div> -->
 
             <el-button type="primary" @click="fetchStatistics">Поиск</el-button>
         </div>

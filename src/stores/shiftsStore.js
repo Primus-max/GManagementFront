@@ -13,7 +13,8 @@ export const useShiftsStore = defineStore("shiftsStore", {
     endpoint: "shifts",
     shifts: [],
     currentShift: null,
-    unpaidShifts: [],   
+    unpaidShifts: [],  
+    shiftsWithOrders: [], 
   }),
 
   actions: {
@@ -56,6 +57,8 @@ export const useShiftsStore = defineStore("shiftsStore", {
         MessageService.error(response.statusText);
         return;
       }
+
+      this.shiftsWithOrders = response.data;
       return response.data;
     },
 
