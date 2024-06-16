@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 
 import DetailShift from 'src/components/modals/DetailShift.vue';
+import { useShiftsStore } from 'src/stores/shiftsStore';
 import { formatDate } from 'src/utils/formatters';
 
 import {
@@ -16,6 +17,7 @@ const props = defineProps({
     }
 });
 
+const shiftsStore = useShiftsStore();
 const detailShiftDialogVisible = ref(false);
 const orders = ref([]);
 
@@ -35,8 +37,8 @@ const deleteOrder = (order) => {
 
 };
 
-const payOrder = (order) => {
-    // логика выплаты заказа
+const payOrder = async (order) => {
+    await shiftsStore.payShift(order.id);
 };
 
 const viewDetailShift = (shift) => {
@@ -82,14 +84,14 @@ const viewDetailShift = (shift) => {
                             </el-icon>
                         </el-button>
                     </el-tooltip> -->
-                    <el-tooltip placement="top" content="Редактировать">
+                    <!-- <el-tooltip placement="top" content="Редактировать">
                         <el-button class="control-button" type="text" @click="editOrder(scope.row)">
                             <el-icon>
                                 <Edit />
                             </el-icon>
                         </el-button>
-                    </el-tooltip>
-                    <el-tooltip placement="top" content="Удалить">
+                    </el-tooltip> -->
+                    <el-tooltip placement="top" content="Удалить смену">
                         <el-button class="control-button" type="text" @click="deleteOrder(scope.row)">
                             <el-icon>
                                 <Delete />

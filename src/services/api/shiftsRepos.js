@@ -53,3 +53,13 @@ export const getUnpaidShifts = async (endpoint) => {
     throw new Error(`Failed to fetch balance: ${error.message}`);
   }
 };
+
+
+export const payShift  = async  (endpoint, shiftId)  =>  {
+  try  {
+    const response = await apiClient.post(`${endpoint}/pay-shift`, shiftId);
+    return response;
+  } catch  (error)  {
+    throw new Error(`Failed pay shift: ${error.message}`);
+  };
+};

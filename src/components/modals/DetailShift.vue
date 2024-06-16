@@ -1,4 +1,6 @@
 <script setup>
+import { ref } from 'vue';
+
 import OrderTable from 'src/components/tables/OrderTable.vue';
 
 const props = defineProps({
@@ -8,8 +10,13 @@ const props = defineProps({
     }
 });
 
-console.log(props.orders);
+const dialogFormVisible = ref(false);
 
+// console.log(props.orders);
+
+const editOrder = (order) => {
+    // логика редактирования заказа
+};
 </script>
 
 <template>
@@ -22,12 +29,43 @@ console.log(props.orders);
             <el-table-column prop="amount" label="Сумма заказа" width="100"></el-table-column>
             <el-table-column prop="operator" label="Оператор"></el-table-column>
             <el-table-column prop="splitSalary" label="Split %" width="80"></el-table-column>
-            <el-table-column prop="comment" label="Комментарий"></el-table-column>
+            <el-table-column prop="comment" label="Коммент"></el-table-column>
+
+            <el-table-column label="Действия" align="center">
+                <template v-slot="scope">
+                    <div class="control-buttons-wrapper">
+                        <el-tooltip placement="top" content="Редактировать заказ">
+                            <el-button class="control-button" type="text" @click="editOrder(scope.row)">
+                                <el-icon>
+                                    <Edit />
+                                </el-icon>
+                            </el-button>
+                        </el-tooltip>
+                        <el-tooltip placement="top" content="Удалить заказ">
+                            <el-button class="control-button" type="text" @click="deleteOrder(scope.row)">
+                                <el-icon>
+                                    <Delete />
+                                </el-icon>
+                            </el-button>
+                        </el-tooltip>
+                    </div>
+                </template>
+            </el-table-column>
+
         </el-table>
     </div>
+
+
+    <!-- Edit Order Form -->
+    <!-- <el-drawer v-model="dialogFormVisible" title="Редактировать заказ" direction="ltr">
+        <AddOrderForm @close="dialogFormVisible = false" @order-added="updateBalance" :clients="clients"
+            :operators="operators" :girls="selectedGirls" :isEditing="false" />
+    </el-drawer> -->
+
 </template>
 
 
 
 <style lang="css" scoped>
+@import 'src/assets/styles/main.css';
 </style>
