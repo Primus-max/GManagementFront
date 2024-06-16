@@ -150,9 +150,9 @@ const viewDetailBalance = async () => {
             <el-card class="summary">
                 <div class="summary-wrapper">
                     <div class="summary-item"><b> За смену </b>: {{ ordersStore.getTotalAmount.toFixed(1) }} ₽</div>
-                    <div class="summary-item">Безнал: {{ ordersStore.getCashlessAmount.toFixed(1) }} ₽</div>
-                    <div class="summary-item">Моя З/П: {{ ordersStore.getMySalary.toFixed(1) }} ₽</div>
-                    <div class="summary-item">Split З/П: {{ ordersStore.getSplitSalary.toFixed(1) }} ₽</div>
+                    <div class="summary-item"><b>Безнал </b>: {{ ordersStore.getCashlessAmount.toFixed(1) }} ₽</div>
+                    <div class="summary-item"><b>Моя З/П </b>: {{ ordersStore.getMySalary.toFixed(1) }} ₽</div>
+                    <div class="summary-item"><b>Split З/П </b>: {{ ordersStore.getSplitSalary.toFixed(1) }} ₽</div>
                 </div>
             </el-card>
 
@@ -174,6 +174,7 @@ const viewDetailBalance = async () => {
                     </div>
                 </div>
             </el-card>
+
         </div>
 
         <div class="page-wrapper">

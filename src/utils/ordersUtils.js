@@ -1,23 +1,28 @@
 export function calculateSummary(orders) {
-    const ordersSummary = {
+  const ordersSummary = {
       totalAmount: 0,
       cashlessAmount: 0,
       mySalary: 0,
       splitSalary: 0,
-    };
-  
-    orders.forEach((order) => {
+  };
+
+  orders.forEach((order) => {
+      // Суммируем общую сумму заказов
       ordersSummary.totalAmount += order.amount;
+
+      // Суммируем сумму безналичных заказов
       if (order.isCashless) {
-        ordersSummary.cashlessAmount += order.amount;
+          ordersSummary.cashlessAmount += order.amount;
       }
-      if (order.operatorId !== null) {
-        ordersSummary.mySalary += order.amount * 0.07; 
+
+      // Расчет моей зарплаты и split зарплаты
+      if (order.splitOperator !== null) {
+          ordersSummary.splitSalary += order.amount * 0.07 / 2;
+          ordersSummary.mySalary += order.amount * 0.07 / 2;
       } else {
-        ordersSummary.splitSalary += order.amount * 0.07 / 2; 
+          ordersSummary.mySalary += order.amount * 0.07;
       }
-    });
-  
-    return ordersSummary;
-  }
-  
+  });
+
+  return ordersSummary;
+}
