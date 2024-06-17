@@ -8,8 +8,8 @@ import { useOperatorsStore } from 'src/stores/operatorsStore';
 import { useShiftsStore } from 'src/stores/shiftsStore';
 
 const props = defineProps({
-    names: {
-      type: Array,
+    searchType: {
+      type: String,
       required: true
     }
   });
@@ -30,7 +30,7 @@ onMounted(async () => {
   
   // Обновление оператора
   const updateOperator = (value) => {
-    operator.value = value;
+    selectedOperator.value = value;
   };
   
   // Поиск
@@ -46,6 +46,11 @@ onMounted(async () => {
     await shiftsStore.searchShifts(searchParams);
   };
   
+  const reset = async() => {    
+    await shiftsStore.resetPagination();
+    date.value = null;
+    selectedOperator.value = null;
+  }
 </script>
   
 
@@ -57,17 +62,21 @@ onMounted(async () => {
         <div class="picker date-picker">
           <p class="label-select">дате</p>
           <el-date-picker v-model="date" type="daterange" range-separator="||" start-placeholder="от"
-                          end-placeholder="до" @change="updateDate" />
+                          end-placeholder="до" @change="updateDate" clearable/>
         </div>
   
         <div class="picker operator-picker">
           <p class="label-select">оператору</p>
-          <el-select v-model="selectedOperator" @change="updateOperator" placeholder="Выберите оператора">
+          <el-select v-model="selectedOperator" @change="updateOperator" placeholder="Выберите оператора" clearable filterable>
             <el-option v-for="operator in operatorsStore.items" :key="operator.id" :label="operator.name" :value="operator.id" />
           </el-select>
         </div>
   
-        <el-button type="primary" @click="search">Поиск</el-button>
+        <div class="control-buttons">
+            <el-button type="primary" @click="search">Поиск</el-button>
+            <el-button  @click="reset">Сбросить</el-button>
+        </div>
+        
       </div>
     </div>
   </template>

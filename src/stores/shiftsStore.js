@@ -103,9 +103,16 @@ export const useShiftsStore = defineStore("shiftsStore", {
     updateOffset(newOffset) {
       this.offset = newOffset;
     },
-    resetPagination() {
-      this.limit = 10;
+   async resetPagination() {
+      this.limit = 3;
       this.offset = 0;
+      await this.fetchShiftsWithDetails({
+        startDate: null,
+        endDate: null,
+        operator: null,
+        limit: this.limit,
+        offset: this.offset,
+      });
     },
     async loadMoreShifts(searchParams) {
       this.offset += this.limit;
@@ -115,7 +122,7 @@ export const useShiftsStore = defineStore("shiftsStore", {
     },
 
     async searchShifts(searchParams) {
-      this.resetPagination();
+      await this.resetPagination();
       searchParams.limit = this.limit;
       searchParams.offset = this.offset;
       await this.fetchShiftsWithDetails(searchParams);
