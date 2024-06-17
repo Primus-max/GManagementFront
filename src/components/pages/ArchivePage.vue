@@ -5,6 +5,7 @@ import {
   ref,
 } from 'vue';
 
+import NoResultsMessage from 'src/components/NoResultsMessage.vue';
 import SearchArchive from 'src/components/services/SearchArchive.vue';
 import ArchiveTable from 'src/components/tables/ArchiveTable.vue';
 import { useShiftsStore } from 'src/stores/shiftsStore';
@@ -47,7 +48,8 @@ const shifts = computed(() => {
             <div class="search-header-wrapper">
               <SearchArchive @search="fetchShifts" />
             </div>
-            <ArchiveTable :shifts="shifts" />
+            <ArchiveTable :shifts="shifts" v-if="false" />
+              <NoResultsMessage v-else message="Для указанного поиска ничего не найдено" />
           </el-tab-pane>
           <el-tab-pane label="Девушки" name="girls" disabled>
             <SearchArchive type="girls" :names="['Girl1', 'Girl2']" />
@@ -58,16 +60,8 @@ const shifts = computed(() => {
 
     <!-- Пагинация -->
     <div>
-      <el-pagination
-        small
-        background
-        layout="prev, pager, next"
-        :total="total"
-        :page-size="pageSize"
-        :current-page="currentPage"
-        @current-change="handlePageChange"
-        class="mt-4"
-      />
+      <el-pagination small background layout="prev, pager, next" :total="total" :page-size="pageSize"
+        :current-page="currentPage" @current-change="handlePageChange" class="mt-4" />
     </div>
   </div>
 </template>
