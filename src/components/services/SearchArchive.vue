@@ -38,9 +38,7 @@ onMounted(async () => {
     const searchParams = {
       startDate: date.value ? date.value[0] : null,
       endDate: date.value ? date.value[1] : null,
-      operator: selectedOperator.value,
-      limit: shiftsStore.limit,
-      offset: shiftsStore.offset
+      operator: selectedOperator.value,      
     };
   
     await shiftsStore.searchShifts(searchParams);
