@@ -12,9 +12,9 @@ import { useShiftsStore } from 'src/stores/shiftsStore';
 const activeTab = ref('operators');
 const shiftsStore = useShiftsStore();
 
-const total = computed(() => shiftsStore.total);
+const total = computed(() => shiftsStore.totalShifts);
 const currentPage = ref(1);
-const pageSize = ref(10);
+const pageSize = ref(3);
 
 const fetchShifts = async (page = 1) => {
   const searchParams = {

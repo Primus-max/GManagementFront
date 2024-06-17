@@ -17,7 +17,7 @@ export const useShiftsStore = defineStore("shiftsStore", {
     unpaidShifts: [],
     shiftsWithOrders: [],
     // Пагинация
-    total: 0,
+    totalShifts: 0,
     limit: 10,
     offset: 0,
   }),
@@ -64,7 +64,8 @@ export const useShiftsStore = defineStore("shiftsStore", {
         return;
       }
 
-      this.shiftsWithOrders = response.data;
+      this.shiftsWithOrders = response.data.items;
+      this.totalShifts = response.data.totalCount;
       return response.data;
     },
 
