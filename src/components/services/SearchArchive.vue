@@ -4,6 +4,7 @@ import {
   ref,
 } from 'vue';
 
+import { PAGE_ITEMS_LIMIT } from 'src/constants';
 import { useOperatorsStore } from 'src/stores/operatorsStore';
 import { useShiftsStore } from 'src/stores/shiftsStore';
 
@@ -38,6 +39,8 @@ onMounted(async () => {
     const searchParams = {
       startDate: date.value ? date.value[0] : null,
       endDate: date.value ? date.value[1] : null,
+      limit: PAGE_ITEMS_LIMIT,
+      offset: 0,
       operator: selectedOperator.value,      
     };
   

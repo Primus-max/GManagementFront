@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { PAGE_ITEMS_LIMIT } from 'src/constants';
 import {
   endShift,
   getCurrentShift,
@@ -9,6 +10,9 @@ import {
 } from 'src/services/api/shiftsRepos';
 import MessageService from 'src/services/messageServices/infoMessageService';
 
+// const pagination = usePagination();
+
+
 export const useShiftsStore = defineStore("shiftsStore", {
   state: () => ({
     endpoint: "shifts",
@@ -18,8 +22,7 @@ export const useShiftsStore = defineStore("shiftsStore", {
     shiftsWithOrders: [],
     // Пагинация
     totalShifts: 0,
-    limit: 10,
-    offset: 0,
+  
   }),
 
   actions: {
@@ -96,35 +99,15 @@ export const useShiftsStore = defineStore("shiftsStore", {
       MessageService.success("Смена выплачена");
     },
 
-    // Пагинация
-    updateLimit(newLimit) {
-      this.limit = newLimit;
-    },
-    updateOffset(newOffset) {
-      this.offset = newOffset;
-    },
-   async resetPagination() {
-      this.limit = 3;
-      this.offset = 0;
-      await this.fetchShiftsWithDetails({
-        startDate: null,
-        endDate: null,
-        operator: null,
-        limit: this.limit,
-        offset: this.offset,
-      });
-    },
-    async loadMoreShifts(searchParams) {
-      this.offset += this.limit;
-      searchParams.limit = this.limit;
-      searchParams.offset = this.offset;
+    async resetPagination() {
+      const searchParams  = {
+        limit: PAGE_ITEMS_LIMIT,
+        offset: 0,
+      }
       await this.fetchShiftsWithDetails(searchParams);
     },
-
+   
     async searchShifts(searchParams) {
-      await this.resetPagination();
-      searchParams.limit = this.limit;
-      searchParams.offset = this.offset;
       await this.fetchShiftsWithDetails(searchParams);
     },
   },
