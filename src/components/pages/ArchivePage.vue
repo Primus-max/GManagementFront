@@ -9,22 +9,33 @@ import SearchArchive from 'src/components/services/SearchArchive.vue';
 import ArchiveTable from 'src/components/tables/ArchiveTable.vue';
 import { useShiftsStore } from 'src/stores/shiftsStore';
 
-import {
-  Delete,
-  Edit,
-} from '@element-plus/icons-vue';
-
 const activeTab = ref('operators');
 const shiftsStore = useShiftsStore();
 
+const total = computed(() => shiftsStore.total);
+const currentPage = ref(1);
+const pageSize = ref(10);
+
+const fetchShifts = async (page = 1) => {
+  const searchParams = {
+    limit: pageSize.value,
+    offset: (page - 1) * pageSize.value,
+  };
+  await shiftsStore.fetchShiftsWithDetails(searchParams);
+};
+
 onMounted(async () => {
-  await shiftsStore.fetchShiftsWithDetails();
+  await fetchShifts();
 });
+
+const handlePageChange = async (page) => {
+  currentPage.value = page;
+  await fetchShifts(page);
+};
 
 const shifts = computed(() => {
   return shiftsStore.shiftsWithOrders.slice().reverse();
 });
-
 </script>
 
 <template>
@@ -34,19 +45,33 @@ const shifts = computed(() => {
         <el-tabs v-model="activeTab" tab-position="left">
           <el-tab-pane label="Смены" name="operators">
             <div class="search-header-wrapper">
-              <SearchArchive type="operators" :names="['Operator1', 'Operator2']" />
+              <SearchArchive @search="fetchShifts" />
             </div>
             <ArchiveTable :shifts="shifts" />
           </el-tab-pane>
           <el-tab-pane label="Девушки" name="girls" disabled>
             <SearchArchive type="girls" :names="['Girl1', 'Girl2']" />
-            <!-- <ArchiveTable :shifts="shifts" /> -->
           </el-tab-pane>
         </el-tabs>
       </el-card>
     </div>
+
+    <!-- Пагинация -->
+    <div>
+      <el-pagination
+        small
+        background
+        layout="prev, pager, next"
+        :total="total"
+        :page-size="pageSize"
+        :current-page="currentPage"
+        @current-change="handlePageChange"
+        class="mt-4"
+      />
+    </div>
   </div>
 </template>
+
 <style scoped>
 @import 'src/assets/styles/main.css';
 
@@ -65,7 +90,6 @@ const shifts = computed(() => {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-
 }
 
 .label-select {

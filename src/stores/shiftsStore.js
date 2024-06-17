@@ -16,6 +16,10 @@ export const useShiftsStore = defineStore("shiftsStore", {
     currentShift: null,
     unpaidShifts: [],
     shiftsWithOrders: [],
+    // Пагинация
+    total: 0,
+    limit: 10,
+    offset: 0,
   }),
 
   actions: {
@@ -43,6 +47,7 @@ export const useShiftsStore = defineStore("shiftsStore", {
       MessageService.success(`Смена началась`);
       return response.data;
     },
+    
     async stopShift(shiftId) {
       const response = await endShift(this.endpoint, shiftId);
       if (response.status !== 200) {
@@ -52,8 +57,8 @@ export const useShiftsStore = defineStore("shiftsStore", {
       return response.data;
     },
 
-    async fetchShiftsWithDetails() {
-      const response = await getShiftsWithDetails(this.endpoint);
+    async fetchShiftsWithDetails(searchParams) {
+      const response = await getShiftsWithDetails(this.endpoint, searchParams);
       if (response.status !== 200) {
         MessageService.error(response.statusText);
         return;
@@ -88,6 +93,31 @@ export const useShiftsStore = defineStore("shiftsStore", {
 
       shift.isPaid = true;
       MessageService.success("Смена выплачена");
+    },
+
+    // Пагинация
+    updateLimit(newLimit) {
+      this.limit = newLimit;
+    },
+    updateOffset(newOffset) {
+      this.offset = newOffset;
+    },
+    resetPagination() {
+      this.limit = 10;
+      this.offset = 0;
+    },
+    async loadMoreShifts(searchParams) {
+      this.offset += this.limit;
+      searchParams.limit = this.limit;
+      searchParams.offset = this.offset;
+      await this.fetchShiftsWithDetails(searchParams);
+    },
+
+    async searchShifts(searchParams) {
+      this.resetPagination();
+      searchParams.limit = this.limit;
+      searchParams.offset = this.offset;
+      await this.fetchShiftsWithDetails(searchParams);
     },
   },
 });

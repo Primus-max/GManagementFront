@@ -36,9 +36,9 @@ export const endShift = async (endpoint, shiftId) => {
   }
 };
 
-export const getShiftsWithDetails = async (endpoint) => {
+export const getShiftsWithDetails = async (endpoint, searchParams) => {
   try {
-    const response = await apiClient.get(`${endpoint}/shifts-with-orders`);
+    const response = await apiClient.get(`${endpoint}/shifts-with-orders`,  { params: searchParams });
     return response;
   } catch (error) {
     throw new Error("Failed to fetch shifts");
