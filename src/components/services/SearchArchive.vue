@@ -1,6 +1,10 @@
 <script setup>
-import { ref } from 'vue';
+import {
+  onMounted,
+  ref,
+} from 'vue';
 
+import { useOperatorsStore } from 'src/stores/operatorsStore';
 import { useShiftsStore } from 'src/stores/shiftsStore';
 
 const props = defineProps({
@@ -11,10 +15,15 @@ const props = defineProps({
   });
   
   const shiftsStore = useShiftsStore();
+  const  operatorsStore = useOperatorsStore();
   const date = ref(null);
-  const operator = ref(null);
+  const selectedOperator = ref(null);
   
-  // Обновление даты
+onMounted(async () => {
+  await operatorsStore.fetchItems();  
+});
+
+// Обновление даты
   const updateDate = (value) => {
     date.value = value;
   };
@@ -29,7 +38,7 @@ const props = defineProps({
     const searchParams = {
       startDate: date.value ? date.value[0] : null,
       endDate: date.value ? date.value[1] : null,
-      operator: operator.value,
+      operator: selectedOperator.value,
       limit: shiftsStore.limit,
       offset: shiftsStore.offset
     };
@@ -53,8 +62,8 @@ const props = defineProps({
   
         <div class="picker operator-picker">
           <p class="label-select">оператору</p>
-          <el-select v-model="operator" @change="updateOperator" placeholder="Выберите оператора">
-            <el-option v-for="name in names" :key="name" :label="name" :value="name" />
+          <el-select v-model="selectedOperator" @change="updateOperator" placeholder="Выберите оператора">
+            <el-option v-for="operator in operatorsStore.items" :key="operator.id" :label="operator.name" :value="operator.id" />
           </el-select>
         </div>
   

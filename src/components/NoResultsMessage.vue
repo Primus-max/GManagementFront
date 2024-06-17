@@ -1,10 +1,4 @@
-<template>
-    <div class="no-results-message">
-      {{ message }}
-    </div>
-  </template>
-  
-  <script setup>
+<script setup>
 const props = defineProps({
     message: {
       type: String,
@@ -12,8 +6,16 @@ const props = defineProps({
     }
   });
 </script>
+
+<template>
+    <div class="no-results-message">
+      {{ message }}
+    </div>
+  </template>
   
-  <style scoped>
+
+  
+  <style lang="css" scoped>
   .no-results-message {
     margin: 40px;
     padding: 10px;
