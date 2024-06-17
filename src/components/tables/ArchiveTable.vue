@@ -69,28 +69,7 @@ const viewDetailShift = (shift) => {
         <el-table-column label="Действия" align="center" width="400">
             <template v-slot="scope">
 
-                <div class="control-buttons-wrapper">
-                    <!-- <el-tooltip placement="top" content="Отмена">
-                        <el-button class="control-button" type="text" @click="cancelOrder(scope.row)">
-                            <el-icon>
-                                <Close />
-                            </el-icon>
-                        </el-button>
-                    </el-tooltip>
-                    <el-tooltip placement="top" content="Продление">
-                        <el-button class="control-button" type="text" @click="extendOrder(scope.row)">
-                            <el-icon>
-                                <Check />
-                            </el-icon>
-                        </el-button>
-                    </el-tooltip> -->
-                    <!-- <el-tooltip placement="top" content="Редактировать">
-                        <el-button class="control-button" type="text" @click="editOrder(scope.row)">
-                            <el-icon>
-                                <Edit />
-                            </el-icon>
-                        </el-button>
-                    </el-tooltip> -->
+                <div class="control-buttons-wrapper">                   
                     <el-tooltip placement="top" content="Удалить смену">
                         <el-button class="control-button" type="text" @click="deleteOrder(scope.row)">
                             <el-icon>

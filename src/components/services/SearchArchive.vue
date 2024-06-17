@@ -15,10 +15,20 @@ const props = defineProps({
     }
   });
   
+
+switch (props.searchType) {
+    case 'operators':
+        
+        break;
+
+    default:
+        break;
+}
+
   const shiftsStore = useShiftsStore();
   const  operatorsStore = useOperatorsStore();
   const date = ref(null);
-  const selectedOperator = ref(null);
+  const selectedUser = ref(null);
   
 onMounted(async () => {
   await operatorsStore.fetchItems();  
@@ -31,7 +41,7 @@ onMounted(async () => {
   
   // Обновление оператора
   const updateOperator = (value) => {
-    selectedOperator.value = value;
+    selectedUser.value = value;
   };
   
   // Поиск
@@ -41,7 +51,7 @@ onMounted(async () => {
       endDate: date.value ? date.value[1] : null,
       limit: PAGE_ITEMS_LIMIT,
       offset: 0,
-      operator: selectedOperator.value,      
+      operator: selectedUser.value,      
     };
   
     await shiftsStore.searchShifts(searchParams);
@@ -50,7 +60,7 @@ onMounted(async () => {
   const reset = async() => {    
     await shiftsStore.resetPagination();
     date.value = null;
-    selectedOperator.value = null;
+    selectedUser.value = null;
   }
 </script>
   

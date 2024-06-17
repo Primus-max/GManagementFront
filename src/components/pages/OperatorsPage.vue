@@ -7,6 +7,7 @@ import {
 
 import { ElDrawer } from 'element-plus';
 import AddOperatorForm from 'src/components/modals/AddOperatorForm.vue';
+import SearchArchive from 'src/components/services/SearchArchive.vue';
 import SearchStatistics from 'src/components/services/SearchStatistics.vue';
 import OperatorsStatistics from 'src/components/tables/OperatorsStatistics.vue';
 import OperatorsTable from 'src/components/tables/OperatorsTable.vue';
@@ -31,7 +32,7 @@ const operators = computed(() => operatorsStore.items);
         <el-tabs v-model="activeTab" tab-position="left">
           <el-tab-pane label="Статистика" name="statistics">
             <div class="search-header-wrapper">
-              <SearchStatistics searchType="operators" :names="operators.map(operator => operator.name)" />
+              <SearchArchive searchType="operators"  />
             </div>
             <OperatorsStatistics :statistics="statistics" />
           </el-tab-pane>
