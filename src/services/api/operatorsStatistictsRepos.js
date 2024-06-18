@@ -1,5 +1,13 @@
-// import apiClient from '@/services/api/apiClient';
+// import apiClient from 'src/services/api/apiClient';
 
+// export const getOperatorsStatistics = async(endpoint) => {
+//     try {
+//     const response = await apiClient.get(`${endpoint}/statistics`);
+//     return response;
+//     } catch (error) {
+//         throw new Error('Failed to fetch operators');
+//     }
+//   }
 // export const getOperators = async() => {
 //     try {
 //     const response = await apiClient.get('/operators');

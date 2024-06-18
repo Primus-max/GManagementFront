@@ -37,7 +37,7 @@ const search = async () => {
     endDate: date.value ? date.value[1] : null,
     limit: PAGE_ITEMS_LIMIT,
     offset: 0,
-    operator: selectedUser.value,
+    user: selectedUser.value,
   };
 
   await props.store.searchItems(searchParams);
