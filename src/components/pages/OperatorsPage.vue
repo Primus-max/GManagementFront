@@ -57,7 +57,7 @@ const handlePageChange = async (page) => {
         <el-tabs v-model="activeTab" tab-position="left">
           <el-tab-pane label="Статистика" name="statistics">
             <div class="search-header-wrapper">
-              <SearchArchive :store="operatorsStatisticsStore" :users="operatorsStore.items" />
+              <SearchArchive :store="operatorsStatisticsStore" :users="operatorsStore.items" :searchType="'operators'"/>
             </div>
             <OperatorsStatistics :statistics="statistics" v-if="statistics?.length > 0"/>
             <NoResultsMessage v-else message="Для указанного поиска ничего не найдено" />

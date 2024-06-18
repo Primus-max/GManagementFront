@@ -57,7 +57,7 @@ const handlePageChange = async (page) => {
         <el-tabs v-model="activeTab" tab-position="left">
           <el-tab-pane label="Статистика" name="statistics">
             <div class="search-header-wrapper">
-              <SearchArchive :store="girlsStatisticsStore" :users="girlsStore.items" />
+              <SearchArchive :store="girlsStatisticsStore" :users="girlsStore.items" :searchType="'girls'"/>
             </div>
 
             <GirlsStatistics :statistics="statistics" :girls="girls" v-if="statistics?.length > 0" />

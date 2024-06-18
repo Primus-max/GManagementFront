@@ -211,6 +211,7 @@ const viewDetailBalance = async () => {
                 <div class="orders-list">
                     <OrderTable />
                 </div>
+                
             </el-card>
         </div>
     </div>

@@ -14,6 +14,10 @@ const props = defineProps({
   users: {
     type: Array,
     required: true
+  },
+  searchType: {
+    type: String,
+    required: true
   }
 });
 
@@ -48,6 +52,21 @@ const reset = async () => {
   date.value = null;
   selectedUser.value = null;
 }
+
+const searchType = () => {
+  switch (props.searchType) {
+    case "girls": return "девушкам"
+    case "operators": return "операторам"
+    case "clients": return "клиентам"
+  }
+}
+
+const lableSelect = (user) => {
+  if (props.searchType == "girls") {
+    return user.name + "-" + user.tgAcc;
+  }
+  return user.name;
+}
 </script>
 
 
@@ -63,11 +82,13 @@ const reset = async () => {
       </div>
 
       <div class="picker operator-picker">
-        <p class="label-select">оператору</p>
-        <el-select v-model="selectedUser" @change="updateUser" placeholder="Выберите оператора" clearable
-          filterable>
-          <el-option v-for="user in users" :key="user.id" :label="user.name"
-            :value="user.id" />
+        <p class="label-select">{{ searchType() }}</p>
+        <el-select v-model="selectedUser" @change="updateUser" placeholder="Выберите" clearable filterable>
+          <template #label="{ label, value }">
+            <span>{{ label }}: </span>
+            <span>{{ lableSelect(value) }}</span>
+          </template>
+          <el-option v-for="user in users" :key="user.id" :label="lableSelect(user)" :value="user.id" />
         </el-select>
       </div>
 
