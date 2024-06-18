@@ -107,7 +107,7 @@ export const useShiftsStore = defineStore("shiftsStore", {
       await this.fetchShiftsWithDetails(searchParams);
     },
    
-    async searchShifts(searchParams) {
+    async searchItems(searchParams) {
       await this.fetchShiftsWithDetails(searchParams);
     },
   },

@@ -8,9 +8,11 @@ import {
 import NoResultsMessage from 'src/components/NoResultsMessage.vue';
 import SearchArchive from 'src/components/services/SearchArchive.vue';
 import ArchiveTable from 'src/components/tables/ArchiveTable.vue';
+import { useOperatorsStore } from 'src/stores/operatorsStore';
 import { useShiftsStore } from 'src/stores/shiftsStore';
 
 const activeTab = ref('operators');
+const operatorsStore = useOperatorsStore();
 const shiftsStore = useShiftsStore();
 
 const total = computed(() => shiftsStore.totalShifts);
@@ -27,6 +29,7 @@ const fetchShifts = async (page = 1) => {
 
 onMounted(async () => {
   await fetchShifts();
+  await operatorsStore.fetchItems();
 });
 
 const handlePageChange = async (page) => {
@@ -46,7 +49,7 @@ const shifts = computed(() => {
         <el-tabs v-model="activeTab" tab-position="left">
           <el-tab-pane label="Смены" name="operators">
             <div class="search-header-wrapper">
-              <SearchArchive @search="fetchShifts" />
+              <SearchArchive @search="fetchShifts" :store="shiftsStore" :users="operatorsStore.items" />
             </div>
             <ArchiveTable :shifts="shifts" v-if="shifts.length > 0" />
             <NoResultsMessage v-else message="Для указанного поиска ничего не найдено" />
