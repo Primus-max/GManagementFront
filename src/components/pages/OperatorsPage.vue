@@ -21,10 +21,14 @@ const operatorsStatisticsStore = useOperatorsStatisticsStore();
 
 const activeTab = ref('statistics');
 const dialogVisible = ref(false);
-
-const total = computed(() => operatorsStatisticsStore.totalItems);
 const currentPage = ref(1);
 const pageSize = ref(3);
+
+const total = computed(() => operatorsStatisticsStore.totalItems);
+const operators = computed(() => operatorsStore.items);
+const statistics = computed(() => { 
+  return operatorsStatisticsStore.statistics?.slice().reverse(); 
+});
 
 const fetchStatisticsDeatails = async (page = 1) => {
   const searchParams = {
@@ -39,10 +43,6 @@ onMounted(async () => {
   await operatorsStore.fetchItems();
 });
 
-const operators = computed(() => operatorsStore.items);
-const statistics = computed(() => { 
-  return operatorsStatisticsStore.statistics?.slice().reverse(); 
-});
 
 const handlePageChange = async (page) => {
   currentPage.value = page;
@@ -81,9 +81,12 @@ const handlePageChange = async (page) => {
     </div>
 
   </div>
+
+  <!-- Добавить оператора -->
   <el-drawer v-model="dialogVisible" title="Добавить оператора" direction="ltr">
     <AddOperatorForm @close="dialogVisible = false" :isEditing="false" />
   </el-drawer>
+
 </template>
 
 <style scoped>

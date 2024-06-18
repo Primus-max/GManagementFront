@@ -44,7 +44,7 @@ const deleteGirl = async (girl) => {
 
 <template>
   <el-table :data="girls" class="table" size="large" fit>
-    <el-table-column prop="id" label="ID" width="50"></el-table-column>
+    
     <el-table-column prop="name" label="Имя"></el-table-column>
     <el-table-column prop="nickName" label="Ник"></el-table-column>
     <el-table-column prop="tgAcc" label="Телеграм"></el-table-column>
