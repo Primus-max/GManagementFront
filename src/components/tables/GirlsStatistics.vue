@@ -42,9 +42,9 @@ const calculateProfit = (income) => {
     <el-table-column prop="totalHours" label="Часы" />
     <el-table-column prop="totalGuests" label="Гости" />
     <!-- <el-table-column prop="t" label="Уходы"></el-table-column> -->
-    <el-table-column prop="totalIncome" label="Доход" :formatter="(row) => row.totalIncome.toFixed(2) + ' ₽'"/>
-    <el-table-column prop="username" label="% Оператора" :formatter="(row) => calculateOperatorPercentage(row.totalIncome).toFixed(2) + ' ₽'"/>
-    <el-table-column prop="totalAmount" label="Прибыль" width="100"  :formatter="(row) => calculateProfit(row.totalIncome).toFixed(2) + ' ₽'"/>
+    <el-table-column prop="totalIncome" label="Доход" :formatter="(row) => row.totalIncome.toFixed(1) + ' ₽'"/>
+    <el-table-column prop="username" label="% Оператора" :formatter="(row) => calculateOperatorPercentage(row.totalIncome).toFixed(1) + ' ₽'"/>
+    <el-table-column prop="totalAmount" label="Прибыль" width="100"  :formatter="(row) => calculateProfit(row.totalIncome).toFixed(1) + ' ₽'"/>
   </el-table>
 </template>
 
