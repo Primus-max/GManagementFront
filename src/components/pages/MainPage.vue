@@ -1,6 +1,5 @@
 <script setup>
 import {
-  computed,
   onMounted,
   ref,
 } from 'vue';
@@ -24,7 +23,6 @@ const getOrdersByGroup = (groupId) => {
   return ordersStore.ordersWithDetails.filter(order => order.group === groupId);
 };
 
-// Функция для проверки, есть ли заказы для данной группы
 const hasOrdersForGroup = (groupId) => {
   return ordersStore.ordersWithDetails.some(order => order.group === groupId);
 };
