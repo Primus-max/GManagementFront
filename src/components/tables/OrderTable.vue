@@ -1,47 +1,16 @@
 <script setup>
-import {
-  computed,
-  onBeforeMount,
-} from 'vue';
-
-import { useOrdersStore } from 'src/stores/ordersStore';
-
 const props = defineProps({
     orders: {
         type: Array,
         required: true
     }
 })
-
-const ordersStore = useOrdersStore();
-
-
-
-// const cancelOrder = (order) => {
-//     // логика отмены заказа
-// };
-
-// const extendOrder = (order) => {
-//     // логика продления заказа
-// };
-
-// const editOrder = (order) => {
-//     // логика редактирования заказа
-// };
-
-// const deleteOrder = (order) => {
-//     // логика удаления заказа
-// };
-
-// const payOrder = (order) => {
-//     // логика выплаты заказа
-// };
 </script>
 
 
 <template>
     <div class="order-table">
-        <el-table :data="props.orders" class="table" size="large" fit height="60vh" default-sort="{ prop: 'id', order: 'descending' }">
+        <el-table :data="props.orders" class="table" size="large" fit  default-sort="{ prop: 'id', order: 'descending' }">
             <el-table-column prop="id" label="ID" width="50" ></el-table-column>
             <el-table-column prop="girl" label="Девушка"></el-table-column>
             <el-table-column prop="client" label="Клиент"></el-table-column>
@@ -56,8 +25,8 @@ const ordersStore = useOrdersStore();
 <style scoped>
 @import 'src/assets/styles/main.css';
 .table {
-  max-height: 60vh; /* Установите нужную высоту */
-  overflow: auto; /* Включение прокрутки */
+  max-height: 60vh; 
+  overflow: auto; 
 }
 
 </style>

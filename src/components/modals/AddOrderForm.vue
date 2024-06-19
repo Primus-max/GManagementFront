@@ -69,6 +69,7 @@ const cancelForm = () => {
 };
 
 watchEffect(() => {
+  console.log(props.girls)
   if (props.isEditing && props.order) {    
     form.value = { ...props.order };
     orderTime.value = [props.order.startTime, props.order.finishTime];

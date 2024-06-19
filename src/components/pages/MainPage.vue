@@ -1,65 +1,62 @@
 <script setup>
-import 'element-plus/es/components/message/style/css';
-import 'element-plus/es/components/button/style/css';
-import 'element-plus/es/components/tooltip/style/css';
-import 'element-plus/es/components/table/style/css';
-
 import {
   computed,
   onMounted,
   ref,
 } from 'vue';
 
-import {
-  ElMessage,
-  ElTable,
-  ElTableColumn,
-} from 'element-plus';
 import OrderTable from 'src/components/tables/OrderTable.vue';
+import { useGroupsStore } from 'src/stores/groupsStore';
 import { useOrdersStore } from 'src/stores/ordersStore';
 
-// import MessageService from '@/services/infoMessageService.js';
-import {
-  Check,
-  Close,
-  Delete,
-  Edit,
-  Money,
-} from '@element-plus/icons-vue';
-
 const ordersStore = useOrdersStore();
+const groupsStore = useGroupsStore();
 
-onMounted( async() => {
-  await ordersStore.getOrdersWithDetails("grouped");
-})
+const groups = ref([]);
 
-const orders = computed(() => {
-  return ordersStore.ordersWithDetails.slice().reverse();
+onMounted(async () => {
+  await groupsStore.fetchItems();
+  groups.value = groupsStore.items;
+  await ordersStore.getOrdersWidhDetails("grouped");
 });
+
+const getOrdersByGroup = (groupId) => {
+  return ordersStore.ordersWithDetails.filter(order => order.group === groupId);
+};
+
+// Функция для проверки, есть ли заказы для данной группы
+const hasOrdersForGroup = (groupId) => {
+  return ordersStore.ordersWithDetails.some(order => order.group === groupId);
+};
 
 </script>
 
 <template>
-    <div class="page main-page">
-        <div class="page-wrapper">           
-            <div class="groups" v-for="group in groups" :key="group.name">
-                <h2 class="page-title">{{ group.name }}</h2>
-                <OrderTable :orders="orders" />
-            </div>
+  <div class="page main-page">
+    <div class="page-wrapper">
+      <div class="groups">
+        <div v-for="group in groups" :key="group.id">
+          <template v-if="hasOrdersForGroup(group.id)">
+            <h2 class="page-title">{{ group.name }}</h2>
+            <OrderTable :orders="getOrdersByGroup(group.id)" />
+          </template>
         </div>
+      </div>
     </div>
+  </div>
 </template>
+
 <style scoped>
 @import 'src/assets/styles/main.css';
 
 .page-title {
-    margin: 0;
-    padding: 0;
-    font-size: 24px;
+  margin: 0;
+  padding: 0;
+  font-size: 24px;
 }
 
 .groups {
-    margin-top: 30px;
+  margin-top: 30px;
 }
 
 </style>

@@ -210,7 +210,7 @@ const viewDetailBalance = async () => {
 
     <el-drawer v-model="dialogFormVisible" title="Добавить заказ" direction="ltr">
         <AddOrderForm @close="dialogFormVisible = false" @order-added="updateBalance" :clients="clients"
-            :operators="operators" :girls="selectedGirls" :isEditing="false" />
+            :operators="operators" :girls="girls" :isEditing="false" />
     </el-drawer>
 
     <el-dialog v-model="detailBalancedialogVisible" title="Информация о формировании баланса" width="800">
