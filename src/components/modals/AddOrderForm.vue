@@ -48,6 +48,7 @@ const loading = ref(false);
 const initialFormData = {
   girlId: '',
   clientId: '',
+  groupId: '',
   startTime: '',
   finishTime: '',
   amount: '',
@@ -68,27 +69,13 @@ const cancelForm = () => {
 };
 
 watchEffect(() => {
-  if (props.isEditing && props.order) {
-    console.log('New order received:', props.order); // Логируем новый order
+  if (props.isEditing && props.order) {    
     form.value = { ...props.order };
     orderTime.value = [props.order.startTime, props.order.finishTime];
   } else {
     resetForm();
   }
 });
-
-// watch(
-//   () => props.order,
-//   (newOrder) => {
-//     if (props.isEditing && newOrder) {
-//       console.log('New order received:', newOrder);
-//       form.value = { ...newOrder };
-//     } else {
-//       resetForm();
-//     }
-//   },
-//   { immediate: true }
-// );
 
 const submitForm = async () => {
   if (!shiftsStore.currentShift) {
@@ -110,6 +97,7 @@ const submitForm = async () => {
   form.value.startTime = orderTime.value[0];
   form.value.finishTime = orderTime.value[1];
   form.value.shiftId = shiftsStore.currentShift.id;
+  form.value.groupId = me.groupId;
   const newOrder = {
     ...form.value,
   }

@@ -115,15 +115,7 @@ const startShift = async () => {
 const handleShiftEnd = async () => {
     await ConfirmMessageServices.info("Смена закончилась");
     shiftState(false, false);
-    await shiftsStore.stopShift(shiftsStore.currentShift.id);
-    // ElMessageBox.confirm('Смена закончилась', 'Подтвердите действие', {
-    //     confirmButtonText: 'Ок',
-    //     type: 'info',
-    //     showCancelButton: false
-    // }).then(async () => {
-    //     shiftState(false, false);
-    //     await shiftsStore.stopShift(shiftsStore.currentShift.id);
-    // })
+    await shiftsStore.stopShift(shiftsStore.currentShift.id); 
 };
 
 const shiftState = (exests, loading) => {
@@ -209,7 +201,7 @@ const viewDetailBalance = async () => {
 
                 <!-- Orders List -->
                 <div class="orders-list">
-                    <OrderTable />
+                    <OrderTable :orders="orders" />
                 </div>
                 
             </el-card>

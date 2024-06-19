@@ -33,8 +33,8 @@ export const useOrdersStore = defineStore("ordersStore", {
     async fetchOrders() {
       this.orders = await getAll();
     },
-    async getOrdersWidhDetails() {
-      const response = await getOrdersWidthDetails(this.endpoint);
+    async getOrdersWidhDetails(type) {
+      const response = await getOrdersWidthDetails(this.endpoint, type);
       if (response.status !== 200) {
         MessageService.error(response.statusText);
         return;

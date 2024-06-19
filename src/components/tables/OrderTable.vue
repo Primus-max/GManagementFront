@@ -6,40 +6,42 @@ import {
 
 import { useOrdersStore } from 'src/stores/ordersStore';
 
+const props = defineProps({
+    orders: {
+        type: Array,
+        required: true
+    }
+})
+
 const ordersStore = useOrdersStore();
 
-// onBeforeMount()
-
-const orders = computed(() => {
-  return ordersStore.ordersWithDetails.slice().reverse();
-});
 
 
-const cancelOrder = (order) => {
-    // логика отмены заказа
-};
+// const cancelOrder = (order) => {
+//     // логика отмены заказа
+// };
 
-const extendOrder = (order) => {
-    // логика продления заказа
-};
+// const extendOrder = (order) => {
+//     // логика продления заказа
+// };
 
-const editOrder = (order) => {
-    // логика редактирования заказа
-};
+// const editOrder = (order) => {
+//     // логика редактирования заказа
+// };
 
-const deleteOrder = (order) => {
-    // логика удаления заказа
-};
+// const deleteOrder = (order) => {
+//     // логика удаления заказа
+// };
 
-const payOrder = (order) => {
-    // логика выплаты заказа
-};
+// const payOrder = (order) => {
+//     // логика выплаты заказа
+// };
 </script>
 
 
 <template>
     <div class="order-table">
-        <el-table :data="orders" class="table" size="large" fit height="60vh" default-sort="{ prop: 'id', order: 'descending' }">
+        <el-table :data="props.orders" class="table" size="large" fit height="60vh" default-sort="{ prop: 'id', order: 'descending' }">
             <el-table-column prop="id" label="ID" width="50" ></el-table-column>
             <el-table-column prop="girl" label="Девушка"></el-table-column>
             <el-table-column prop="client" label="Клиент"></el-table-column>

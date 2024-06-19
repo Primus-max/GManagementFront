@@ -5,6 +5,7 @@ class Order {
     this.girlId = data.girlId;
     this.clientId = data.clientId;
     this.shiftId = data.shiftId;
+    this.groupId = data.groupId;
     this.startTime = data.startTime;
     this.finishTime = data.finishTime;
     this.amount = data.amount;
