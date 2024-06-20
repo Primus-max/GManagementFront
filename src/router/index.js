@@ -5,7 +5,6 @@ import GirlsPage from 'src/components/pages/GirlsPage.vue';
 import MainPage from 'src/components/pages/MainPage.vue';
 import OperatorCabinetPage from 'src/components/pages/OperatorCabinetPage.vue';
 import OperatorsPage from 'src/components/pages/OperatorsPage.vue';
-import { userAuth } from 'src/stores/userAuthStore.js';
 import {
   createRouter,
   createWebHistory,
@@ -62,7 +61,7 @@ const router = createRouter({
 
 // Глобальный guard для проверки авторизации
 router.beforeEach((to, from, next) => {
-  const authStore = userAuth();
+  const authStore = window.authStore;
   
   // Проверяем аутентификацию
   if (to.matched.some(record => record.meta.requiresAuth)) {

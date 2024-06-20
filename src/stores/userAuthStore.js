@@ -29,7 +29,9 @@ export const userAuth = defineStore('auth', {
       }
     },
     setUser(userData) {
+      if (!userData) return;
       this.user = userData;
+      this.isAuthenticated = true;
     },
     logout() {
       localStorage.removeItem('token');

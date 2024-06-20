@@ -15,18 +15,16 @@ import App from './App.vue';
 const app = createApp(App);
 const pinia = createPinia();
 
-
-
 app.use(pinia);
-
 app.use(ElementPlus);
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component);
 }
 
-const initAuth = async () => {
-  const userAuthStore = userAuth();
+const userAuthStore = userAuth();
+window.authStore = userAuthStore;
+const initAuth = async () => { 
   const token = localStorage.getItem('token');
 
   if (token) {
@@ -44,3 +42,4 @@ const initAuth = async () => {
 };
 
 initAuth();
+
