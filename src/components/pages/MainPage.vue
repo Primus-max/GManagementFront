@@ -47,7 +47,7 @@ const hasOrdersForGroup = (groupId) => {
 <style scoped>
 @import 'src/assets/styles/main.css';
 
-.page-title {
+.page-title {  
   margin: 0;
   padding: 0;
   font-size: 24px;

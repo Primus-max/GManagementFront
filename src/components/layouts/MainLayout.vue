@@ -1,25 +1,17 @@
 <script setup>
-import { computed } from 'vue';
-
 import Navigation from 'src/components/Navigation.vue';
-import AuthorizationPage from 'src/components/pages/AuthorizationPage.vue';
-import { userAuth } from 'src/stores/userAuthStore.js';
-
-const authStore = userAuth();
-const isAuthenticated = computed(() => authStore.isAuthenticated);
 </script>
 
 <template>
   <div class="common-layout">
-    <el-container v-if="isAuthenticated">
+    <el-container >
       <el-header class="header">
         <Navigation />
       </el-header>
       <el-main class="main">
-        <router-view /> 
+        <router-view />
       </el-main>
-    </el-container>
-    <AuthorizationPage v-if="!isAuthenticated" /> 
+    </el-container>    
   </div>
 </template>
 
@@ -39,6 +31,6 @@ const isAuthenticated = computed(() => authStore.isAuthenticated);
   justify-content: right;
   height: 60px;
   width: 100%;
-  padding: 0;  
+  padding: 0;
 }
 </style>

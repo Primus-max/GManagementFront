@@ -16,13 +16,13 @@ const routes = [
     path: "/",
     name: "main",
     component: MainPage,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, roles: ['Admin', 'Operator'] },
   },
   {
     path: "/operator",
     name: "operator",
     component: OperatorCabinetPage,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, roles: [ 'Operator'] },
   },
   {
     path: "/authorization",
@@ -33,25 +33,25 @@ const routes = [
     path: "/archive",
     name: "archive",
     component: ArchivePage,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, roles: ['Admin'] },
   },
   {
     path: "/girls",
     name: "girls",
     component: GirlsPage,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, roles: ['Admin', 'Operator'] },
   },
   {
     path: "/operators",
     name: "operators",
     component: OperatorsPage,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, roles: ['Admin'] },
   },
   {
     path: "/clients",
     name: "clients",
     component: ClientsPage,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, roles: ['Admin', 'Operator'] },
   },
 ];
 
@@ -62,24 +62,35 @@ const router = createRouter({
 
 // Глобальный guard для проверки авторизации
 router.beforeEach((to, from, next) => {
-  
-  const token = localStorage.getItem("token");
   const authStore = userAuth();
-  authStore.isAuthenticated = !!token;
-
+  
+  // Проверяем аутентификацию
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!authStore.isAuthenticated) {
-      next({ name: "authorization" });
-    } else {
-      next();
-    }
-  } else {
-    if (to.name === "authorization" && authStore.isAuthenticated) {
-      router.push({ name: "main" });
-    } else {
-      next();
+    if (!authStore.isAuthenticated) {      
+      return next({ name: 'authorization' });
+    } 
+    
+    // Проверяем роли
+    if (to.meta.roles && !to.meta.roles.includes(authStore.user.role)) {
+      if (authStore.user.role == "Operator") {
+        return next({ name: 'operator' });
+      }else if (authStore.user.role == "Admin") {
+        return next({ name: 'main' });
+      } 
     }
   }
+  
+  // Проверка на случай, если аутентифицированный пользователь пытается попасть на страницу авторизации
+  if (to.name === 'authorization' && authStore.isAuthenticated) {
+    if (authStore.user.role == "Operator") {
+      return next({ name: 'operator' });
+    }
+    if (authStore.user.role == "Admin") {
+      return next({ name: 'main' });
+    }    
+  }
+  
+  next();
 });
 
 export default router;

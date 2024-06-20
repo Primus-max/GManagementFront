@@ -17,7 +17,12 @@ const handleLogin = async () => {
     }
 
     await authStore.authenticate(LoginModel);
-    router.push({ name: 'main' });
+    if (authStore.isAuthenticated) {
+      router.push({ name: 'main' });
+    } else {
+      // Handle authentication failure
+      console.error('Authentication failed');
+    }
 };
 </script>
 
