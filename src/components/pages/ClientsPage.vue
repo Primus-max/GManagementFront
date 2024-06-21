@@ -63,7 +63,7 @@ const handlePageChange = async (page) => {
     <div class="page-wrapper">
       <el-card>
         <el-tabs v-model="activeTab" tab-position="left">
-          <el-tab-pane label="Статистика" name="statistics" v-if="isRole">
+          <el-tab-pane label="Статистика" name="statistics" v-if="isAdmin">
             <div class="statistics-wrapper">
               <div class="search-header-wrapper">
                 <SearchArchive searchType="clients" :store="clientsStatisticsStore" :users="clientsStore.items" />
