@@ -29,6 +29,7 @@ const initAuth = async () => {
 
   if (token) {
     const me = await userAuthStore.getMe();
+    console.log(me);
     if (me) {
       userAuthStore.setUser(me);
     } else {
