@@ -20,8 +20,8 @@ const dialogVisible = ref(false);
 const currentPage = ref(1);
 const pageSize = ref(3);
 const me = JSON.parse(localStorage.getItem('me'));
-const isRole = ref(me?.role === 'Admin');
-const activeTab = ref(isRole ? 'statistics': 'girls');
+const isAdmin = ref(me?.role === 'Admin');
+const activeTab = ref(isAdmin.value ? 'statistics': 'girls');
 
 // Состояние загрузки данных
 const isLoading = ref(true);
