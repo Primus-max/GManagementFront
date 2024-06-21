@@ -5,6 +5,6 @@ export const getStatistics = async(endpoint, params) => {
     const response = await apiClient.get(endpoint, params);
     return response;
     } catch (error) {
-        throw new Error('Failed to fetch statistics');
+        //throw new Erro('Failed to fetch statistics');
     }
 };

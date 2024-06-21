@@ -3,7 +3,6 @@ import {
   computed,
   onMounted,
   ref,
-  watch,
 } from 'vue';
 
 import { ElDrawer } from 'element-plus';
@@ -17,19 +16,20 @@ import { useClientsStore } from 'src/stores/clientsStore';
 
 const clientsStore = useClientsStore();
 const clientsStatisticsStore = useClientsStatisticsStore();
-const activeTab = ref('statistics');
 const dialogVisible = ref(false);
 const currentPage = ref(1);
 const pageSize = ref(3);
+const me = JSON.parse(localStorage.getItem('me'));
+const activeTab = ref(me?.role === 'admin' ? 'statistics': 'clients');
+
+// Состояние загрузки данных
+const isLoading = ref(true);
 
 const clients = computed(() => clientsStore.items);
 const total = computed(() => clientsStatisticsStore.totalItems);
-const statistics = computed(() => {
-  return clientsStatisticsStore.statistics?.slice().reverse();
+const statistics = computed(() => clientsStatisticsStore.statistics?.slice().reverse());
 
-});
-
-const fetchStatisticsDeatails = async (page = 1) => {
+const fetchStatisticsDetails = async (page = 1) => {
   const searchParams = {
     limit: pageSize.value,
     offset: (page - 1) * pageSize.value,
@@ -38,28 +38,37 @@ const fetchStatisticsDeatails = async (page = 1) => {
 };
 
 onMounted(async () => {
-  await fetchStatisticsDeatails();
-  await clientsStore.fetchItems();
+  try {
+    await Promise.all([
+      fetchStatisticsDetails(),
+      clientsStore.fetchItems(),
+    ]);
+  } catch (error) {
+    console.error('Failed to fetch data:', error);
+    // Обработка ошибок, например, показ сообщения об ошибке
+  } finally {
+    isLoading.value = false; // Устанавливаем состояние загрузки в false после загрузки данных
+  }
 });
 
 const handlePageChange = async (page) => {
   currentPage.value = page;
-  await fetchStatisticsDeatails(page);
+  await fetchStatisticsDetails(page);
 };
 </script>
 
 <template>
-  <div class="page clients-page">
+  <div v-if="!isLoading" class="page clients-page">
     <div class="page-wrapper">
       <el-card>
         <el-tabs v-model="activeTab" tab-position="left">
-          <el-tab-pane label="Статистика" name="statistics">
+          <el-tab-pane label="Статистика" name="statistics" v-if="me?.role === 'admin'">
             <div class="statistics-wrapper">
               <div class="search-header-wrapper">
                 <SearchArchive searchType="clients" :store="clientsStatisticsStore" :users="clientsStore.items" />
               </div>
 
-              <ClientsStatistics :statistics="statistics" v-if="statistics?.length > 0"/>
+              <ClientsStatistics v-if="statistics && statistics.length > 0" :statistics="statistics" />
               <NoResultsMessage v-else message="Для указанного поиска ничего не найдено" />
 
             </div>
@@ -85,7 +94,7 @@ const handlePageChange = async (page) => {
     </div>
 
   </div>
-
+  <div v-else class="loading-message">Загрузка...</div>
   <!-- Добавить клиента -->
   <el-drawer v-model="dialogVisible" title="Добавить клиента" direction="ltr">
     <AddClientForm @close="dialogVisible = false" />
@@ -95,4 +104,13 @@ const handlePageChange = async (page) => {
 
 <style lang="css" scoped>
 @import 'src/assets/styles/main.css';
+
+.loading-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 18px;
+  color: #333;
+}
 </style>

@@ -46,7 +46,7 @@ const orderDialogVisible = ref(false);
 const detailBalancedialogVisible = ref(false)
 const selectedGirls = ref([]);
 const clients = ref([]);
-const orders = ref([]);
+// const orders = ref([]);
 const unpaidShifts = ref([]);
 const isCurrentShiftExists = ref(false);
 const isLoading = ref(true);
@@ -73,7 +73,7 @@ onMounted(async () => {
     await girlsStore.fetchItems();
     await operatorsStore.fetchItems();
     await ordersStore.getOrdersWidhDetails();
-    orders.value = ordersStore.ordersWithDetails;
+    // orders.value = ordersStore.ordersWithDetails;
     clients.value = clientsStore.items;
     selectedGirls.value = await girlsStore.getGirlsFromGroup();
     operators.value = operatorsStore.items;
@@ -81,6 +81,7 @@ onMounted(async () => {
 
 const girls = computed(() => girlsStore.items);
 const operators = computed(() => operatorsStore.items);
+const orders = computed(() => ordersStore.ordersWithDetails);
 
 const shiftStartTime = ref(new Date().setHours(10, 0, 0));
 const shiftEndTime = ref(new Date().setHours(21, 0, 0));

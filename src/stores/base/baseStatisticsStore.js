@@ -19,7 +19,7 @@ export function createStatisticsStore(storeName, endpoint) {
             this.totalItems = response.data.totalCount;
           }
         } catch (error) {
-          throw new Error('Failed to search statistics');
+          //throw new Error('Failed to search statistics');
         }
       },
 

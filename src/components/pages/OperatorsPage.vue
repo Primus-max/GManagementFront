@@ -23,6 +23,7 @@ const activeTab = ref('statistics');
 const dialogVisible = ref(false);
 const currentPage = ref(1);
 const pageSize = ref(3);
+const me = JSON.parse(localStorage.getItem('me'));
 
 const total = computed(() => operatorsStatisticsStore.totalItems);
 const operators = computed(() => operatorsStore.items);
@@ -55,14 +56,14 @@ const handlePageChange = async (page) => {
     <div class="page-wrapper">
       <el-card>
         <el-tabs v-model="activeTab" tab-position="left">
-          <el-tab-pane label="Статистика" name="statistics">
+          <el-tab-pane label="Статистика" name="statistics" v-if="me?.role === 'admin'">
             <div class="search-header-wrapper">
               <SearchArchive :store="operatorsStatisticsStore" :users="operatorsStore.items" :searchType="'operators'"/>
             </div>
             <OperatorsStatistics :statistics="statistics" v-if="statistics?.length > 0"/>
             <NoResultsMessage v-else message="Для указанного поиска ничего не найдено" />
           </el-tab-pane>
-          <el-tab-pane label="Операторы" name="operators">
+          <el-tab-pane label="Операторы" name="operators" >
             <div class="table-wrapper">
               <el-button type="primary" @click="dialogVisible = true">
                 <i class="el-icon-plus"></i> Добавить оператора
