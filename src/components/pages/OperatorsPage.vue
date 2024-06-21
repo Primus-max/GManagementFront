@@ -23,7 +23,6 @@ const activeTab = ref('statistics');
 const dialogVisible = ref(false);
 const currentPage = ref(1);
 const pageSize = ref(3);
-const me = JSON.parse(localStorage.getItem('me'));
 
 const total = computed(() => operatorsStatisticsStore.totalItems);
 const operators = computed(() => operatorsStore.items);
@@ -56,7 +55,7 @@ const handlePageChange = async (page) => {
     <div class="page-wrapper">
       <el-card>
         <el-tabs v-model="activeTab" tab-position="left">
-          <el-tab-pane label="Статистика" name="statistics" v-if="me?.role === 'admin'">
+          <el-tab-pane label="Статистика" name="statistics" >
             <div class="search-header-wrapper">
               <SearchArchive :store="operatorsStatisticsStore" :users="operatorsStore.items" :searchType="'operators'"/>
             </div>

@@ -53,7 +53,7 @@ const isLoading = ref(true);
 const formLabelWidth = '140px'
 
 
-onBeforeMount(async () => {
+onMounted(async () => {
     try {
         await updateBalance();
         await shiftsStore.fetchCurrentShift();

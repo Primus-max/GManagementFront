@@ -20,7 +20,8 @@ const dialogVisible = ref(false);
 const currentPage = ref(1);
 const pageSize = ref(3);
 const me = JSON.parse(localStorage.getItem('me'));
-const activeTab = ref(me?.role === 'admin' ? 'statistics': 'clients');
+const isRole = ref(me?.role === 'Admin');
+const activeTab = ref(isRole ? 'statistics': 'clients');
 
 // Состояние загрузки данных
 const isLoading = ref(true);
@@ -62,7 +63,7 @@ const handlePageChange = async (page) => {
     <div class="page-wrapper">
       <el-card>
         <el-tabs v-model="activeTab" tab-position="left">
-          <el-tab-pane label="Статистика" name="statistics" v-if="me?.role === 'admin'">
+          <el-tab-pane label="Статистика" name="statistics" v-if="isRole">
             <div class="statistics-wrapper">
               <div class="search-header-wrapper">
                 <SearchArchive searchType="clients" :store="clientsStatisticsStore" :users="clientsStore.items" />
