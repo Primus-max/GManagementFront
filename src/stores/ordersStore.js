@@ -5,7 +5,10 @@ import {
   getAll,
   updateItem,
 } from 'src/services/api/base/baseRepository';
-import { getOrdersWidthDetails } from 'src/services/api/ordersRepos';
+import {
+  extendOrder,
+  getOrdersWidthDetails,
+} from 'src/services/api/ordersRepos';
 import MessageService from 'src/services/messageServices/infoMessageService';
 import { calculateSummary } from 'src/utils/ordersUtils';
 
@@ -75,6 +78,17 @@ export const useOrdersStore = defineStore("ordersStore", {
         this.orders[index] = updatedOrder;
       }
     },
+
+    async extendOrder(order) {
+      const response = await extendOrder(this.endpoint, order);
+      if (response.status !== 200) {
+        MessageService.error(response.statusText);
+        return;
+      }
+      MessageService.success("Заказ успешно продлён");
+      await this.getOrdersWidhDetails();
+    },
+
     async deleteOrder(order) {
       const response = await deleteItem(this.endpoint, order.id);
       if (response.status !== 200) {
@@ -85,5 +99,4 @@ export const useOrdersStore = defineStore("ordersStore", {
       this.orders = this.orders.filter((op) => op.id !== order.id);
     },
   },
-   
 });

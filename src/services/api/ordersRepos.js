@@ -11,3 +11,12 @@ export const getOrdersWidthDetails = async (endpoint, type) => {
   }
 };
 
+export const extendOrder = async (endpoint, extendedOrder) => {
+  try {
+    const response = await apiClient.post(`${endpoint}/extend`, extendedOrder);
+    return response;
+  } catch (error) {
+    throw new Error(`Failed to extend order: ${error.message}`);
+  }
+};
+

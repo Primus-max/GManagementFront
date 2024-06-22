@@ -15,8 +15,7 @@ const dialogFormVisible = ref(false);
 const editOrder = ref(null);
 // console.log(props.orders);
 
-const handleEditOrder = (order) => {
-    console.log('Order to edit:', order);
+const handleEditOrder = (order) => {    
     dialogFormVisible.value = true;
     editOrder.value = order;    
 };
