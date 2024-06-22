@@ -69,6 +69,7 @@ onMounted(async () => {
 });
 
 onMounted(async () => {
+    
     await clientsStore.fetchItems();
     await girlsStore.fetchItems();
     await operatorsStore.fetchItems();

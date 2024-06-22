@@ -6,24 +6,34 @@ import {
   watchEffect,
 } from 'vue';
 
-import { userAuth } from 'src/stores/userAuthStore';
-import { RouterLink } from 'vue-router';
+// import { userAuth } from 'src/stores/userAuthStore';
+import {
+  RouterLink,
+  useRoute,
+  useRouter,
+} from 'vue-router';
 
-const authStore = userAuth();
+// const authStore = userAuth();
+const router = useRouter();
+const route = useRoute();
 const whoAmI = ref('');
-
+let activeIndex = ref('1');
 watchEffect(() => {
-  console.log('Role changed:', authStore.user);
   whoAmI.value = authStore.user.role;
+  
+  if (whoAmI.value === 'Admin' && route.path === '/') {
+    router.push('/'); 
+    activeIndex.value = '1';
+  } else if (whoAmI.value === 'Operator' && route.path === '/') {
+    router.push('/operator'); 
+    activeIndex.value = '7';
+  }
 });
-const activeIndex = ref('1');
-// const activePage = ref('Главная');
+
 </script>
 
 <template>
-  <div class="menu-wrapper">
-    <!-- <p class="active-page">{{ activePage }}</p> -->
-    <!-- @select="handleSelect" -->
+  <div class="menu-wrapper">  
   <div class="nav-wrapper">
     <el-menu
       :default-active="activeIndex"
