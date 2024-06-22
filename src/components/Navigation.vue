@@ -132,8 +132,4 @@ const handleLogout = () => {
   font-size: 16px;
 }
 
-.logout-btn {
-  /* margin-top: 15px;
-  margin-right: 40px; */
-}
 </style>

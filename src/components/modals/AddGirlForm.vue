@@ -88,9 +88,9 @@ const submitForm = () => {
     <el-form-item label="Telegram" :label-width="formLabelWidth">
       <el-input v-model="form.tgAcc" autocomplete="off" />
     </el-form-item>
-    <el-form-item label="Nickname" :label-width="formLabelWidth">
+    <!-- <el-form-item label="Nickname" :label-width="formLabelWidth">
       <el-input v-model="form.nickName"  autocomplete="off" />
-    </el-form-item>
+    </el-form-item> -->
     <div class="drawer__footer">
       <el-button @click="cancelForm">Отмена</el-button>
       <el-button type="primary" :loading="loading" @click="submitForm">

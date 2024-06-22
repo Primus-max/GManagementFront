@@ -55,9 +55,9 @@ const reset = async () => {
 
 const searchType = () => {
   switch (props.searchType) {
-    case "girls": return "девушкам"
-    case "operators": return "операторам"
-    case "clients": return "клиентам"
+    case "girls": return "девушкe"
+    case "operators": return "оператору"
+    case "clients": return "клиенту"
   }
 }
 

@@ -7,14 +7,6 @@ import {
   ref,
 } from 'vue';
 
-import {
-  ElCheckbox,
-  ElMessage,
-  ElMessageBox,
-  ElPopover,
-  ElTable,
-  ElTableColumn,
-} from 'element-plus';
 import AddOrderForm from 'src/components/modals/AddOrderForm.vue';
 import DetailOperatorBalance
   from 'src/components/modals/DetailOperatorBalance.vue';
@@ -44,6 +36,7 @@ const dialogFormVisible = ref(false);
 const balance = ref(0);
 const orderDialogVisible = ref(false);
 const detailBalancedialogVisible = ref(false)
+const selectedGirlsIds = ref([]);
 const selectedGirls = ref([]);
 const clients = ref([]);
 // const orders = ref([]);
@@ -68,15 +61,14 @@ onMounted(async () => {
     }
 });
 
-onMounted(async () => {
-    
+onMounted(async () => {    
     await clientsStore.fetchItems();
     await girlsStore.fetchItems();
     await operatorsStore.fetchItems();
     await ordersStore.getOrdersWidhDetails();
-    // orders.value = ordersStore.ordersWithDetails;
+   
     clients.value = clientsStore.items;
-    selectedGirls.value = await girlsStore.getGirlsFromGroup();
+    selectedGirlsIds.value = (await girlsStore.getGirlsFromGroup()).map(girl => girl.id);
     operators.value = operatorsStore.items;
 });
 
@@ -84,7 +76,7 @@ const girls = computed(() => girlsStore.items);
 const operators = computed(() => operatorsStore.items);
 const orders = computed(() => ordersStore.ordersWithDetails);
 
-const shiftStartTime = ref(new Date().setHours(10, 0, 0));
+const shiftStartTime = ref(new Date().setHours(8, 0, 0));
 const shiftEndTime = ref(new Date().setHours(21, 0, 0));
 // const shiftTimeLeft = ref("02:30:00");
 
@@ -92,8 +84,26 @@ const girlLabelSelect = (girl) => {
     return girl.name + "-" + girl.tgAcc;
 }
 
+const addOrder = async () => {
+    selectedGirls.value = 
+    girls.value.filter(girl => selectedGirlsIds.value.includes(girl.id));
+    dialogFormVisible.value = true;
+}
+
+
 const addGirlsToGroup = async () => {
-    await girlsStore.addGirlsToGroup(selectedGirls.value);
+    await girlsStore.addGirlsToGroup(selectedGirlsIds.value);
+}
+
+async function handleRemoveGirl(removedGirl) {
+  try {
+    await girlsStore.removeGirlsFromGroup([removedGirl]);
+    selectedGirlsIds.value = selectedGirlsIds.value.filter(girl => girl.id !== removedGirl);
+    console.log(selectedGirlsIds.value);
+    await loadGirls();
+  } catch (error) {
+    console.error('Failed to remove girl from group:', error.message);
+  }
 }
 
 const startShift = async () => {
@@ -153,8 +163,8 @@ const viewDetailBalance = async () => {
             <el-card class="girls-in-shift">
                 <div class="girls-in-shift-wrapper">
                     <div>
-                        <el-select v-model="selectedGirls" placeholder="Выбрать девушек в смену" style="width: 240px"
-                            clearable multiple class="girls-select" :reserve-keyword="true">
+                        <el-select v-model="selectedGirlsIds" placeholder="Выбрать девушек в смену" style="width: 240px"
+                            clearable multiple class="girls-select" :reserve-keyword="true" @remove-tag="handleRemoveGirl">
                             <template #label="{ label, value }">
                                 <span>{{ label }}: </span>
                                 <span style="font-weight: bold">{{ value }}</span>
@@ -176,7 +186,7 @@ const viewDetailBalance = async () => {
                 <!-- Header -->
                 <header class="page-header">
 
-                    <el-button type="primary" @click="dialogFormVisible = true">
+                    <el-button type="primary" @click="addOrder">
                         Создать заказ
                     </el-button>
 
@@ -212,7 +222,7 @@ const viewDetailBalance = async () => {
 
     <el-drawer v-model="dialogFormVisible" title="Добавить заказ" direction="ltr">
         <AddOrderForm @close="dialogFormVisible = false" @order-added="updateBalance" :clients="clients"
-            :operators="operators" :girls="girls" :isEditing="false" />
+            :operators="operators" :girls="selectedGirls" :isEditing="false" />
     </el-drawer>
 
     <el-dialog v-model="detailBalancedialogVisible" title="Информация о формировании баланса" width="800">

@@ -9,6 +9,7 @@ import {
   getById,
   getGirlsGroups,
   getMe,
+  removeGirlsFromGroup,
   updateItem,
 } from 'src/services/api/base/baseRepository';
 import MessageService from 'src/services/messageServices/infoMessageService';
@@ -83,6 +84,16 @@ export const createStore = (storeName, endpoint) => {
         MessageService.success(`Данные успешно обновлены`);
         return response.data;
       },
+
+      async removeGirlsFromGroup(girlIds) {
+        const response = await removeGirlsFromGroup(endpoint, girlIds);
+        if (response.status !== 200) {
+          console.error(response.statusText);
+          return;
+        }
+        return response.data;
+      },
+
       async getGirlsFromGroup() {
         const response = await getGirlsGroups(endpoint);
         if (response.status !== 200) {
@@ -117,7 +128,7 @@ export const createStore = (storeName, endpoint) => {
       //     return;
       //   }
       //   this.operatorBalance = response.data;
-      // },    
+      // },
     },
   });
 };

@@ -1,5 +1,6 @@
 <script setup>
 import {
+  onMounted,
   ref,
   watch,
   watchEffect,
@@ -9,6 +10,7 @@ import { ElMessageBox } from 'element-plus';
 import Order from 'src/models/Order';
 import ConfirmMessageServices
   from 'src/services/messageServices/confirmMessageServices';
+// import { useGirlsStore } from 'src/stores/girlsStore';
 import { useOrdersStore } from 'src/stores/ordersStore';
 import { useShiftsStore } from 'src/stores/shiftsStore';
 
@@ -39,11 +41,17 @@ const emits = defineEmits(['close', 'order-added']);
 
 const shiftsStore = useShiftsStore();
 const ordersStore = useOrdersStore();
+// const girlsStore = useGirlsStore();
+// const girls = ref([]);
 
 const orderTime = ref([]);
 const form = ref({});
 const formLabelWidth = '100px';
 const loading = ref(false);
+
+const resetForm = () => {
+  form.value = { ...initialFormData };
+};
 
 const initialFormData = {
   girlId: '',
@@ -59,14 +67,9 @@ const initialFormData = {
   isCashless: false,
 }
 
-const resetForm = () => {
-  form.value = { ...initialFormData };
-};
-
-const cancelForm = () => {
-  resetForm();
-  emits('close');
-};
+// onMounted(async () => {  
+//   girls.value = await girlsStore.getGirlsFromGroup();
+// });
 
 watchEffect(() => {
   console.log(props.girls)
@@ -77,6 +80,11 @@ watchEffect(() => {
     resetForm();
   }
 });
+
+const cancelForm = () => {
+  resetForm();
+  emits('close');
+};
 
 const submitForm = async () => {
   if (!shiftsStore.currentShift) {
