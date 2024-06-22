@@ -37,13 +37,16 @@ const editOrder = (order) => {
     orderEdit.value = order;
 }
 
+const tableRowClassName = ({ row }) => 
+    row.isExtended ?   'extended-order': '';
+
 </script>
 
 
 <template>
-    <div class="order-table">
+  
         <el-table :data="props.orders" class="table" size="large" fit
-            default-sort="{ prop: 'id', order: 'descending' }">
+            :default-sort="{ prop: 'id', order: 'descending' }" :row-class-name="tableRowClassName">
             <el-table-column prop="id" label="ID" width="50"></el-table-column>
             <el-table-column prop="girl" label="Девушка"></el-table-column>
             <el-table-column prop="client" label="Клиент"></el-table-column>
@@ -59,21 +62,26 @@ const editOrder = (order) => {
                 </template>
             </el-table-column>
         </el-table>
-    </div>
+   
 
 
     <el-drawer v-model="dialogFormVisible" title="Продлить заказ" direction="ltr">
-        <AddOrderForm @close="dialogFormVisible = false"  :order="orderEdit" 
-            :isEditing="true" :isExtension="true" :girls="props.girls" :clients="props.clients"/>
+        <AddOrderForm @close="dialogFormVisible = false" :order="orderEdit" :isEditing="true" :isExtension="true"
+            :girls="props.girls" :clients="props.clients" />
     </el-drawer>
 
 </template>
 
-<style scoped>
+<style lang="css">
 @import 'src/assets/styles/main.css';
 
 .table {
+    width: 100%;
     max-height: 60vh;
     overflow: auto;
+}
+
+.el-table .extended-order {   
+    background-color: var(--el-color-success-light-9);
 }
 </style>

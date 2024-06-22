@@ -4,6 +4,7 @@ import {
   ref,
 } from 'vue';
 
+import GroupStatistics from 'src/components/cards/GroupStatistics.vue';
 import OrderTable from 'src/components/tables/OrderTable.vue';
 import { useGroupsStore } from 'src/stores/groupsStore';
 import { useOrdersStore } from 'src/stores/ordersStore';
@@ -36,7 +37,10 @@ const hasOrdersForGroup = (groupId) => {
         <div v-for="group in groups" :key="group.id">
           <template v-if="hasOrdersForGroup(group.id)">
             <h2 class="page-title">{{ group.name }}</h2>
-            <OrderTable :orders="getOrdersByGroup(group.id)" />
+            <div class="group-content">
+              <GroupStatistics :orders="getOrdersByGroup(group.id)" />
+              <OrderTable :orders="getOrdersByGroup(group.id)" />              
+            </div>
           </template>
         </div>
       </div>
@@ -55,5 +59,15 @@ const hasOrdersForGroup = (groupId) => {
 
 .groups {
   margin-top: 30px;
+}
+
+.page-wrapper .main-page {
+  width: 100%;
+}
+
+.group-content {
+  width: 100%;
+  display: flex;
+  flex-direction: row;  
 }
 </style>
