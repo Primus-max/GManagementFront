@@ -5,7 +5,6 @@ import GirlsPage from 'src/components/pages/GirlsPage.vue';
 import MainPage from 'src/components/pages/MainPage.vue';
 import OperatorCabinetPage from 'src/components/pages/OperatorCabinetPage.vue';
 import OperatorsPage from 'src/components/pages/OperatorsPage.vue';
-import { checkTokenExpiration } from 'src/utils/checkUtils.js';
 import {
   createRouter,
   createWebHistory,
@@ -63,33 +62,35 @@ const router = createRouter({
 // Глобальный guard для проверки авторизации
 router.beforeEach((to, from, next) => {
   const authStore = window.authStore;
-  
-  // Проверяем аутентификацию и срок действия токена
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!authStore.isAuthenticated || !checkTokenExpiration(authStore)) {
-      return next({ name: 'authorization' });
-    }
 
+  // Проверяем аутентификацию
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!authStore.isAuthenticated) {      
+      return next({ name: 'authorization' });
+    } 
+    
     // Проверяем роли
     if (to.meta.roles && !to.meta.roles.includes(authStore.user.role)) {
-      if (authStore.user.role === 'Operator') {
+      if (authStore.user.role === "Operator") {
+        if (to.name === 'operator') return next();
         return next({ name: 'operator' });
-      } else if (authStore.user.role === 'Admin') {
+      } else if (authStore.user.role === "Admin") {
+        if (to.name === 'main') return next();
         return next({ name: 'main' });
-      }
+      } 
     }
   }
-
+  
   // Проверка на случай, если аутентифицированный пользователь пытается попасть на страницу авторизации
   if (to.name === 'authorization' && authStore.isAuthenticated) {
-    if (authStore.user.role === 'Operator') {
+    if (authStore.user.role === "Operator") {
       return next({ name: 'operator' });
     }
-    if (authStore.user.role === 'Admin') {
+    if (authStore.user.role === "Admin") {
       return next({ name: 'main' });
-    }
+    }    
   }
-
+  
   next();
 });
 
