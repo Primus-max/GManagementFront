@@ -32,7 +32,7 @@ const total = computed(() => totalAmount.value + operatorSalary.value);
 
 <style scoped>
 .group-statistics {    
-    padding: 10px;
+    margin-right: 20px;
 }
 
 .summary {   

@@ -33,4 +33,9 @@ import Navigation from 'src/components/Navigation.vue';
   width: 100%;
   padding: 0;
 }
+
+.main {
+  width: 100%;
+  overflow: hidden;
+}
 </style>

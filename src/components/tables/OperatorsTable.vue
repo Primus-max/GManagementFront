@@ -45,10 +45,6 @@ watchEffect(() => {
   groups.value = groupsStore.items;
 });
 
-// const getGroupName = (groupId) => {    
-//   const group = groups.value.find(group => group.id === groupId);
-//   return group ? group.name : '';
-// };
 
 const editOperator = (operator) => {
   dialogVisible.value = true;

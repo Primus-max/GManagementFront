@@ -10,6 +10,7 @@ import {
 import AddOrderForm from 'src/components/modals/AddOrderForm.vue';
 import DetailOperatorBalance
   from 'src/components/modals/DetailOperatorBalance.vue';
+import LoadingPage from 'src/components/services/LoadingPage.vue';
 import OrderTable from 'src/components/tables/OrderTable.vue';
 import OperationIntent from 'src/models/enums/OperationIntent';
 import Shift from 'src/models/Shift.js';
@@ -148,8 +149,10 @@ const viewDetailBalance = async () => {
 </script>
 
 <template>
-    <div class="page operator-page">
 
+    <LoadingPage :isLoading="isLoading" />
+
+    <div class="page operator-page" v-if="!isLoading">
         <div class="left-cards">
             <el-card class="summary">
                 <div class="summary-wrapper">

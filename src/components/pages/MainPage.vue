@@ -5,6 +5,7 @@ import {
 } from 'vue';
 
 import GroupStatistics from 'src/components/cards/GroupStatistics.vue';
+import LoadingPage from 'src/components/services/LoadingPage.vue';
 import OrderTable from 'src/components/tables/OrderTable.vue';
 import { useGroupsStore } from 'src/stores/groupsStore';
 import { useOrdersStore } from 'src/stores/ordersStore';
@@ -13,11 +14,14 @@ const ordersStore = useOrdersStore();
 const groupsStore = useGroupsStore();
 
 const groups = ref([]);
+const isLoading = ref(true);
 
 onMounted(async () => {
+  isLoading.value = true;
   await groupsStore.fetchItems();
   groups.value = groupsStore.items;
   await ordersStore.getOrdersWidhDetails("grouped");
+  isLoading.value = false;
 });
 
 const getOrdersByGroup = (groupId) => {
@@ -30,8 +34,11 @@ const hasOrdersForGroup = (groupId) => {
 
 </script>
 
-<template>
-  <div class="page main-page">
+<template> 
+
+<LoadingPage :isLoading="isLoading" />
+
+  <div class="page main-page" v-if="!isLoading">
     <div class="page-wrapper">
       <div class="groups">
         <div v-for="group in groups" :key="group.id">
@@ -39,7 +46,9 @@ const hasOrdersForGroup = (groupId) => {
             <h2 class="page-title">{{ group.name }}</h2>
             <div class="group-content">
               <GroupStatistics :orders="getOrdersByGroup(group.id)" />
+              <el-card class="card-table">
               <OrderTable :orders="getOrdersByGroup(group.id)" />              
+              </el-card>
             </div>
           </template>
         </div>
@@ -69,5 +78,9 @@ const hasOrdersForGroup = (groupId) => {
   width: 100%;
   display: flex;
   flex-direction: row;  
+}
+
+.card-table {
+  width: 100%;
 }
 </style>

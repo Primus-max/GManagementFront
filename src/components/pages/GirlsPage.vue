@@ -8,9 +8,11 @@ import {
 import { ElDrawer } from 'element-plus';
 import AddGirlForm from 'src/components/modals/AddGirlForm.vue';
 import NoResultsMessage from 'src/components/NoResultsMessage.vue';
+import LoadingPage from 'src/components/services/LoadingPage.vue';
 import SearchArchive from 'src/components/services/SearchArchive.vue';
 import GirlsStatistics from 'src/components/tables/GirlsStatistics.vue';
 import GirlsTable from 'src/components/tables/GirlsTable.vue';
+import { PAGE_ITEMS_LIMIT } from 'src/constants';
 import { useGirlsStatisticsStore } from 'src/stores/girlsStatisticsStore';
 import { useGirlsStore } from 'src/stores/girlsStore';
 
@@ -18,7 +20,7 @@ const girlsStatisticsStore = useGirlsStatisticsStore();
 const girlsStore = useGirlsStore();
 const dialogVisible = ref(false);
 const currentPage = ref(1);
-const pageSize = ref(3);
+const pageSize = ref(PAGE_ITEMS_LIMIT);
 const me = JSON.parse(localStorage.getItem('me'));
 const isAdmin = ref(me?.role === 'Admin');
 const activeTab = ref(isAdmin.value ? 'statistics': 'girls');
@@ -45,10 +47,9 @@ onMounted(async () => {
       girlsStore.fetchItems(),
     ]);
   } catch (error) {
-    console.error('Failed to fetch data:', error);
-    // Обработка ошибок, например, показ сообщения об ошибке
+    console.error('Failed to fetch data:', error);    
   } finally {
-    isLoading.value = false; // Устанавливаем состояние загрузки в false после загрузки данных
+    setTimeout(() => isLoading.value = false, 100);    
   }
 });
 
@@ -59,7 +60,10 @@ const handlePageChange = async (page) => {
 </script>
 
 <template>
-  <div v-if="!isLoading" class="page girls-page">
+  
+<LoadingPage :isLoading="isLoading" />
+
+  <div v-if="!isLoading" class="page girls-page" >
     <div class="page-wrapper">
       <el-card>
         <el-tabs v-model="activeTab" tab-position="left">
@@ -87,7 +91,7 @@ const handlePageChange = async (page) => {
         :current-page="currentPage" @current-change="handlePageChange" class="mt-4" />
     </div>
   </div>
-  <div v-else class="loading-message">Загрузка...</div>
+  
   <!-- Добавить девушку -->
   <el-drawer v-model="dialogVisible" title="Добавить девушку" direction="ltr">
     <AddGirlForm @close="dialogVisible = false" :isEditing="false" />
@@ -96,13 +100,22 @@ const handlePageChange = async (page) => {
 
 <style scoped>
 @import 'src/assets/styles/main.css';
-
-.loading-message {
+/* .loading-message {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   font-size: 18px;
-  color: #333;
+  color: #333;  
 }
+
+.loading-enter-active,
+.loading-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.loading-enter-from,
+.loading-leave-to {
+  opacity: 0;
+} */
 </style>

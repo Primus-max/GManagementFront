@@ -8,9 +8,11 @@ import {
 import { ElDrawer } from 'element-plus';
 import AddClientForm from 'src/components/modals/AddClientForm.vue';
 import NoResultsMessage from 'src/components/NoResultsMessage.vue';
+import LoadingPage from 'src/components/services/LoadingPage.vue';
 import SearchArchive from 'src/components/services/SearchArchive.vue';
 import ClientsStatistics from 'src/components/tables/ClientsStatistics.vue';
 import ClientsTable from 'src/components/tables/ClientsTable.vue';
+import { PAGE_ITEMS_LIMIT } from 'src/constants';
 import { useClientsStatisticsStore } from 'src/stores/clientsStatisticsStore';
 import { useClientsStore } from 'src/stores/clientsStore';
 
@@ -18,7 +20,7 @@ const clientsStore = useClientsStore();
 const clientsStatisticsStore = useClientsStatisticsStore();
 const dialogVisible = ref(false);
 const currentPage = ref(1);
-const pageSize = ref(3);
+const pageSize = ref(PAGE_ITEMS_LIMIT);
 const me = JSON.parse(localStorage.getItem('me'));
 const isAdmin = ref(me?.role === 'Admin');
 const activeTab = ref(isAdmin.value ? 'statistics': 'clients');
@@ -46,9 +48,9 @@ onMounted(async () => {
     ]);
   } catch (error) {
     console.error('Failed to fetch data:', error);
-    // Обработка ошибок, например, показ сообщения об ошибке
+    
   } finally {
-    isLoading.value = false; // Устанавливаем состояние загрузки в false после загрузки данных
+    isLoading.value = false; 
   }
 });
 
@@ -59,6 +61,9 @@ const handlePageChange = async (page) => {
 </script>
 
 <template>
+
+  <LoadingPage :isLoading="isLoading" />
+
   <div v-if="!isLoading" class="page clients-page">
     <div class="page-wrapper">
       <el-card>
@@ -95,7 +100,7 @@ const handlePageChange = async (page) => {
     </div>
 
   </div>
-  <div v-else class="loading-message">Загрузка...</div>
+  
   <!-- Добавить клиента -->
   <el-drawer v-model="dialogVisible" title="Добавить клиента" direction="ltr">
     <AddClientForm @close="dialogVisible = false" />
