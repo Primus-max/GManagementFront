@@ -1,6 +1,5 @@
 <script setup>
 import {
-  defineEmits,
   defineProps,
   onMounted,
   ref,

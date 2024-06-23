@@ -1,7 +1,5 @@
 <script setup>
 import {
-  defineEmits,
-  onMounted,
   ref,
   watch,
 } from 'vue';
