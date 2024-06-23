@@ -123,6 +123,7 @@ const startShift = async () => {
     shiftsStore.currentShift = shift;
     await startShiftCountdown(shiftsStore.currentShift.end, handleShiftEnd);
     shiftState(true, true);
+    isLoading.value = false;
 }
 
 const handleShiftEnd = async () => {
