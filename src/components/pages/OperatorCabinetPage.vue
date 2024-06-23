@@ -49,8 +49,20 @@ const formLabelWidth = '140px'
 
 onMounted(async () => {
     try {
+        isLoading.value = true;
         await updateBalance();
         await shiftsStore.fetchCurrentShift();
+
+
+        await clientsStore.fetchItems();
+        await girlsStore.fetchItems();
+        await operatorsStore.fetchItems();
+        await ordersStore.getOrdersWidhDetails();
+
+        clients.value = clientsStore.items;
+        selectedGirlsIds.value = (await girlsStore.getGirlsFromGroup()).map(girl => girl.id);
+        operators.value = operatorsStore.items;
+
         if (shiftsStore.currentShift) {
             await startShiftCountdown(shiftsStore.currentShift.end, handleShiftEnd);
             shiftState(true, false);
@@ -59,19 +71,24 @@ onMounted(async () => {
     } catch (error) {
         console.log('Нет текущих смен');
         shiftState(false, false);
+    } finally {
+        isLoading.value = false;
     }
+
 });
 
-onMounted(async () => {    
-    await clientsStore.fetchItems();
-    await girlsStore.fetchItems();
-    await operatorsStore.fetchItems();
-    await ordersStore.getOrdersWidhDetails();
-   
-    clients.value = clientsStore.items;
-    selectedGirlsIds.value = (await girlsStore.getGirlsFromGroup()).map(girl => girl.id);
-    operators.value = operatorsStore.items;
-});
+// onMounted(async () => {
+
+
+//     await clientsStore.fetchItems();
+//     await girlsStore.fetchItems();
+//     await operatorsStore.fetchItems();
+//     await ordersStore.getOrdersWidhDetails();
+
+//     clients.value = clientsStore.items;
+//     selectedGirlsIds.value = (await girlsStore.getGirlsFromGroup()).map(girl => girl.id);
+//     operators.value = operatorsStore.items;
+// });
 
 const girls = computed(() => girlsStore.items);
 const operators = computed(() => operatorsStore.items);
@@ -86,8 +103,8 @@ const girlLabelSelect = (girl) => {
 }
 
 const addOrder = async () => {
-    selectedGirls.value = 
-    girls.value.filter(girl => selectedGirlsIds.value.includes(girl.id));
+    selectedGirls.value =
+        girls.value.filter(girl => selectedGirlsIds.value.includes(girl.id));
     dialogFormVisible.value = true;
 }
 
@@ -97,14 +114,14 @@ const addGirlsToGroup = async () => {
 }
 
 async function handleRemoveGirl(removedGirl) {
-  try {
-    await girlsStore.removeGirlsFromGroup([removedGirl]);
-    selectedGirlsIds.value = selectedGirlsIds.value.filter(girl => girl.id !== removedGirl);
-    console.log(selectedGirlsIds.value);
-    await loadGirls();
-  } catch (error) {
-    console.error('Failed to remove girl from group:', error.message);
-  }
+    try {
+        await girlsStore.removeGirlsFromGroup([removedGirl]);
+        selectedGirlsIds.value = selectedGirlsIds.value.filter(girl => girl.id !== removedGirl);
+        console.log(selectedGirlsIds.value);
+        await loadGirls();
+    } catch (error) {
+        console.error('Failed to remove girl from group:', error.message);
+    }
 }
 
 const startShift = async () => {
@@ -129,7 +146,7 @@ const startShift = async () => {
 const handleShiftEnd = async () => {
     await ConfirmMessageServices.info("Смена закончилась");
     shiftState(false, false);
-    await shiftsStore.stopShift(shiftsStore.currentShift.id); 
+    await shiftsStore.stopShift(shiftsStore.currentShift.id);
 };
 
 const shiftState = (exests, loading) => {
@@ -168,7 +185,8 @@ const viewDetailBalance = async () => {
                 <div class="girls-in-shift-wrapper">
                     <div>
                         <el-select v-model="selectedGirlsIds" placeholder="Выбрать девушек в смену" style="width: 240px"
-                            clearable multiple class="girls-select" :reserve-keyword="true" @remove-tag="handleRemoveGirl">
+                            clearable multiple class="girls-select" :reserve-keyword="true"
+                            @remove-tag="handleRemoveGirl">
                             <template #label="{ label, value }">
                                 <span>{{ label }}: </span>
                                 <span style="font-weight: bold">{{ value }}</span>
@@ -217,9 +235,10 @@ const viewDetailBalance = async () => {
 
                 <!-- Orders List -->
                 <div class="orders-list">
-                    <OrderTable :orders="orders" :tableType="'operator'" :girls="selectedGirls" :clients="clients" :operators="operators"/>
+                    <OrderTable :orders="orders" :tableType="'operator'" :girls="selectedGirls" :clients="clients"
+                        :operators="operators" />
                 </div>
-                
+
             </el-card>
         </div>
     </div>

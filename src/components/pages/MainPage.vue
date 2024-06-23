@@ -38,6 +38,8 @@ const hasOrdersForGroup = (groupId) => {
 
 <LoadingPage :isLoading="isLoading" />
 
+<h1 v-if="ordersStore.ordersWithDetails.length === 0">Открытых смен нет</h1>
+
   <div class="page main-page" v-if="!isLoading">
     <div class="page-wrapper">
       <div class="groups">
