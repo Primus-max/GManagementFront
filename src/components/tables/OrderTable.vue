@@ -105,6 +105,6 @@ const extendedOrder = ({ row }) =>
 }
 
 .el-table .extended-order {
-  background-color: var(--el-color-success-light-9);
+  background-color: rgb(238, 238, 238);
 }
 </style>

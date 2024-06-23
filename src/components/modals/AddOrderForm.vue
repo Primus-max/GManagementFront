@@ -200,7 +200,7 @@ const extOrder = async () => {
     </el-form-item>
 
     <el-form-item>
-      <el-checkbox v-model="form.isExtended" :checked="props.isExtension">Продление</el-checkbox>
+      <el-checkbox v-model="form.isExtension" :checked="props.isExtension" :disabled="true">Продление</el-checkbox>
     </el-form-item>
 
     <el-form-item>
@@ -209,8 +209,8 @@ const extOrder = async () => {
 
     <div class="drawer__footer">
       <el-button @click="cancelForm">Отмена</el-button>
-      <el-button type="primary" :loading="loading" @click="submitForm">
-        {{ loading ? 'Отправка ...' : (props.isEditing ? 'Редактировать' : 'Добавить') }}
+      <el-button type="primary" :loading="loading" @click="submitForm" >
+        {{ loading ? 'Отправка ...' : props.isExtension ? 'Продлить' : (props.isEditing ? 'Редактировать' : 'Добавить') }}
       </el-button>
     </div>
   </el-form>
