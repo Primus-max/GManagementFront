@@ -29,7 +29,7 @@ export const getCurrentShift = async (endpoint) => {
 
 export const endShift = async (endpoint, shiftId) => {
   try {
-    const response = await apiClient.get(`/${endpoint}/end-shift`, shiftId);
+    const response = await apiClient.post(`/${endpoint}/end-shift`, shiftId);
     return response;
   } catch (error) {
     console.log(error.response.data);

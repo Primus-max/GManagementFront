@@ -1,9 +1,7 @@
 <script setup>
 import {
   computed,
-  onBeforeMount,
   onMounted,
-  reactive,
   ref,
 } from 'vue';
 
@@ -12,11 +10,9 @@ import DetailOperatorBalance
   from 'src/components/modals/DetailOperatorBalance.vue';
 import LoadingPage from 'src/components/services/LoadingPage.vue';
 import OrderTable from 'src/components/tables/OrderTable.vue';
-import OperationIntent from 'src/models/enums/OperationIntent';
 import Shift from 'src/models/Shift.js';
 import ConfirmMessageServices
   from 'src/services/messageServices/confirmMessageServices';
-import MessageService from 'src/services/messageServices/infoMessageService';
 import { useClientsStore } from 'src/stores/clientsStore';
 import { useGirlsStore } from 'src/stores/girlsStore';
 import { useOperatorsStore } from 'src/stores/operatorsStore';
@@ -94,7 +90,7 @@ const girls = computed(() => girlsStore.items);
 const operators = computed(() => operatorsStore.items);
 const orders = computed(() => ordersStore.ordersWithDetails);
 
-const shiftStartTime = ref(new Date().setHours(8, 0, 0));
+const shiftStartTime = ref(new Date().setHours(9, 0, 0));
 const shiftEndTime = ref(new Date().setHours(21, 0, 0));
 // const shiftTimeLeft = ref("02:30:00");
 
@@ -131,14 +127,14 @@ const startShift = async () => {
 
     const shift = new Shift({
         ...me,
-        start: new Date(shiftStartTime.value).toISOString(),
-        end: new Date(shiftEndTime.value).toISOString(),
+        start: new Date().toISOString(),
+        // end: new Date(shiftEndTime.value).toISOString(),
     });
 
     const shiftId = await shiftsStore.startShift(shift);
     shift.id = shiftId;
     shiftsStore.currentShift = shift;
-    await startShiftCountdown(shiftsStore.currentShift.end, handleShiftEnd);
+    await startShiftCountdown(handleShiftEnd);
     shiftState(true, true);
     isLoading.value = false;
 }
