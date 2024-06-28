@@ -49,7 +49,6 @@ onMounted(async () => {
         await updateBalance();
         await shiftsStore.fetchCurrentShift();
 
-
         await clientsStore.fetchItems();
         await girlsStore.fetchItems();
         await operatorsStore.fetchItems();
@@ -91,7 +90,7 @@ const operators = computed(() => operatorsStore.items);
 const orders = computed(() => ordersStore.ordersWithDetails);
 
 const shiftStartTime = ref(new Date().setHours(9, 0, 0));
-const shiftEndTime = ref(new Date().setHours(21, 0, 0));
+//const shiftEndTime = ref(new Date().setHours(21, 0, 0));
 // const shiftTimeLeft = ref("02:30:00");
 
 const girlLabelSelect = (girl) => {
@@ -124,11 +123,18 @@ const startShift = async () => {
     if (shiftsStore.currentShift) return;
 
     const me = JSON.parse(localStorage.getItem('me'));
+    const shiftEndTime = new Date();
+    if(shiftEndTime.getHours() < 9){
+        shiftEndTime.setHours(9, 0, 0);
+    } else {
+        // shiftEndTime.setDate(shiftEndTime.getDate() + 1);
+        shiftEndTime.setHours(21, 0, 0);
+    }
 
     const shift = new Shift({
         ...me,
         start: new Date().toISOString(),
-        // end: new Date(shiftEndTime.value).toISOString(),
+        end: shiftEndTime
     });
 
     const shiftId = await shiftsStore.startShift(shift);
