@@ -36,10 +36,12 @@ const props = defineProps({
 const dialogFormVisible = ref(false);
 const orderEdit = ref(null);
 const isOperator = computed(() => props.tableType === 'operator');
+const openModeAddOrderForm = ref('');
 
-const editOrder = (order) => {
+const editOrder = (order, mode) => {
     dialogFormVisible.value = true;
     orderEdit.value = order;
+    openModeAddOrderForm.value = mode;
 };
 
 const createOrderHierarchy = (orders) => {
@@ -67,7 +69,6 @@ const hierarchicalOrders = computed(() => createOrderHierarchy(props.orders));
 
 const extendedOrder = ({ row }) =>
     row.isExtended ? 'extended-order' : '';
-
 </script>
 
 
@@ -85,20 +86,20 @@ const extendedOrder = ({ row }) =>
         <el-table-column label="Действия"  align="center" v-if="isOperator">
             <template #default="{ row }">
                 <el-tooltip content="Редактировать / продлить" placement="top">
-                    <el-button type="text" class="control-button" :icon="EditPen" @click="editOrder(row)" />
+                    <el-button type="text" class="control-button" :icon="EditPen" @click="editOrder(row, 'isExtension')" />
                 </el-tooltip>
                 <el-tooltip content="Отмена заказа" placement="top" >
-                    <el-button type="text" class="control-button" :icon="Close" @click="editOrder(row)" style="color: red;"/>
+                    <el-button type="text" class="control-button error-button" :icon="Close" @click="editOrder(row, 'isCancel')" />
                 </el-tooltip>
                 <el-tooltip content="Уход клиента" placement="top" >
-                    <el-button type="text" class="control-button" :icon="Scissor" @click="editOrder(row)" style="color: red;"/>
+                    <el-button type="text" class="control-button error-button" :icon="Scissor" @click="editOrder(row)" />
                 </el-tooltip>
             </template>
         </el-table-column>
     </el-table>
 
     <el-drawer v-model="dialogFormVisible" title="Продлить заказ" direction="ltr">
-        <AddOrderForm @close="dialogFormVisible = false" :order="orderEdit" :isEditing="true" :isExtension="true"
+        <AddOrderForm @close="dialogFormVisible = false" :order="orderEdit" :isEditing="true" :openModeAddOrderForm="openModeAddOrderForm"
             :girls="girls" :clients="clients" />
     </el-drawer>
 
@@ -116,5 +117,9 @@ const extendedOrder = ({ row }) =>
 
 .el-table .extended-order {
   background-color: rgb(238, 238, 238);
+}
+
+.error-button {
+    color: red;
 }
 </style>
