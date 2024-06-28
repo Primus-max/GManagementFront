@@ -7,8 +7,11 @@ import {
 import AddOrderForm from 'src/components/modals/AddOrderForm.vue';
 
 import {
+  Close,
   Delete,
   Edit,
+  EditPen,
+  Scissor,
 } from '@element-plus/icons-vue';
 
 const props = defineProps({
@@ -79,10 +82,16 @@ const extendedOrder = ({ row }) =>
         <el-table-column prop="operator" label="Оператор" />
         <el-table-column prop="splitPercentage" label="Split %"  />
         <el-table-column prop="comment" label="Комментарий" />
-        <el-table-column label="Продлить"  align="center" v-if="isOperator">
+        <el-table-column label="Действия"  align="center" v-if="isOperator">
             <template #default="{ row }">
                 <el-tooltip content="Редактировать / продлить" placement="top">
-                    <el-button type="text" class="control-button" :icon="Edit" @click="editOrder(row)" />
+                    <el-button type="text" class="control-button" :icon="EditPen" @click="editOrder(row)" />
+                </el-tooltip>
+                <el-tooltip content="Отмена заказа" placement="top" >
+                    <el-button type="text" class="control-button" :icon="Close" @click="editOrder(row)" style="color: red;"/>
+                </el-tooltip>
+                <el-tooltip content="Уход клиента" placement="top" >
+                    <el-button type="text" class="control-button" :icon="Scissor" @click="editOrder(row)" style="color: red;"/>
                 </el-tooltip>
             </template>
         </el-table-column>
