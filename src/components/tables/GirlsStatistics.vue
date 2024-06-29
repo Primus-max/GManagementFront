@@ -39,6 +39,7 @@ const calculateProfit = (income) => {
     <el-table-column prop="username" label="Девушка" :formatter="(row) => getGirlName(row.girl)" />
     <el-table-column prop="username" label="TG" :formatter="(row) => getGirlTg(row.girl)"/>
     <el-table-column prop="totalOrders" label="Смены" />
+    <el-table-column prop="totalClientHasLeft" label="Уходы" />
     <el-table-column prop="totalHours" label="Часы" />
     <el-table-column prop="totalGuests" label="Гости" />
     <!-- <el-table-column prop="t" label="Уходы"></el-table-column> -->
