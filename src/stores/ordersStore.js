@@ -99,7 +99,8 @@ export const useOrdersStore = defineStore("ordersStore", {
       }
       MessageService.success("Заказ  отменен");      
       const index = this.ordersWithDetails.findIndex((op) => op.id === order.id);
-      if (index !== -1) this.ordersWithDetails[index].isCancelled = true;            
+      if (index !== -1) this.ordersWithDetails[index].isCancelled = true;  
+      this.calculateSummary();          
     },
 
     async clientHasLeft(orderId) {
@@ -111,6 +112,7 @@ export const useOrdersStore = defineStore("ordersStore", {
       MessageService.success("Клиент помечен как уход");
       const index = this.ordersWithDetails.findIndex((op) => op.id === orderId);
       if (index !== -1) this.ordersWithDetails[index].isClientHasLeft = true;
+      this.calculateSummary();     
     },
 
     async deleteOrder(order) {
