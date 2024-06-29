@@ -1,19 +1,3 @@
-<template>
-    <div class="group-statistics">
-        <el-card class="summary">
-            <div class="summary-wrapper">
-                <div class="summary-item"><b> За смену </b>: {{ totalAmount.toFixed(1) }} ₽</div>
-                <!-- <div class="summary-item"><b>Безнал </b>: {{ ordersStore.getCashlessAmount.toFixed(1) }} ₽</div> -->
-                <div class="summary-item"><b> З/П операторов </b>:{{ operatorSalary.toFixed(1) }} ₽</div>
-                <div class="summary-item"><b>Итого </b>: {{ total.toFixed(1) }} ₽</div>
-            </div>
-        </el-card>
-    </div>
-
-
-
-</template>
-
 <script setup>
 import { computed } from 'vue';
 
@@ -25,10 +9,27 @@ const props = defineProps({
 });
 
 const totalAmount = computed(() => props.orders.reduce((sum, order) => sum + order.amount, 0));
-const operatorSalary = computed(() => props.orders.reduce((sum, order) => sum + order.mySalary, 0));
+const operatorSalary = computed(() => {
+      return props.orders
+        .filter(order => !order.isCancelled) 
+        .reduce((sum, order) => sum + order.mySalary, 0); 
+    });
 const total = computed(() => totalAmount.value + operatorSalary.value);
 
 </script>
+
+<template>
+    <div class="group-statistics">
+        <el-card class="summary">
+            <div class="summary-wrapper">
+                <div class="summary-item"><b> За смену </b>: {{ totalAmount.toFixed(1) }} ₽</div>
+                <!-- <div class="summary-item"><b>Безнал </b>: {{ ordersStore.getCashlessAmount.toFixed(1) }} ₽</div> -->
+                <div class="summary-item"><b> З/П операторов </b>:{{ operatorSalary.toFixed(1) }} ₽</div>
+                <div class="summary-item"><b>Итого </b>: {{ total.toFixed(1) }} ₽</div>
+            </div>
+        </el-card>
+    </div>
+</template>
 
 <style scoped>
 .group-statistics {    

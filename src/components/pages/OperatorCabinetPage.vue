@@ -72,26 +72,10 @@ onMounted(async () => {
 
 });
 
-// onMounted(async () => {
-
-
-//     await clientsStore.fetchItems();
-//     await girlsStore.fetchItems();
-//     await operatorsStore.fetchItems();
-//     await ordersStore.getOrdersWidhDetails();
-
-//     clients.value = clientsStore.items;
-//     selectedGirlsIds.value = (await girlsStore.getGirlsFromGroup()).map(girl => girl.id);
-//     operators.value = operatorsStore.items;
-// });
-
 const girls = computed(() => girlsStore.items);
 const operators = computed(() => operatorsStore.items);
 const orders = computed(() => ordersStore.ordersWithDetails);
-
 const shiftStartTime = ref(new Date().setHours(9, 0, 0));
-//const shiftEndTime = ref(new Date().setHours(21, 0, 0));
-// const shiftTimeLeft = ref("02:30:00");
 
 const girlLabelSelect = (girl) => {
     return girl.name + "-" + girl.tgAcc;
@@ -126,8 +110,7 @@ const startShift = async () => {
     const shiftEndTime = new Date();
     if(shiftEndTime.getHours() < 9){
         shiftEndTime.setHours(9, 0, 0);
-    } else {
-        // shiftEndTime.setDate(shiftEndTime.getDate() + 1);
+    } else {       
         shiftEndTime.setHours(21, 0, 0);
     }
 

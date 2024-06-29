@@ -7,6 +7,7 @@ import {
 import AddOrderForm from 'src/components/modals/AddOrderForm.vue';
 
 import {
+  Clock,
   Close,
   Delete,
   Edit,
@@ -92,7 +93,7 @@ const rowClassName = ({ row }) => {
             <template #default="{ row }">
 
                 <el-tooltip content="Редактировать / продлить" placement="top">
-                    <el-button type="text" class="control-button" :icon="EditPen"
+                    <el-button type="text" class="control-button" :icon="Clock"
                         @click="editOrder(row, 'isExtension')" />
                 </el-tooltip>
 
