@@ -97,10 +97,9 @@ export const useOrdersStore = defineStore("ordersStore", {
         MessageService.error(response.statusText);
         return;
       }
-      MessageService.success("Заказ успешно отменен");      
+      MessageService.success("Заказ  отменен");      
       const index = this.ordersWithDetails.findIndex((op) => op.id === order.id);
-      if (index !== -1) this.ordersWithDetails[index].isCanceled = true;      
-      //this.orders = this.orders.filter((op) => op.id !== order.id);
+      if (index !== -1) this.ordersWithDetails[index].isCancelled = true;            
     },
 
     async clientHasLeft(orderId) {

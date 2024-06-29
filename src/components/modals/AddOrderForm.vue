@@ -200,7 +200,8 @@ const extOrder = async () => {
 };
 
 const cancelOrder = async (order) => {
-  await ordersStore.cancelOrder({ id: props.order.id, comment: order.comment });
+  await ordersStore.cancelOrder({ id: props.order.id, comment: form.value.comment });
+  emits('close');
 };
 
 const clientHasLeft = async () => {

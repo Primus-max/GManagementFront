@@ -8,7 +8,10 @@ const props = defineProps({
     }
 });
 
-const totalAmount = computed(() => props.orders.reduce((sum, order) => sum + order.amount, 0));
+const totalAmount = computed(() => { 
+    return props.orders.filter(order => !order.isCancelled && !order.isClientHasLeft)
+    .reduce((sum, order) => sum + order.amount, 0)
+});
 const operatorSalary = computed(() => {
       return props.orders
         .filter(order => !order.isCancelled && !order.isClientHasLeft) 

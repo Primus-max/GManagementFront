@@ -74,7 +74,7 @@ onMounted(async () => {
 
 const girls = computed(() => girlsStore.items);
 const operators = computed(() => operatorsStore.items);
-const orders = computed(() => ordersStore.ordersWithDetails);
+const orders = computed(() => { return ordersStore.ordersWithDetails.slice().reverse()});
 const shiftStartTime = ref(new Date().setHours(9, 0, 0));
 
 const girlLabelSelect = (girl) => {

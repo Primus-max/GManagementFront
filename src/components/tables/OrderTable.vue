@@ -2,6 +2,8 @@
 import {
   computed,
   ref,
+  watch,
+  watchEffect,
 } from 'vue';
 
 import AddOrderForm from 'src/components/modals/AddOrderForm.vue';
@@ -66,7 +68,17 @@ const createOrderHierarchy = (orders) => {
     return roots;
 };
 
-const hierarchicalOrders = computed(() => createOrderHierarchy(props.orders));
+const reactiveOrders = ref([...props.orders]);
+
+watchEffect(
+  () => props.orders,
+  (newOrders) => {
+    reactiveOrders.value = [...newOrders];
+  },
+  { deep: true }
+);
+
+const hierarchicalOrders = computed(() => createOrderHierarchy(reactiveOrders.value));
 
 const rowClassName = ({ row }) => {
     let className = '';
@@ -118,7 +130,7 @@ const labelAction = (row) => {
         </el-table-column>
     </el-table>
 
-    <el-drawer v-model="dialogFormVisible" title="Продлить заказ" direction="ltr">
+    <el-drawer v-model="dialogFormVisible" title="Редактировать заказ" direction="ltr">
         <AddOrderForm @close="dialogFormVisible = false" :order="orderEdit" :isEditing="true"
             :openModeAddOrderForm="openModeAddOrderForm" :girls="girls" :clients="clients" />
     </el-drawer>
