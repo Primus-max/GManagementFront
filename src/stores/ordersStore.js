@@ -6,6 +6,7 @@ import {
   updateItem,
 } from 'src/services/api/base/baseRepository';
 import {
+  cancelOrder,
   extendOrder,
   getOrdersWidthDetails,
 } from 'src/services/api/ordersRepos';
@@ -66,7 +67,7 @@ export const useOrdersStore = defineStore("ordersStore", {
       await this.getOrdersWidhDetails();
       console.log(this.ordersWithDetails);
     },
-    async updateOrder(updatedOrder) {
+    async updateOrder(updatedOrder) {      
       const index = this.orders.findIndex((op) => op.id === updatedOrder.id);
       if (index !== -1) {
         const response = await updateItem(this.endpoint, updatedOrder);
@@ -87,6 +88,18 @@ export const useOrdersStore = defineStore("ordersStore", {
       }
       MessageService.success("Заказ успешно продлён");
       await this.getOrdersWidhDetails();
+    },
+
+    async cancelOrder(order) {
+      const response = await cancelOrder(this.endpoint, order);
+      if (response.status !== 200) {
+        MessageService.error(response.statusText);
+        return;
+      }
+      MessageService.success("Заказ успешно отменен");      
+      const index = this.ordersWithDetails.findIndex((op) => op.id === order.id);
+      if (index !== -1) this.ordersWithDetails[index].isCanceled = true;      
+      //this.orders = this.orders.filter((op) => op.id !== order.id);
     },
 
     async deleteOrder(order) {

@@ -20,3 +20,11 @@ export const extendOrder = async (endpoint, extendedOrder) => {
   }
 };
 
+export const cancelOrder = async (endpoint, orderId) => {
+  try {
+    const response = await apiClient.post(`${endpoint}/cancel`, orderId);
+    return response;
+  } catch (error) {
+    throw new Error(`Failed to cancel order: ${error.message}`);
+  }
+};

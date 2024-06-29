@@ -67,40 +67,52 @@ const createOrderHierarchy = (orders) => {
 
 const hierarchicalOrders = computed(() => createOrderHierarchy(props.orders));
 
-const extendedOrder = ({ row }) =>
-    row.isExtended ? 'extended-order' : '';
+const rowClassName = ({ row }) => {
+    let className = '';
+    if (row.isExtended) className += 'extended-order ';
+    if (row.isCancelled) className += 'cancelled-order ';
+    return className.trim();
+}
+
 </script>
 
 
 <template>
-    <el-table :data="hierarchicalOrders" row-key="id"  :tree-props="{ children: 'children' }"
-        :row-class-name="extendedOrder" >
+    <el-table :data="hierarchicalOrders" row-key="id" :tree-props="{ children: 'children' }"
+        :row-class-name="rowClassName">
         <!-- <el-table-column prop="id" label="ID" width="50"></el-table-column> -->
         <el-table-column prop="girl" label="Девушка" />
         <el-table-column prop="client" label="Клиент" />
         <el-table-column prop="orderTime" label="Время" />
         <el-table-column prop="amount" label="Сумма заказа" />
         <el-table-column prop="operator" label="Оператор" />
-        <el-table-column prop="splitPercentage" label="Split %"  />
+        <el-table-column prop="splitPercentage" label="Split %" />
         <el-table-column prop="comment" label="Комментарий" />
-        <el-table-column label="Действия"  align="center" v-if="isOperator">
+        <el-table-column label="Действия" align="center" v-if="isOperator">
             <template #default="{ row }">
+
                 <el-tooltip content="Редактировать / продлить" placement="top">
-                    <el-button type="text" class="control-button" :icon="EditPen" @click="editOrder(row, 'isExtension')" />
+                    <el-button type="text" class="control-button" :icon="EditPen"
+                        @click="editOrder(row, 'isExtension')" />
                 </el-tooltip>
-                <el-tooltip content="Отмена заказа" placement="top" >
-                    <el-button type="text" class="control-button error-button" :icon="Close" @click="editOrder(row, 'isCancel')" />
+
+                <el-tooltip content="Отмена заказа" placement="top">
+                    <el-button type="text" class="control-button error-button" :icon="Close"
+                        @click="editOrder(row, 'isCancel')" v-if="!row.isCancelled" />
                 </el-tooltip>
-                <el-tooltip content="Уход клиента" placement="top" >
-                    <el-button type="text" class="control-button error-button" :icon="Scissor" @click="editOrder(row)" />
+
+                <el-tooltip content="Уход клиента" placement="top">
+                    <el-button type="text" class="control-button error-button" :icon="Scissor"
+                        @click="editOrder(row)" />
                 </el-tooltip>
+
             </template>
         </el-table-column>
     </el-table>
 
     <el-drawer v-model="dialogFormVisible" title="Продлить заказ" direction="ltr">
-        <AddOrderForm @close="dialogFormVisible = false" :order="orderEdit" :isEditing="true" :openModeAddOrderForm="openModeAddOrderForm"
-            :girls="girls" :clients="clients" />
+        <AddOrderForm @close="dialogFormVisible = false" :order="orderEdit" :isEditing="true"
+            :openModeAddOrderForm="openModeAddOrderForm" :girls="girls" :clients="clients" />
     </el-drawer>
 
 </template>
@@ -116,7 +128,11 @@ const extendedOrder = ({ row }) =>
 }
 
 .el-table .extended-order {
-  background-color: rgb(238, 238, 238);
+    background-color: rgb(238, 238, 238);
+}
+
+.el-table .cancelled-order {
+    background-color: #f78989;
 }
 
 .error-button {

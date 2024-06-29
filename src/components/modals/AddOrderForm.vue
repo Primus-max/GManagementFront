@@ -76,6 +76,8 @@ const resetForm = () => {
 };
 
 const initialFormData = {
+  girl: '',
+  client: '',
   girlId: '',
   clientId: '',
   groupId: '',
@@ -91,16 +93,16 @@ const initialFormData = {
 
 watchEffect(() => {
   if ((isExtension.value || isCancelOrder.value) && props.order) {
-    form.value.girlId = props.order.girl;
-    form.value.clientId = props.order.client;
+    form.value.girl = props.order.girl;
+    form.value.client = props.order.client;
     form.value.splitWithOperator = props.order.splitOperator;
     form.value.isExtended = props.order.isExtended;
     form.value.isCashless = props.order.isCashless;
     if (isCancelOrder.value) {
       form.value.isCancelled = true;
       form.value.amount = props.order.amount;
-      form.value.comment = props.order.comment;     
-       orderTime.value = [props.order.start, props.order.finish];
+      form.value.comment = props.order.comment;
+      orderTime.value = [props.order.start, props.order.finish];
     }
   } else {
     resetForm();
@@ -145,11 +147,13 @@ const submitForm = async () => {
   };
 
   try {
-    if (isExtension.value) {
+    if (isExtension.value)
       await extOrder();
-    } else {
+    if (isCancelOrder.value)
+      await cancelOrder(newOrder);
+    else
       await ordersStore.addOrder(new Order(newOrder));
-    }
+
     cancelForm();
     loading.value = false;
     emits('order-added');
@@ -187,6 +191,10 @@ const extOrder = async () => {
   }
 };
 
+const cancelOrder = async (order) => {  
+  await ordersStore.cancelOrder({id: props.order.id, comment: order.comment});
+};
+
 function getButtonText() {
   if (loading.value) {
     return 'Отправка ...';
@@ -216,10 +224,10 @@ function getButtonText() {
       </el-select>
     </el-form-item>
 
-    <el-form-item label="Время" :label-width="formLabelWidth" >
+    <el-form-item label="Время" :label-width="formLabelWidth">
       <el-time-picker v-model="orderTime" is-range format="HH:mm" placeholder="Выберите время"
-        start-placeholder="Начало" end-placeholder="Конец"
-        :picker-options="{ selectableRange: '00:00:00 - 23:59:59' }" :disabled="isCancelOrder"/>
+        start-placeholder="Начало" end-placeholder="Конец" :picker-options="{ selectableRange: '00:00:00 - 23:59:59' }"
+        :disabled="isCancelOrder" />
     </el-form-item>
 
     <el-form-item label="Сумма" :label-width="formLabelWidth">
