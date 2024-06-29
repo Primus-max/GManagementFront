@@ -11,6 +11,7 @@ class Order {
     this.amount = data.amount;
     this.isExtended = data.isExtended;
     this.isCancelled = data.isCancelled;
+    this.isClientHasLeft = data.isClientHasLeft;
     this.isCashless = data.isCashless;
     this.splitWithOperator = data.splitWithOperator || -1;
     this.comment = data.comment;

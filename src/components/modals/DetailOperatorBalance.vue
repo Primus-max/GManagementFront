@@ -11,22 +11,6 @@ import { useShiftsStore } from 'src/stores/shiftsStore';
 const shiftsStore = useShiftsStore();
 const dialogVisible = ref(false);
 
-// // Загружаем данные при первом открытии
-// onMounted(async () => {
-//   await loadUnpaidShifts();
-// });
-
-// // Следим за изменением видимости модального окна
-// watch(() => dialogVisible.value, async (newValue) => {
-//   if (newValue) {
-//     await loadUnpaidShifts();
-//   }
-// });
-
-// const loadUnpaidShifts = async () => {
-//   await shiftsStore.getUnpaidShifts();
-// };
-
 const formattedUnpaidShifts = computed(() => {
   return shiftsStore.unpaidShifts.map(shift => ({
     ...shift,

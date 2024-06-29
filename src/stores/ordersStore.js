@@ -7,6 +7,7 @@ import {
 } from 'src/services/api/base/baseRepository';
 import {
   cancelOrder,
+  clientHasLeft,
   extendOrder,
   getOrdersWidthDetails,
 } from 'src/services/api/ordersRepos';
@@ -100,6 +101,17 @@ export const useOrdersStore = defineStore("ordersStore", {
       const index = this.ordersWithDetails.findIndex((op) => op.id === order.id);
       if (index !== -1) this.ordersWithDetails[index].isCanceled = true;      
       //this.orders = this.orders.filter((op) => op.id !== order.id);
+    },
+
+    async clientHasLeft(orderId) {
+      const response = await clientHasLeft(this.endpoint, orderId);
+      if (response.status !== 200) {
+        MessageService.error(response.statusText);
+        return;
+      }
+      MessageService.success("Клиент помечен как уход");
+      const index = this.ordersWithDetails.findIndex((op) => op.id === orderId);
+      if (index !== -1) this.ordersWithDetails[index].isClientHasLeft = true;
     },
 
     async deleteOrder(order) {

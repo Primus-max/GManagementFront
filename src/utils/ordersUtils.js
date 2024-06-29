@@ -16,11 +16,11 @@ export function calculateSummary(orders) {
       }
 
       // Расчет моей зарплаты и split зарплаты
-      if (order.splitOperator !== null && !order.isCancelled) {
+      if (order.splitOperator !== null && !order.isCancelled && !order.isClientHasLeft) {
           ordersSummary.splitSalary += order.amount * 0.07 / 2;
           ordersSummary.mySalary += order.amount * 0.07 / 2;
       } else {
-        if (!order.isCancelled)
+        if (!order.isCancelled && !order.isClientHasLeft)
           ordersSummary.mySalary += order.amount * 0.07;
       }
   });

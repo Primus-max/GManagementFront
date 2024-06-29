@@ -69,6 +69,7 @@ const loading = ref(false);
 const formLabelWidth = '100px';
 const isExtension = ref('');
 const isCancelOrder = ref('');
+const isClientHasLeft = ref('');
 
 console.log(props.operators);
 const resetForm = () => {
@@ -91,28 +92,33 @@ const initialFormData = {
   isCashless: false,
 };
 
-watchEffect(() => {
-  if ((isExtension.value || isCancelOrder.value) && props.order) {
-    form.value.girl = props.order.girl;
-    form.value.client = props.order.client;
+watch(() => props.openModeAddOrderForm, (newValue) => {
+  isExtension.value = newValue === 'isExtension';
+  isCancelOrder.value = newValue === 'isCancel';
+  isClientHasLeft.value = newValue === 'isClientHasLeft';
+}, { immediate: true });
+
+watchEffect(async () => {
+  if ((isExtension.value || isCancelOrder.value || isClientHasLeft.value) && props.order) {
+    form.value.girlId = props.order.girl;
+    form.value.clientId = props.order.client;
     form.value.splitWithOperator = props.order.splitOperator;
     form.value.isExtended = props.order.isExtended;
     form.value.isCashless = props.order.isCashless;
-    if (isCancelOrder.value) {
+    if (isCancelOrder.value ||isClientHasLeft.value) {
       form.value.isCancelled = true;
       form.value.amount = props.order.amount;
       form.value.comment = props.order.comment;
       orderTime.value = [props.order.start, props.order.finish];
     }
+    if (isClientHasLeft.value)
+      await clientHasLeft();
   } else {
     resetForm();
   }
 });
 
-watch(() => props.openModeAddOrderForm, (newValue) => {
-  isExtension.value = newValue === 'isExtension';
-  isCancelOrder.value = newValue === 'isCancel';
-}, { immediate: true });
+
 
 const cancelForm = () => {
   resetForm();
@@ -150,13 +156,14 @@ const submitForm = async () => {
     if (isExtension.value)
       await extOrder();
     if (isCancelOrder.value)
-      await cancelOrder(newOrder);
+      await cancelOrder();    
     else
       await ordersStore.addOrder(new Order(newOrder));
 
     cancelForm();
     loading.value = false;
     emits('order-added');
+    emits('close');
   } catch (error) {
     console.error('Ошибка при сохранении заказа:', error);
     loading.value = false;
@@ -186,14 +193,20 @@ const extOrder = async () => {
       comment: form.value.comment,
     };
     await ordersStore.extendOrder(orderExtensionData);
+    emits('close');
   } catch (error) {
     console.error('Error extending order:', error);
   }
 };
 
-const cancelOrder = async (order) => {  
-  await ordersStore.cancelOrder({id: props.order.id, comment: order.comment});
+const cancelOrder = async (order) => {
+  await ordersStore.cancelOrder({ id: props.order.id, comment: order.comment });
 };
+
+const clientHasLeft = async () => {
+  await ordersStore.clientHasLeft(props.order.id);
+  emits('close');
+}
 
 function getButtonText() {
   if (loading.value) {
@@ -202,6 +215,8 @@ function getButtonText() {
     return 'Отменить';
   } else if (isExtension.value) {
     return 'Продлить';
+  } else if (isClientHasLeft.value) {
+    return 'Закрыть';
   } else {
     return 'Добавить';
   }
@@ -211,14 +226,14 @@ function getButtonText() {
 <template>
   <el-form :model="form">
     <el-form-item label="Девушка" :label-width="formLabelWidth">
-      <el-select v-model="form.girlId" placeholder="Выберите девушку" :disabled="isExtension || isCancelOrder">
+      <el-select v-model="form.girlId" placeholder="Выберите девушку" :disabled="isExtension || isCancelOrder || isClientHasLeft">
         <el-option v-for="girl in props.girls" :key="girl.id" :label="girlLabelSelect(girl)" :value="girl.id" />
       </el-select>
     </el-form-item>
 
     <el-form-item label="Клиент" :label-width="formLabelWidth">
       <el-select v-model="form.clientId" placeholder="Выберите клиента" filterable
-        :disabled="isExtension || isCancelOrder">
+        :disabled="isExtension || isCancelOrder || isClientHasLeft">
         <el-option v-for="client in props.clients" :key="client.id" :label="clientLabelSelect(client)"
           :value="client.id" />
       </el-select>
@@ -227,22 +242,27 @@ function getButtonText() {
     <el-form-item label="Время" :label-width="formLabelWidth">
       <el-time-picker v-model="orderTime" is-range format="HH:mm" placeholder="Выберите время"
         start-placeholder="Начало" end-placeholder="Конец" :picker-options="{ selectableRange: '00:00:00 - 23:59:59' }"
-        :disabled="isCancelOrder" />
+        :disabled="isCancelOrder || isClientHasLeft" />
     </el-form-item>
 
     <el-form-item label="Сумма" :label-width="formLabelWidth">
-      <el-input v-model="form.amount" type="number" autocomplete="off" :disabled="isCancelOrder" />
+      <el-input v-model="form.amount" type="number" autocomplete="off" :disabled="isCancelOrder || isClientHasLeft" />
     </el-form-item>
 
     <el-form-item label="Split %" :label-width="formLabelWidth">
       <el-select v-model="form.splitWithOperator" placeholder="Выберите оператора" filterable clearable
-        :disabled="isExtension || isCancelOrder">
+        :disabled="isExtension || isCancelOrder || isClientHasLeft">
         <el-option v-for="operator in props.operators" :key="operator.id" :label="operator.name" :value="operator.id" />
       </el-select>
     </el-form-item>
 
     <el-form-item label="Комментарий" :label-width="formLabelWidth">
       <el-input v-model="form.comment" autocomplete="off" />
+    </el-form-item>
+
+    <el-form-item>
+      <el-checkbox  :checked="isClientHasLeft" :disabled="true"
+        v-if="isCancelOrder">Уход</el-checkbox>
     </el-form-item>
 
     <el-form-item>

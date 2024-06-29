@@ -28,3 +28,12 @@ export const cancelOrder = async (endpoint, orderId) => {
     throw new Error(`Failed to cancel order: ${error.message}`);
   }
 };
+
+export const clientHasLeft = async(endpoint, orderId) => {
+  try {
+    const response = await apiClient.post(`${endpoint}/client-has-left/${orderId}`);
+    return response;
+  } catch (error) {
+    throw new Error(`Failed to fetch me: ${error.message}`);
+  }
+}

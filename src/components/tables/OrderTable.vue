@@ -71,8 +71,13 @@ const hierarchicalOrders = computed(() => createOrderHierarchy(props.orders));
 const rowClassName = ({ row }) => {
     let className = '';
     if (row.isExtended) className += 'extended-order ';
-    if (row.isCancelled) className += 'cancelled-order ';
+    if (row.isCancelled || row.isClientHasLeft) className += 'cancelled-order ';
     return className.trim();
+}
+
+const labelAction = (row) => {
+    if (row.isCancelled) return 'Отменён';
+    if (row.isClientHasLeft) return 'Уход';
 }
 
 </script>
@@ -87,24 +92,26 @@ const rowClassName = ({ row }) => {
         <el-table-column prop="orderTime" label="Время" />
         <el-table-column prop="amount" label="Сумма заказа" />
         <el-table-column prop="operator" label="Оператор" />
-        <el-table-column prop="splitPercentage" label="Split %" />
+        <!-- <el-table-column prop="splitPercentage" label="Split %" /> -->
         <el-table-column prop="comment" label="Комментарий" />
         <el-table-column label="Действия" align="center" v-if="isOperator">
             <template #default="{ row }">
 
+                <p v-if="row.isCancelled || row.isClientHasLeft" class="label-action">{{ labelAction(row) }}</p>
+
                 <el-tooltip content="Редактировать / продлить" placement="top">
-                    <el-button type="text" class="control-button" :icon="Clock"
-                        @click="editOrder(row, 'isExtension')" />
+                    <el-button type="text" class="control-button" :icon="Clock" @click="editOrder(row, 'isExtension')"
+                        v-if="!row.isCancelled && !row.isClientHasLeft" />
                 </el-tooltip>
 
                 <el-tooltip content="Отмена заказа" placement="top">
                     <el-button type="text" class="control-button error-button" :icon="Close"
-                        @click="editOrder(row, 'isCancel')" v-if="!row.isCancelled" />
+                        @click="editOrder(row, 'isCancel')" v-if="!row.isCancelled && !row.isClientHasLeft" />
                 </el-tooltip>
 
                 <el-tooltip content="Уход клиента" placement="top">
                     <el-button type="text" class="control-button error-button" :icon="Scissor"
-                        @click="editOrder(row)" />
+                        @click="editOrder(row, 'isClientHasLeft')" v-if="!row.isCancelled && !row.isClientHasLeft" />
                 </el-tooltip>
 
             </template>
@@ -138,5 +145,10 @@ const rowClassName = ({ row }) => {
 
 .error-button {
     color: red;
+}
+
+.label-action {    
+    margin: 0;
+    padding:  0;
 }
 </style>
