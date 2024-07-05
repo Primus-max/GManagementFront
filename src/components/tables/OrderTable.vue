@@ -92,7 +92,7 @@ const labelAction = (row) => {
         <el-table-column prop="orderTime" label="Время" />
         <el-table-column prop="amount" label="Сумма заказа" />
         <el-table-column prop="operator" label="Оператор" />
-        <!-- <el-table-column prop="splitPercentage" label="Split %" /> -->
+        <el-table-column prop="splitOperator" label="Разделил с" />
         <el-table-column prop="comment" label="Комментарий" />
         <el-table-column label="Действия" align="center" v-if="isOperator">
             <template #default="{ row }">
@@ -147,8 +147,8 @@ const labelAction = (row) => {
     color: red;
 }
 
-.label-action {    
+.label-action {
     margin: 0;
-    padding:  0;
+    padding: 0;
 }
 </style>
