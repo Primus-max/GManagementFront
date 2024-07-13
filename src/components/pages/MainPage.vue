@@ -52,7 +52,7 @@ const hasOrdersForGroup = (groupId) => {
             <div class="group-content">
               <GroupStatistics :orders="getOrdersByGroup(group.id)" />
               <el-card class="card-table">
-              <OrderTable :orders="getOrdersByGroup(group.id)" :tableType="me" />              
+              <OrderTable :orders="getOrdersByGroup(group.id)" :tableType="'main'" />              
               </el-card>
             </div>
           </template>

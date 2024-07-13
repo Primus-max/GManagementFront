@@ -1,6 +1,7 @@
 <script setup>
 import {
   computed,
+  onMounted,
   ref,
 } from 'vue';
 
@@ -36,8 +37,20 @@ const props = defineProps({
 
 const dialogFormVisible = ref(false);
 const orderEdit = ref(null);
-const isOperator = computed(() => props.tableType === 'operator');
+const isOperatorCabinet = computed(() => props.tableType === 'operatorCabinet');
+const userRole = ref('');
+const isOperator = computed(() => userRole.value === 'operator');
 const openModeAddOrderForm = ref('');
+
+onMounted(() => {
+    const user = JSON.parse(localStorage.getItem('me'));
+    userRole.value = user && user.role ? user.role.toLowerCase() : '';    
+});
+
+const showActionsColumn = computed(() => {
+    if (userRole.value === 'admin')  return true;    
+    return isOperatorCabinet.value && userRole.value === 'operator';
+});
 
 const editOrder = (order, mode) => {
     dialogFormVisible.value = true;
@@ -83,8 +96,7 @@ const labelAction = (row) => {
 const modalTitle = () => {
     return isOperator.value ? 'Продлить заказ' : 'Редактировать заказ';
 }
-console.log(props.tableType )
-console.log(isOperator.value)
+
 </script>
 
 
@@ -99,7 +111,7 @@ console.log(isOperator.value)
         <el-table-column prop="operator" label="Оператор" />
         <el-table-column prop="splitOperator" label="Разделил с" />
         <el-table-column prop="comment" label="Комментарий" />
-        <el-table-column label="Действия" align="center" width="200px" v-if="!isOperator">
+        <el-table-column label="Действия" align="center" width="200px" v-if="showActionsColumn">
             <template #default="{ row }">
 
                 <p v-if="row.isCancelled || row.isClientHasLeft" class="label-action">{{ labelAction(row) }}</p>
@@ -133,7 +145,7 @@ console.log(isOperator.value)
 
     <el-drawer v-model="dialogFormVisible" :title="modalTitle()" direction="ltr">
         <AddOrderForm @close="dialogFormVisible = false" :order="orderEdit" :isEditing="true"
-            :openModeAddOrderForm="openModeAddOrderForm" :girls="girls" :clients="clients" :isAdmin="!isOperator" />
+            :openModeAddOrderForm="openModeAddOrderForm" :girls="girls" :clients="clients"  />
     </el-drawer>
 
 </template>
