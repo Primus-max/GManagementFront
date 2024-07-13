@@ -122,7 +122,7 @@ export const useOrdersStore = defineStore("ordersStore", {
         return;
       }
       MessageService.success("Заказ успешно удален");
-      this.orders = this.orders.filter((op) => op.id !== order.id);
+      this.ordersWithDetails = this.ordersWithDetails.filter((op) => op.id !== order.id);
     },
   },
 });

@@ -106,6 +106,8 @@ watchEffect(async () => {
   } else {
     resetForm();
   }
+
+  console.log(form.value);
 });
 
 

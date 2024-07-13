@@ -6,6 +6,7 @@ import {
 } from 'vue';
 
 import AddOrderForm from 'src/components/modals/AddOrderForm.vue';
+import { useOrdersStore } from 'src/stores/ordersStore';
 
 import {
   Clock,
@@ -35,6 +36,8 @@ const props = defineProps({
     }
 });
 
+const ordersStore = useOrdersStore();
+const orders = ref([]);
 const dialogFormVisible = ref(false);
 const orderEdit = ref(null);
 const isOperatorCabinet = computed(() => props.tableType === 'operatorCabinet');
@@ -42,13 +45,15 @@ const userRole = ref('');
 const isOperator = computed(() => userRole.value === 'operator');
 const openModeAddOrderForm = ref('');
 
-onMounted(() => {
+onMounted(async () => {
     const user = JSON.parse(localStorage.getItem('me'));
-    userRole.value = user && user.role ? user.role.toLowerCase() : '';    
+    userRole.value = user && user.role ? user.role.toLowerCase() : '';
+    await ordersStore.getOrdersWidhDetails();
+    // createOrderHierarchy(ordersStore.ordersWithDetails);
 });
 
 const showActionsColumn = computed(() => {
-    if (userRole.value === 'admin')  return true;    
+    if (userRole.value === 'admin') return true;
     return isOperatorCabinet.value && userRole.value === 'operator';
 });
 
@@ -57,6 +62,10 @@ const editOrder = (order, mode) => {
     orderEdit.value = order;
     openModeAddOrderForm.value = mode;
 };
+
+const deleteOrder = async (order) => {
+    await ordersStore.deleteOrder(order);
+}
 
 const createOrderHierarchy = (orders) => {
     const orderMap = {};
@@ -96,7 +105,6 @@ const labelAction = (row) => {
 const modalTitle = () => {
     return isOperator.value ? 'Продлить заказ' : 'Редактировать заказ';
 }
-
 </script>
 
 
@@ -132,7 +140,7 @@ const modalTitle = () => {
                 </el-tooltip>
 
                 <el-tooltip placement="top" content="Удалить заказ" v-if="!isOperator">
-                    <el-button class="control-button" type="text" @click="deleteOrder(scope.row)">
+                    <el-button class="control-button" type="text" @click="deleteOrder(row)">
                         <el-icon>
                             <Delete />
                         </el-icon>
@@ -145,7 +153,7 @@ const modalTitle = () => {
 
     <el-drawer v-model="dialogFormVisible" :title="modalTitle()" direction="ltr">
         <AddOrderForm @close="dialogFormVisible = false" :order="orderEdit" :isEditing="true"
-            :openModeAddOrderForm="openModeAddOrderForm" :girls="girls" :clients="clients"  :isAdmin="!isOperator"/>
+            :openModeAddOrderForm="openModeAddOrderForm" :girls="girls" :clients="clients" :isAdmin="!isOperator" />
     </el-drawer>
 
 </template>
