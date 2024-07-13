@@ -42,7 +42,7 @@ const props = defineProps({
     type: String,
     required: false,
   },
-  isAdmin:{
+  isAdmin: {
     type: Boolean,
     required: false,
   }
@@ -95,7 +95,7 @@ watchEffect(async () => {
     form.value.splitWithOperator = props.order.splitOperator;
     form.value.isExtended = props.order.isExtended;
     form.value.isCashless = props.order.isCashless;
-    if (isCancelOrder.value ||isClientHasLeft.value) {
+    if (isCancelOrder.value || isClientHasLeft.value) {
       form.value.isCancelled = true;
       form.value.amount = props.order.amount;
       form.value.comment = props.order.comment;
@@ -146,7 +146,7 @@ const submitForm = async () => {
     if (isExtension.value)
       await extOrder();
     if (isCancelOrder.value)
-      await cancelOrder();    
+      await cancelOrder();
     else
       await ordersStore.addOrder(new Order(newOrder));
 
@@ -200,31 +200,27 @@ const clientHasLeft = async () => {
 }
 
 function getButtonText() {
-  if (loading.value) {
-    return 'Отправка ...';
-  } else if (isCancelOrder.value) {
-    return 'Отменить';
-  } else if (isExtension.value) {
-    return 'Продлить';
-  } else if (isClientHasLeft.value) {
-    return 'Закрыть';
-  } else {
-    return 'Добавить';
-  }
+  if (loading.value) return 'Отправка ...';
+  else if (props.isAdmin) return 'Редактировать';
+  else if (isCancelOrder.value) return 'Отменить';
+  else if (isExtension.value) return 'Продлить';
+  else if (isClientHasLeft.value) return 'Закрыть';
+  else return 'Добавить';
 }
 </script>
 
 <template>
   <el-form :model="form">
     <el-form-item label="Девушка" :label-width="formLabelWidth">
-      <el-select v-model="form.girlId" placeholder="Выберите девушку" :disabled="!props.isAdmin && (isExtension || isCancelOrder || isClientHasLeft)">
+      <el-select v-model="form.girlId" placeholder="Выберите девушку"
+        :disabled="!props.isAdmin && (isExtension || isCancelOrder || isClientHasLeft)">
         <el-option v-for="girl in props.girls" :key="girl.id" :label="girlLabelSelect(girl)" :value="girl.id" />
       </el-select>
     </el-form-item>
 
     <el-form-item label="Клиент" :label-width="formLabelWidth">
       <el-select v-model="form.clientId" placeholder="Выберите клиента" filterable
-        :disabled="isExtension || isCancelOrder || isClientHasLeft">
+        :disabled="!props.isAdmin && (isExtension || isCancelOrder || isClientHasLeft)">
         <el-option v-for="client in props.clients" :key="client.id" :label="clientLabelSelect(client)"
           :value="client.id" />
       </el-select>
@@ -233,7 +229,7 @@ function getButtonText() {
     <el-form-item label="Время" :label-width="formLabelWidth">
       <el-time-picker v-model="orderTime" is-range format="HH:mm" placeholder="Выберите время"
         start-placeholder="Начало" end-placeholder="Конец" :picker-options="{ selectableRange: '00:00:00 - 23:59:59' }"
-        :disabled="isCancelOrder || isClientHasLeft" />
+        :disabled="!props.isAdmin && (isCancelOrder || isClientHasLeft)" />
     </el-form-item>
 
     <el-form-item label="Сумма" :label-width="formLabelWidth">
@@ -242,7 +238,7 @@ function getButtonText() {
 
     <el-form-item label="Split %" :label-width="formLabelWidth">
       <el-select v-model="form.splitWithOperator" placeholder="Выберите оператора" filterable clearable
-        :disabled="isExtension || isCancelOrder || isClientHasLeft">
+        :disabled="!props.isAdmin && (isExtension || isCancelOrder || isClientHasLeft)">
         <el-option v-for="operator in props.operators" :key="operator.id" :label="operator.name" :value="operator.id" />
       </el-select>
     </el-form-item>
@@ -252,8 +248,7 @@ function getButtonText() {
     </el-form-item>
 
     <el-form-item>
-      <el-checkbox  :checked="isClientHasLeft" :disabled="true"
-        v-if="isCancelOrder">Уход</el-checkbox>
+      <el-checkbox :checked="isClientHasLeft" :disabled="true" v-if="isCancelOrder">Уход</el-checkbox>
     </el-form-item>
 
     <el-form-item>

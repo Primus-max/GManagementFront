@@ -131,7 +131,7 @@ const modalTitle = () => {
                         @click="editOrder(row, 'isClientHasLeft')" v-if="!row.isCancelled && !row.isClientHasLeft" />
                 </el-tooltip>
 
-                <el-tooltip placement="top" content="Удалить смену" v-if="!isOperator">
+                <el-tooltip placement="top" content="Удалить заказ" v-if="!isOperator">
                     <el-button class="control-button" type="text" @click="deleteOrder(scope.row)">
                         <el-icon>
                             <Delete />
@@ -145,7 +145,7 @@ const modalTitle = () => {
 
     <el-drawer v-model="dialogFormVisible" :title="modalTitle()" direction="ltr">
         <AddOrderForm @close="dialogFormVisible = false" :order="orderEdit" :isEditing="true"
-            :openModeAddOrderForm="openModeAddOrderForm" :girls="girls" :clients="clients"  />
+            :openModeAddOrderForm="openModeAddOrderForm" :girls="girls" :clients="clients"  :isAdmin="!isOperator"/>
     </el-drawer>
 
 </template>
