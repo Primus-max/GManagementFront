@@ -220,7 +220,7 @@ const viewDetailBalance = async () => {
 
                 <!-- Orders List -->
                 <div class="orders-list">
-                    <OrderTable :orders="orders" :tableType="'operatorCabinet'" :girls="selectedGirls" :clients="clients"
+                    <OrderTable  :tableType="'operatorCabinet'" :girls="selectedGirls" :clients="clients"
                         :operators="operators" />
                 </div>
 

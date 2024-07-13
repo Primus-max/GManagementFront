@@ -17,11 +17,7 @@ import {
   Scissor,
 } from '@element-plus/icons-vue';
 
-const props = defineProps({
-    orders: {
-        type: Array,
-        required: true
-    },
+const props = defineProps({    
     tableType: {
         type: String,
         required: false
@@ -37,7 +33,6 @@ const props = defineProps({
 });
 
 const ordersStore = useOrdersStore();
-const orders = ref([]);
 const dialogFormVisible = ref(false);
 const orderEdit = ref(null);
 const isOperatorCabinet = computed(() => props.tableType === 'operatorCabinet');
@@ -48,8 +43,7 @@ const openModeAddOrderForm = ref('');
 onMounted(async () => {
     const user = JSON.parse(localStorage.getItem('me'));
     userRole.value = user && user.role ? user.role.toLowerCase() : '';
-    await ordersStore.getOrdersWidhDetails();
-    // createOrderHierarchy(ordersStore.ordersWithDetails);
+    await ordersStore.getOrdersWidhDetails();    
 });
 
 const showActionsColumn = computed(() => {
@@ -88,7 +82,7 @@ const createOrderHierarchy = (orders) => {
     return roots;
 };
 
-const hierarchicalOrders = computed(() => createOrderHierarchy(props.orders));
+const hierarchicalOrders = computed(() => createOrderHierarchy(ordersStore.ordersWithDetails));
 
 const rowClassName = ({ row }) => {
     let className = '';
