@@ -42,20 +42,10 @@ const props = defineProps({
     type: String,
     required: false,
   },
-
-
-
-
-  // isExtension: {
-  //   type: Boolean,
-  //   required: false,
-  //   default: false,
-  // },
-  // isCancel: {
-  //   type: Boolean,
-  //   required: false,
-  //   default: false,
-  // }
+  isAdmin:{
+    type: Boolean,
+    required: false,
+  }
 });
 
 const emits = defineEmits(['close', 'order-added']);
@@ -227,7 +217,7 @@ function getButtonText() {
 <template>
   <el-form :model="form">
     <el-form-item label="Девушка" :label-width="formLabelWidth">
-      <el-select v-model="form.girlId" placeholder="Выберите девушку" :disabled="isExtension || isCancelOrder || isClientHasLeft">
+      <el-select v-model="form.girlId" placeholder="Выберите девушку" :disabled="!props.isAdmin && (isExtension || isCancelOrder || isClientHasLeft)">
         <el-option v-for="girl in props.girls" :key="girl.id" :label="girlLabelSelect(girl)" :value="girl.id" />
       </el-select>
     </el-form-item>
@@ -285,6 +275,7 @@ function getButtonText() {
         {{ getButtonText() }}
       </el-button>
     </div>
+
   </el-form>
 </template>
 

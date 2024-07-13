@@ -17,9 +17,11 @@ const props = defineProps({
     }
 });
 
+
 const shiftsStore = useShiftsStore();
 const detailShiftDialogVisible = ref(false);
 const orders = ref([]);
+
 
 const cancelOrder = (order) => {
     // логика отмены заказа
@@ -33,8 +35,8 @@ const editOrder = (order) => {
     // логика редактирования заказа
 };
 
-const deleteOrder = (order) => {
-
+const deleteOrder = async (order) => {
+    //await ordersStore.deleteOrder(order);
 };
 
 const payOrder = async (order) => {
@@ -42,13 +44,13 @@ const payOrder = async (order) => {
 };
 
 const viewDetailShift = (shift) => {
-    detailShiftDialogVisible.value = true;    
+    detailShiftDialogVisible.value = true;
     orders.value = shift.orders;
 }
 </script>
 
 <template>
-    <el-table :data="shifts" class="table" size="large" @cell-dblclick="viewDetailShift" >
+    <el-table :data="shifts" class="table" size="large" @cell-dblclick="viewDetailShift">
         <el-table-column prop="id" label="ID" width="50"></el-table-column>
         <el-table-column prop="operatorName" label="Оператор" align="center"></el-table-column>
         <el-table-column label="Дата" align="center">
@@ -66,17 +68,17 @@ const viewDetailShift = (shift) => {
                 </el-icon>
             </template>
         </el-table-column>
-        <el-table-column label="Действия" align="center" width="400">
+        <el-table-column label="Выплата" align="center" width="400">
             <template v-slot="scope">
 
-                <div class="control-buttons-wrapper">                   
-                    <el-tooltip placement="top" content="Удалить смену">
+                <div class="control-buttons-wrapper">
+                    <!-- <el-tooltip placement="top" content="Удалить смену">
                         <el-button class="control-button" type="text" @click="deleteOrder(scope.row)">
                             <el-icon>
                                 <Delete />
                             </el-icon>
                         </el-button>
-                    </el-tooltip>
+                    </el-tooltip> -->
                     <el-tooltip placement="top" content="Выплатить">
                         <el-button class="control-button" type="text" @click="payOrder(scope.row)">
                             <el-icon>

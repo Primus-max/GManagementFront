@@ -80,6 +80,11 @@ const labelAction = (row) => {
     if (row.isClientHasLeft) return 'Уход';
 }
 
+const modalTitle = () => {
+    return isOperator.value ? 'Продлить заказ' : 'Редактировать заказ';
+}
+console.log(props.tableType )
+console.log(isOperator.value)
 </script>
 
 
@@ -94,7 +99,7 @@ const labelAction = (row) => {
         <el-table-column prop="operator" label="Оператор" />
         <el-table-column prop="splitOperator" label="Разделил с" />
         <el-table-column prop="comment" label="Комментарий" />
-        <el-table-column label="Действия" align="center" v-if="isOperator">
+        <el-table-column label="Действия" align="center" width="200px" v-if="!isOperator">
             <template #default="{ row }">
 
                 <p v-if="row.isCancelled || row.isClientHasLeft" class="label-action">{{ labelAction(row) }}</p>
@@ -114,13 +119,21 @@ const labelAction = (row) => {
                         @click="editOrder(row, 'isClientHasLeft')" v-if="!row.isCancelled && !row.isClientHasLeft" />
                 </el-tooltip>
 
+                <el-tooltip placement="top" content="Удалить смену" v-if="!isOperator">
+                    <el-button class="control-button" type="text" @click="deleteOrder(scope.row)">
+                        <el-icon>
+                            <Delete />
+                        </el-icon>
+                    </el-button>
+                </el-tooltip>
+
             </template>
         </el-table-column>
     </el-table>
 
-    <el-drawer v-model="dialogFormVisible" title="Продлить заказ" direction="ltr">
+    <el-drawer v-model="dialogFormVisible" :title="modalTitle()" direction="ltr">
         <AddOrderForm @close="dialogFormVisible = false" :order="orderEdit" :isEditing="true"
-            :openModeAddOrderForm="openModeAddOrderForm" :girls="girls" :clients="clients" />
+            :openModeAddOrderForm="openModeAddOrderForm" :girls="girls" :clients="clients" :isAdmin="!isOperator" />
     </el-drawer>
 
 </template>

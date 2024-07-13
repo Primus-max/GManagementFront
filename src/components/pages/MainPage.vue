@@ -1,5 +1,6 @@
 <script setup>
 import {
+  computed,
   onMounted,
   ref,
 } from 'vue';
@@ -15,6 +16,7 @@ const groupsStore = useGroupsStore();
 
 const groups = ref([]);
 const isLoading = ref(true);
+const me = ref({});
 
 onMounted(async () => {
   isLoading.value = true;
@@ -22,6 +24,7 @@ onMounted(async () => {
   groups.value = groupsStore.items;
   await ordersStore.getOrdersWidhDetails("grouped");
   isLoading.value = false;
+  me.value = JSON.parse(localStorage.getItem('me')).role.toLowerCase();
 });
 
 const getOrdersByGroup = (groupId) => {
@@ -49,7 +52,7 @@ const hasOrdersForGroup = (groupId) => {
             <div class="group-content">
               <GroupStatistics :orders="getOrdersByGroup(group.id)" />
               <el-card class="card-table">
-              <OrderTable :orders="getOrdersByGroup(group.id)" />              
+              <OrderTable :orders="getOrdersByGroup(group.id)" :tableType="me" />              
               </el-card>
             </div>
           </template>

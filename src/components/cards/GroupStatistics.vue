@@ -12,12 +12,12 @@ const totalAmount = computed(() => {
     return props.orders.filter(order => !order.isCancelled && !order.isClientHasLeft)
     .reduce((sum, order) => sum + order.amount, 0)
 });
+
 const operatorSalary = computed(() => {
-      return props.orders
-        .filter(order => !order.isCancelled && !order.isClientHasLeft) 
-        .reduce((sum, order) => sum + order.mySalary, 0); 
+      return totalAmount.value * 0.07; 
     });
-const total = computed(() => totalAmount.value + operatorSalary.value);
+
+const total = computed(() => totalAmount.value * 0.93);
 
 </script>
 
